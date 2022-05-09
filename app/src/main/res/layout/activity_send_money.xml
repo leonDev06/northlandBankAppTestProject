@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    android:clipToPadding="false"
+    tools:context=".ActivityLogin">
+
+
+    <EditText
+        android:id="@+id/sendToUserName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:ems="10"
+        android:hint="Recipient's Username"
+        android:inputType="textPersonName"
+        android:paddingStart="92dp"
+        app:layout_constraintBottom_toBottomOf="@id/textView_UserName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_UserName"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/sendAmount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/edittext_rounded"
+        android:ems="10"
+        android:inputType="number" android:digits="1234567890."
+        android:paddingStart="92dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Password"
+        app:layout_constraintEnd_toEndOf="@+id/sendToUserName"
+        app:layout_constraintStart_toStartOf="@+id/sendToUserName"
+        app:layout_constraintTop_toTopOf="@id/textView_Password" />
+
+    <TextView
+        android:id="@+id/textView_UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="88dp"
+        android:gravity="center"
+        android:text="Send To"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_ImageView" />
+
+    <TextView
+        android:id="@+id/textView_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Amount"
+        app:layout_constraintStart_toStartOf="@+id/textView_UserName"
+        app:layout_constraintTop_toBottomOf="@+id/textView_UserName" />
+
+    <ImageView
+        android:id="@+id/login_ImageView"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="45dp"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/send_money" />
+
+    <Button
+        android:id="@+id/BUTTON_SEND"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:text="Send"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendAmount" />
+
+    <TextView
+        android:id="@+id/invalidLoginMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/design_default_color_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BUTTON_SEND" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:text="PHP"
+        app:layout_constraintBottom_toBottomOf="@+id/sendAmount"
+        app:layout_constraintEnd_toEndOf="@+id/sendAmount"
+        app:layout_constraintTop_toTopOf="@+id/sendAmount"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="56dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/lion_pic" />
+
+    <TextView
+        android:id="@+id/sendMoneyErrMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/design_default_color_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BUTTON_SEND" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

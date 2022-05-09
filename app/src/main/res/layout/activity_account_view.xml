@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/main_background"
+    tools:context=".ActivityAccountView">
+
+    <TextView
+        android:id="@+id/detailsAccountNum"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView27"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView27" />
+
+    <TextView
+        android:id="@+id/detailsEmail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView25" />
+
+    <TextView
+        android:id="@+id/detailsBalance"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/detailsUsername"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="Username"
+        app:layout_constraintStart_toStartOf="@+id/detailsUsername"
+        app:layout_constraintTop_toBottomOf="@+id/detailsFullName" />
+
+    <ImageView
+        android:id="@+id/login_ImageView"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="45dp"
+        android:adjustViewBounds="false"
+        android:foregroundGravity="center_vertical"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/my_details" />
+
+    <TextView
+        android:id="@+id/detailsFullName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="Full Name"
+        app:layout_constraintStart_toStartOf="@+id/detailsFullName"
+        app:layout_constraintTop_toBottomOf="@+id/login_ImageView" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="Email"
+        app:layout_constraintStart_toStartOf="@+id/detailsEmail"
+        app:layout_constraintTop_toBottomOf="@+id/detailsAccountNum" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="Balance"
+        app:layout_constraintStart_toStartOf="@+id/detailsBalance"
+        app:layout_constraintTop_toBottomOf="@+id/detailsEmail" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="Account #"
+        app:layout_constraintStart_toStartOf="@+id/detailsUsername"
+        app:layout_constraintTop_toBottomOf="@+id/detailsUsername" />
+
+    <Button
+        android:id="@+id/BUTTON_DETAILS_RECORD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="View Transaction Record"
+        app:layout_constraintEnd_toEndOf="@+id/detailsBalance"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/detailsBalance"
+        app:layout_constraintTop_toBottomOf="@+id/detailsBalance" />
+
+    <Button
+        android:id="@+id/BUTTON_DETAILS_BACK"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Back Home"
+        app:layout_constraintEnd_toEndOf="@+id/BUTTON_DETAILS_RECORD"
+        app:layout_constraintStart_toStartOf="@+id/BUTTON_DETAILS_RECORD"
+        app:layout_constraintTop_toBottomOf="@+id/BUTTON_DETAILS_RECORD" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

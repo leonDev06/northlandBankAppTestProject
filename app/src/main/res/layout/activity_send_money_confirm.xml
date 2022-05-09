@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    android:clipToPadding="false"
+    tools:context=".ActivityLogin">
+
+
+    <Button
+        android:id="@+id/BUTTON_SEND_CONF_BACK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:text="Go Back"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.381"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recVerifMessage" />
+
+    <Button
+        android:id="@+id/BUTTON_SEND_CONFIRM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:text="Send Money"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/BUTTON_SEND_CONF_BACK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/BUTTON_SEND_CONF_BACK"
+        app:layout_constraintTop_toTopOf="@+id/BUTTON_SEND_CONF_BACK" />
+
+    <TextView
+        android:id="@+id/recVerifMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#EEEEE6"
+        android:elegantTextHeight="true"
+        android:gravity="center"
+        android:padding="1dp"
+        android:text="The name is displayed for verification purposes"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountConfirm" />
+
+    <TextView
+        android:id="@+id/amountConfirm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="1,000"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_UserName5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_UserName5" />
+
+    <TextView
+        android:id="@+id/textView_UserName5"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Amount"
+        app:layout_constraintStart_toStartOf="@+id/textView_UserName4"
+        app:layout_constraintTop_toBottomOf="@+id/textView_UserName4" />
+
+    <TextView
+        android:id="@+id/fullnameConfirm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="Leonnel Dimatulac"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_UserName4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_UserName4" />
+
+    <TextView
+        android:id="@+id/textView_UserName4"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="@+id/textView_UserName3"
+        app:layout_constraintTop_toBottomOf="@+id/textView_UserName3" />
+
+    <ImageView
+        android:id="@+id/login_ImageView"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="45dp"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/confirm_details" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="56dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/lion_pic" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#EEEEE6"
+        android:elegantTextHeight="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Please review the following details"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_ImageView" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:text="You are about to Send Money to:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/sendToConfirm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="username"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_UserName3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_UserName3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView_UserName3"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="User Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

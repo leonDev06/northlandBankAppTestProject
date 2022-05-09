@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Northland Bank Mobile</string>
+
+    <!--Enter Pin String-->
+    <string name="enter_pin">For your protection, please enter your 4 digit pin.</string>
+
+    <!--Loan Notice String-->
+    <string name="fragAutoPayLoanAmountDeducted">Your existing loan is due. The system automatically deducted the amount from your balance.
+        See details below.</string>
+    <string name="fragAutoPayLoanNoticeNotEnoughBalance">Your Existing Loan is Due. Our System has detected that you don\'t have enough
+        balance to pay this amount. To avoid violating our TERMS AND CONDITIONS and avoid legal consequences, make sure to have enough balance
+        to pay this loan. DETAILS:
+    </string>
+
+    <!--General-->
+    <string name="amount">Amount</string>
+    <string name="refNum">Ref #</string>
+
+</resources>
