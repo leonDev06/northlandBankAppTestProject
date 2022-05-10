@@ -72,7 +72,7 @@ public class LoginManager {
     }
 
     //Methods
-    public void initializeVariables(){
+    public void initializeWidgets(){
         if(activity.getClass()== ActivityLogin.class){
             userNameLogin = activity.findViewById(R.id.userName);
             passwordLogin = activity.findViewById(R.id.password);

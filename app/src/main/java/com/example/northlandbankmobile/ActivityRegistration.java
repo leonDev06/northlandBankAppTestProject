@@ -24,7 +24,7 @@ public class ActivityRegistration extends AppCompatActivity implements View.OnCl
         BUTTON_REGISTER.setOnClickListener(this);
 
         loginManager = new LoginManager(this);
-        loginManager.initializeVariables();
+        loginManager.initializeWidgets();
 
         navigator = new Navigator(this);
     }

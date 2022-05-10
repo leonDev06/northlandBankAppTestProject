@@ -74,6 +74,7 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
     }
 
     //private helper functions
+    //Display loan data on the UI
     private void displayData(){
         User user = new User();
         String amount = user.getActiveLoanAmount();
