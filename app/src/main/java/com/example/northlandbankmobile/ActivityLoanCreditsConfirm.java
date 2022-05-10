@@ -12,15 +12,15 @@ import java.util.Scanner;
 
 public class ActivityLoanCreditsConfirm extends AppCompatActivity {
     //Initialize Widgets
-    TextView mAmount, refNum, currentDate, dueDate;
-    Button PRINT_PDF_BUTTON, HOME_BUTTON;
+    private TextView mAmount, mRefNum, mCurrentDate, mDueDate;
+    private Button buttonPrintPdf, buttonHome;
 
     //Helper Class
-    Navigator navigator;
+    private Navigator navigator;
 
     //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
-    private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
-    private static final String CLASS_NAME = "com.example.northlandbankmobile.ActivityLoanCreditsConfirm";
+    private final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
+    private final String CLASS_NAME = "com.example.northlandbankmobile.ActivityLoanCreditsConfirm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,28 +33,23 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
 
         //Link Widgets
         mAmount = findViewById(R.id.loanSuccessAmount);
-        refNum = findViewById(R.id.loanSuccessRefNum);
-        currentDate = findViewById(R.id.loanSuccessCurrentDate);
-        dueDate = findViewById(R.id.loanSuccessDueDate);
+        mRefNum = findViewById(R.id.loanSuccessRefNum);
+        mCurrentDate = findViewById(R.id.loanSuccessCurrentDate);
+        mDueDate = findViewById(R.id.loanSuccessDueDate);
 
         //Display data
         displayData();
 
-        //Test
-
-
-
-
         //Clickable Buttons
-        PRINT_PDF_BUTTON = findViewById(R.id.loanSuccessPrintPdf);
-        PRINT_PDF_BUTTON.setOnClickListener(new View.OnClickListener() {
+        buttonPrintPdf = findViewById(R.id.loanSuccessPrintPdf);
+        buttonPrintPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        HOME_BUTTON = findViewById(R.id.loanSuccessHome);
-        HOME_BUTTON.setOnClickListener(new View.OnClickListener() {
+        buttonHome = findViewById(R.id.loanSuccessHome);
+        buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Returns to home activity
@@ -80,32 +75,16 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
 
     //private helper functions
     private void displayData(){
-        String amount = null;
-        String date = null;
-        String dateDue = null;
-        String refNum = null;
-        try {
-            Scanner loansTable = new Scanner(Database.getLoansTable());
-            String scannedLine;
-            String[] loansDataIndex;
-            while(loansTable.hasNextLine()){
-                scannedLine = loansTable.nextLine();
-                loansDataIndex = scannedLine.split(",");
-                if(Database.getCurrentUser().equals(loansDataIndex[0]) && loansDataIndex[2].equals("unpaid")){
-                    amount = loansDataIndex[1];
-                    date = loansDataIndex[3];
-                    dateDue = loansDataIndex[4];
-                    refNum = loansDataIndex[5];
-                }
-            }
+        User user = new User();
+        String amount = user.getActiveLoanAmount();
+        String date = user.getActiveLoanDateLoaned();
+        String dateDue = user.getActiveLoanDateDue();
+        String refNum = user.getActiveLoanRefNum();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         mAmount.setText(amount);
-        currentDate.setText(date);
-        dueDate.setText(dateDue);
-        this.refNum.setText(refNum);
+        mCurrentDate.setText(date);
+        mDueDate.setText(dateDue);
+        mRefNum.setText(refNum);
     }
 
 }

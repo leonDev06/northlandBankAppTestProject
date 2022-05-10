@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class ActivityAccountView extends AppCompatActivity {
     //Widgets
-    TextView mFullName, mUsername, mEmail, mCurrentBalance, mAccountNumber;
-    Button buttonViewRecords, buttonHome;
+    private TextView mFullName, mUsername, mEmail, mCurrentBalance, mAccountNumber;
+    private Button buttonViewRecords, buttonHome;
 
     //Helper Classes
-    Navigator navigator;
+    private Navigator navigator;
 
     //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
     private final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
