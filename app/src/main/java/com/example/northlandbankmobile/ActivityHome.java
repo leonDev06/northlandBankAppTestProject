@@ -16,8 +16,8 @@ import java.text.DecimalFormat;
 
 public class ActivityHome extends AppCompatActivity {
     //Widgets and Buttons
-    private TextView userAccountNum, userFullName, currentBalance;
-    private FrameLayout confirmExitFragment;
+    private TextView mUserAccountNum, mUserFullName, mCurrentBalance;
+    private FrameLayout mLayoutConfirmExitFragment;
     private Button mButtonSendMoney;
     private Button mButtonLoanCredits;
     private Button mButtonMyPocket;
@@ -34,10 +34,6 @@ public class ActivityHome extends AppCompatActivity {
     private Navigator navigator;
     private User user;
 
-    //Member variables
-
-    //Test
-
     //Keys for passing data
     //Guides which class the ActivityEnterPin returns back to
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
@@ -49,14 +45,13 @@ public class ActivityHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Log.d("className",getClass().getName());
         //Link widgets
-        userAccountNum = findViewById(R.id.accountNumOnCard);
-        userFullName = findViewById(R.id.nameOnCard);
-        currentBalance = findViewById(R.id.balance);
-        confirmExitFragment = findViewById(R.id.homeConfirmFragContainer);
+        mUserAccountNum = findViewById(R.id.accountNumOnCard);
+        mUserFullName = findViewById(R.id.nameOnCard);
+        mCurrentBalance = findViewById(R.id.balance);
+        mLayoutConfirmExitFragment = findViewById(R.id.homeConfirmFragContainer);
 
-        //Initialize important variables for the activity
+        //Initialize the Database to be used by the whole App
         Database.initDatabase();
         Database.prepareCurrentUserData();
 
@@ -64,13 +59,12 @@ public class ActivityHome extends AppCompatActivity {
         navigator = new Navigator(this);
         fragmentManager = getSupportFragmentManager();
         user = new User();
-
         loginManager = new LoginManager(this);
 
         //Display data for UI
         displayUserData();
 
-        //Test
+        //Check if there are any due loans.
         checkForDueLoans();
 
         //Clickable Buttons
@@ -144,6 +138,9 @@ public class ActivityHome extends AppCompatActivity {
         user.syncUserDetailsData();
         displayUserData();
 
+        /*Redirect user to Enter Pin Activity whenever they leave the app
+            This is done to provide additional security to users
+         */
         if(!navigator.isGoingToAnotherActivity()){
             navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
             navigator.redirectTo(ActivityEnterPin.class, true);
@@ -153,9 +150,6 @@ public class ActivityHome extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        //Prevent redirecting to EnterPinActivity
-        navigator.setGoingToAnotherActivity(true);
-
         //If there's an active popup dialog, destroy it. Else, inflate confirm exit dialog
         if(fragmentManager.findFragmentByTag("confirm_exit")==null && fragmentManager.findFragmentByTag("confirm_logout")==null){
             inflateFragment(new FragmentConfirmExit(), "confirm_exit");
@@ -168,16 +162,12 @@ public class ActivityHome extends AppCompatActivity {
     //Checks for due loans. Automatically pays and deducts from user balance. Displays a popup on user screen
     private void checkForDueLoans(){
         DateManager dateManager = new DateManager();
-        TransactionManager transactionManager = new TransactionManager();
-        Log.d("checkStat", "activityHomeOnCreate");
 
-        //Checks whether current date is before/equal to/after current existing loan's due date
+        //If user has active loans, checks whether current date is before/equal to/after current existing loan's due date
         //The function to deduct amount from user balance is called in the fragment. (FragmentAutoPayLoanNotice)
         if(user.hasActiveLoans() && user.getActiveLoanDateDue().compareTo(dateManager.getCurrentDate().toString())<0){
             Fragment fragment = new FragmentAutoPayLoanNotice();
             inflateFragment(fragment);
-        }else if(user.hasActiveLoans() && user.getActiveLoanDateDue().compareTo(dateManager.getCurrentDate().toString())>0){
-            
         }
     }
 
@@ -187,9 +177,9 @@ public class ActivityHome extends AppCompatActivity {
         DecimalFormat balanceFormat = new DecimalFormat("#,##0.00");
 
         //Displays user data on Card
-        userAccountNum.setText(formatAccountNum(user.getAccountNumber()));
-        userFullName.setText(user.getFirstName()+" "+user.getLastName());
-        currentBalance.setText(balanceFormat.format(Double.parseDouble(user.getAccountBalance())));
+        mUserAccountNum.setText(formatAccountNum(user.getAccountNumber()));
+        mUserFullName.setText(user.getFirstName()+" "+user.getLastName());
+        mCurrentBalance.setText(balanceFormat.format(Double.parseDouble(user.getAccountBalance())));
     }
     //Own formatting function to format accountNum. Adds spaces to the account number to show on the card
     private String formatAccountNum(String num){
@@ -204,7 +194,7 @@ public class ActivityHome extends AppCompatActivity {
         return formattedAccNum;
     }
 
-
+    //Used to inflate fragments that should appear in the home activity
     private void inflateFragment(Fragment fragment, String tag){
         fragmentManager.popBackStack();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

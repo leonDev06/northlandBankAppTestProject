@@ -110,7 +110,7 @@ public class User {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Log.d("checkuser", "getDetailsRan");
+        Log.d("checkUser", "getDetailsRan");
     }
 
     //Get user's active loans data from the database
