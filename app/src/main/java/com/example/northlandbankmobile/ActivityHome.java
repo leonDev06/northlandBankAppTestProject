@@ -72,12 +72,6 @@ public class ActivityHome extends AppCompatActivity {
 
         //Test
         checkForDueLoans();
-        testFunction();
-
-        //
-
-
-
 
         //Clickable Buttons
         mButtonSendMoney = findViewById(R.id.sendMoneyButton);
@@ -223,11 +217,6 @@ public class ActivityHome extends AppCompatActivity {
         fragmentTransaction.replace(R.id.homeConfirmFragContainer, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-    }
-
-    private void testFunction(){
-        Log.d("git", "git");
-        String testGit = "working";
     }
 
 }
