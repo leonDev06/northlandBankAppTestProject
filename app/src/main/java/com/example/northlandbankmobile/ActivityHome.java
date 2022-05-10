@@ -227,6 +227,7 @@ public class ActivityHome extends AppCompatActivity {
 
     private void testFunction(){
         Log.d("git", "git");
+        String testGit = "working";
     }
 
 }
