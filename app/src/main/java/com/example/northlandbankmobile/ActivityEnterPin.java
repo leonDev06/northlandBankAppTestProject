@@ -2,10 +2,7 @@ package com.example.northlandbankmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,16 +13,20 @@ import java.util.Scanner;
 
 public class ActivityEnterPin extends AppCompatActivity {
     //Widgets
-    private Button ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, ZERO, CLEAR, ENTER_PIN, LOGOUT;
-    private EditText digitOne, digitTwo, digitThree, digitFour;
-    private TextView currentUser;
+    private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven,
+            buttonEight, buttonNine, buttonZero, buttonClear, buttonEnter, buttonLogout;
+    private EditText mDigitOne, mDigitTwo, mDigitThree, mDigitFour;
+    private TextView mCurrentUser;
 
+    //Helper Classes
     private Navigator navigator;
     private LoginManager loginManager;
 
+    //Used to determine which activity triggered this EnterPin Activity
     private Class ActivityReturnActivity;
     private java.lang.String returnActivityName;
 
+    //Used to retrieve data passed to this activity. Responsible for determining which activity to return to.
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
 
     @Override
@@ -41,97 +42,96 @@ public class ActivityEnterPin extends AppCompatActivity {
         determineReturnActivity();
 
         //Link buttons
-        ONE = findViewById(R.id.buttonPin1);
-        TWO = findViewById(R.id.buttonPin2);
-        THREE = findViewById(R.id.buttonPin3);
-        FOUR = findViewById(R.id.buttonPin4);
-        FIVE = findViewById(R.id.buttonPin5);
-        SIX = findViewById(R.id.buttonPin6);
-        SEVEN = findViewById(R.id.buttonPin7);
-        EIGHT = findViewById(R.id.buttonPin8);
-        NINE = findViewById(R.id.buttonPin9);
-        ZERO = findViewById(R.id.buttonPin0);
-        CLEAR = findViewById(R.id.buttonPinClear);
-        ENTER_PIN = findViewById(R.id.buttonPinConfirm);
-        LOGOUT = findViewById(R.id.buttonPinLogout);
+        buttonOne = findViewById(R.id.buttonPin1);
+        buttonTwo = findViewById(R.id.buttonPin2);
+        buttonThree = findViewById(R.id.buttonPin3);
+        buttonFour = findViewById(R.id.buttonPin4);
+        buttonFive = findViewById(R.id.buttonPin5);
+        buttonSix = findViewById(R.id.buttonPin6);
+        buttonSeven = findViewById(R.id.buttonPin7);
+        buttonEight = findViewById(R.id.buttonPin8);
+        buttonNine = findViewById(R.id.buttonPin9);
+        buttonZero = findViewById(R.id.buttonPin0);
+        buttonClear = findViewById(R.id.buttonPinClear);
+        buttonEnter = findViewById(R.id.buttonPinConfirm);
+        buttonLogout = findViewById(R.id.buttonPinLogout);
 
         //Link EditText
-        digitOne = findViewById(R.id.digit1);
-        digitTwo = findViewById(R.id.digit2);
-        digitThree = findViewById(R.id.digit3);
-        digitFour = findViewById(R.id.digit4);
+        mDigitOne = findViewById(R.id.digit1);
+        mDigitTwo = findViewById(R.id.digit2);
+        mDigitThree = findViewById(R.id.digit3);
+        mDigitFour = findViewById(R.id.digit4);
         //Link TextView
-        currentUser = findViewById(R.id.enterPinCurrentUser);
+        mCurrentUser = findViewById(R.id.enterPinCurrentUser);
 
         //Display the current user on the screen
-        currentUser.setText(Database.getCurrentUser());
-
-
+        mCurrentUser.setText(Database.getCurrentUser());
 
         //Clickable Buttons
-        ONE.setOnClickListener(new View.OnClickListener() {
+        buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("1");
             }
         });
-        TWO.setOnClickListener(new View.OnClickListener() {
+        buttonTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("2");
             }
         });
-        THREE.setOnClickListener(new View.OnClickListener() {
+        buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("3");
             }
         });
-        FOUR.setOnClickListener(new View.OnClickListener() {
+        buttonFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("4");
             }
         });
-        FIVE.setOnClickListener(new View.OnClickListener() {
+        buttonFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("5");
             }
         });
-        SIX.setOnClickListener(new View.OnClickListener() {
+        buttonSix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("6");
             }
         });
-        SEVEN.setOnClickListener(new View.OnClickListener() {
+        buttonSeven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("7");
             }
         });
-        EIGHT.setOnClickListener(new View.OnClickListener() {
+        buttonEight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("8");
             }
         });
-        NINE.setOnClickListener(new View.OnClickListener() {
+        buttonNine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("9");
             }
         });
-        ZERO.setOnClickListener(new View.OnClickListener() {
+        buttonZero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("0");
             }
         });
-        ENTER_PIN.setOnClickListener(new View.OnClickListener() {
+        buttonEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Go back to the previous activity where the user left off if entered pin is correct
                 if(isCorrectPin()) {
                     try{
                         navigator.redirectTo(ActivityReturnActivity, true);
@@ -142,13 +142,13 @@ public class ActivityEnterPin extends AppCompatActivity {
                 clearComposingText();
             }
         });
-        CLEAR.setOnClickListener(new View.OnClickListener() {
+        buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteInput();
             }
         });
-        LOGOUT.setOnClickListener(new View.OnClickListener() {
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginManager.logout();
@@ -159,6 +159,7 @@ public class ActivityEnterPin extends AppCompatActivity {
     //Override Methods
     @Override
     public void onBackPressed(){
+        //Exits app when user presses back button when on Enter Pin Activity
         this.finishAffinity();
     }
 
@@ -167,51 +168,50 @@ public class ActivityEnterPin extends AppCompatActivity {
     //Determines whether or not a digit slot is empty
     //If the slot is empty, type userInput into that slot (LTR)
     private void typeUserInput(String input){
-        if(digitOne.getText().toString().isEmpty()){
-            digitOne.setText(input);
-        }else if(digitTwo.getText().toString().isEmpty()){
-            digitTwo.setText(input);
-        }else if(digitThree.getText().toString().isEmpty()){
-            digitThree.setText(input);
-        }else if(digitFour.getText().toString().isEmpty()){
-            digitFour.setText(input);
-        }else{
-
+        if(mDigitOne.getText().toString().isEmpty()){
+            mDigitOne.setText(input);
+        }else if(mDigitTwo.getText().toString().isEmpty()){
+            mDigitTwo.setText(input);
+        }else if(mDigitThree.getText().toString().isEmpty()){
+            mDigitThree.setText(input);
+        }else if(mDigitFour.getText().toString().isEmpty()){
+            mDigitFour.setText(input);
         }
     }
 
-    //Deletes one digit input per call from RTL
+    //Deletes one digit input per call (RTL)
     private void deleteInput(){
-        if(!digitFour.getText().toString().isEmpty()){
-            digitFour.setText("");
-        }else if(!digitThree.getText().toString().isEmpty()){
-            digitThree.setText("");;
-        }else if(!digitTwo.getText().toString().isEmpty()){
-            digitTwo.setText("");
-        }else if(!digitOne.getText().toString().isEmpty()){
-            digitOne.setText("");
+        if(!mDigitFour.getText().toString().isEmpty()){
+            mDigitFour.setText("");
+        }else if(!mDigitThree.getText().toString().isEmpty()){
+            mDigitThree.setText("");;
+        }else if(!mDigitTwo.getText().toString().isEmpty()){
+            mDigitTwo.setText("");
+        }else if(!mDigitOne.getText().toString().isEmpty()){
+            mDigitOne.setText("");
         }
     }
 
     //Clears all 4 digits
     private void clearComposingText(){
-        digitOne.setText("");
-        digitTwo.setText("");
-        digitThree.setText("");
-        digitFour.setText("");
+        mDigitOne.setText("");
+        mDigitTwo.setText("");
+        mDigitThree.setText("");
+        mDigitFour.setText("");
     }
 
-    //Checks whether the enteredPin matches with the correctUserPin
+    //Checks whether the enteredPin matches with the correctUserPin from the database
     private boolean isCorrectPin(){
-        String enteredPin;
+        //Gets user entered pin and store it in a single string
+        String enteredPin =
+                mDigitOne.getText().toString() + "" + mDigitTwo.getText().toString() + "" + mDigitThree.getText().toString() + ""
+                + mDigitFour.getText().toString();
         String correctUserPin="";
-        enteredPin = digitOne.getText().toString() + "" +digitTwo.getText().toString() + "" + digitThree.getText().toString() + ""
-                + digitFour.getText().toString();
 
         //Retrieve the correct user pin from the database
         try {
-            Scanner scan = new Scanner(Database.getCurrentUserData());
-            String readUserData = scan.nextLine();
+            Scanner scanGetCorrectPin = new Scanner(Database.getCurrentUserData());
+            String readUserData = scanGetCorrectPin.nextLine();
             String userData[] = readUserData.split(",");
             correctUserPin = userData[7];
         } catch (FileNotFoundException e) {
@@ -219,12 +219,14 @@ public class ActivityEnterPin extends AppCompatActivity {
         }
 
         //Check if pins match
-        if(enteredPin.equals(correctUserPin)){
-            return true;
-        }
-        return false;
+        return enteredPin.equals(correctUserPin);
     }
 
+    //Set where the return activity should be.
+    /*
+    Return activity is where this activity should redirect to if the user has entered the pin correctly.
+    This is determined by the data passed to this class by the activity that the user was before they triggered this EnterPin Activity
+     */
     private void determineReturnActivity(){
         returnActivityName = getIntent().getStringExtra(KEY_FOR_ENTER_PIN);
         try {
