@@ -1,9 +1,19 @@
 package com.example.northlandbankmobile;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -25,6 +35,9 @@ public class ActivityTransacRecords extends AppCompatActivity {
     //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private static final String CLASS_NAME = "com.example.northlandbankmobile.ActivityTransacRecords";
+
+    //Pdf Variables
+    private static final int PERMISSION_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,4 +121,8 @@ public class ActivityTransacRecords extends AppCompatActivity {
                     rTransactDate.get(i)));
         }
     }
+
+    //private methods
+
+
 }

@@ -127,9 +127,9 @@ public class ActivityHome extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        if(getSupportFragmentManager().findFragmentByTag("confirm_exit")!=null){
-            fragmentManager.popBackStack();
-        }
+
+        //Remove any popup notification shown when user goes to another activity or leaves the app
+        fragmentManager.popBackStack();
     }
     @Override
     protected void onResume(){

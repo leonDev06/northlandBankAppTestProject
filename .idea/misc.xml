@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/drawable/button_bg.xml" value="0.1705" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/drawable/edittext_rounded.xml" value="0.207" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/drawable/global_button.xml" value="0.205" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/drawable/home_buttons_bg.xml" value="0.1705" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/drawable/ic_launcher_background.xml" value="0.207" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/drawable/inside_background.xml" value="0.2055" />
@@ -29,7 +30,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_logout_confirm.xml" value="0.536" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_no_existing_loans.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_pay_loan.xml" value="0.264" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/receipts_view_layout.xml" value="0.4" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/receipts_view_layout.xml" value="0.536" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>

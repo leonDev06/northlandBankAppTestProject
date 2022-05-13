@@ -34,7 +34,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="#d3d3d3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/north_ImageView3">
@@ -47,6 +46,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="Transactions as of "
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 
@@ -54,6 +54,7 @@
         android:id="@+id/mRecyclerReceipt"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#e5e5e5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

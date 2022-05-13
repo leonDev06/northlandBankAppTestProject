@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:background="@drawable/button_bg"
+        android:background="@drawable/global_button"
         android:elegantTextHeight="true"
         android:text="Loan"
         android:textColor="@color/design_default_color_on_secondary"

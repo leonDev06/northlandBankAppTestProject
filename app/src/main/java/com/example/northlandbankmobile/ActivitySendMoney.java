@@ -9,11 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class ActivitySendMoney extends AppCompatActivity {
-    TextView errorMessage;
-    EditText sendToUserName, sendAmount;
-    Button BUTTON_SEND;
-    Navigator navigator;
-    TransactionManager transactionManager;
+    //Widgets
+    private TextView errorMessage;
+    private EditText sendToUserName, sendAmount;
+    private Button BUTTON_SEND;
+
+    //Helper Classes
+    private Navigator navigator;
+    private TransactionManager transactionManager;
+    private User user;
+
 
     //Keys for Passing Data
     //Data keys for transferring data to confirmation activity
@@ -35,6 +40,7 @@ public class ActivitySendMoney extends AppCompatActivity {
         //Initializes helper classes
         navigator = new Navigator(this);
         transactionManager = new TransactionManager();
+        user = new User();
 
 
         //Clickable buttons
@@ -42,6 +48,7 @@ public class ActivitySendMoney extends AppCompatActivity {
         BUTTON_SEND.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Filters for empty field / user has enough balance / user is not trying to send money to self
                 //Redirects to confirmation activity after passing the filter
                 if
@@ -49,13 +56,18 @@ public class ActivitySendMoney extends AppCompatActivity {
                     double currentUserBalance = Double.parseDouble(Database.getUserBalance());
                     double amountToSend = Double.parseDouble(sendAmount.getText().toString());
                     errorMessage.setText("");
-                    if(currentUserBalance>=amountToSend && !sendToUserName.getText().toString().equals(Database.getCurrentUser())){
+                    if(currentUserBalance>=amountToSend
+                            && !sendToUserName.getText().toString().equals(user.getUserName())
+                            && !(amountToSend <=0)){
                         navigator.getIntent().putExtra(KEY_SEND_TO, sendToUserName.getText().toString());
                         navigator.getIntent().putExtra(KEY_AMOUNT, sendAmount.getText().toString());
                         navigator.redirectTo(ActivitySendMoneyConfirm.class);
                     }else if (sendToUserName.getText().toString().equals(Database.getCurrentUser())){
                         errorMessage.setText("You can't send money to yourself.");
-                    }else{
+                    }else if(!(amountToSend <=0)){
+                        errorMessage.setText("Invalid amount.");
+                    }
+                    else{
                         errorMessage.setText("You don't have enough money to send this amount.");
                     }
                 }else{

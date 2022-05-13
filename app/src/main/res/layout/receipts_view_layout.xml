@@ -12,7 +12,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/edittext_rounded"
+        app:cardBackgroundColor="#f7ef8a"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,18 +22,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/rDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:gravity="center"
                 android:text="1999-09-06"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/rType" />
 
             <TextView
                 android:id="@+id/rType"
@@ -41,16 +43,20 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="SEND MONEY"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/rAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
+                android:gravity="fill"
                 android:text="TextView"
+                app:autoSizeTextType="none"
+                app:layout_constraintEnd_toEndOf="@+id/rType"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/rType"
                 app:layout_constraintTop_toBottomOf="@+id/rType" />
 
@@ -61,6 +67,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="TextView"
+                android:textIsSelectable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/rDate"
                 app:layout_constraintTop_toBottomOf="@+id/rDate"
@@ -69,24 +76,61 @@
             <TextView
                 android:id="@+id/rSender"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_height="0dp"
                 android:gravity="center"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/rAmount"
-                app:layout_constraintTop_toBottomOf="@+id/rAmount" />
+                app:layout_constraintBottom_toBottomOf="@+id/textView39"
+                app:layout_constraintStart_toEndOf="@+id/textView39"
+                app:layout_constraintTop_toTopOf="@+id/textView39" />
 
             <TextView
                 android:id="@+id/rReceiver"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_height="0dp"
                 android:gravity="center"
                 android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/textView43"
+                app:layout_constraintStart_toEndOf="@+id/textView43"
+                app:layout_constraintTop_toTopOf="@+id/textView43" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:text="PHP"
+                app:layout_constraintBottom_toBottomOf="@+id/rAmount"
+                app:layout_constraintStart_toEndOf="@+id/rAmount"
+                app:layout_constraintTop_toTopOf="@+id/rAmount" />
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Sender: "
+                app:layout_constraintStart_toStartOf="@+id/rAmount"
+                app:layout_constraintTop_toBottomOf="@+id/rAmount" />
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="8dp"
+                android:text="Receiver: "
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/rSender"
-                app:layout_constraintTop_toBottomOf="@+id/rSender" />
+                app:layout_constraintStart_toStartOf="@+id/textView39"
+                app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transaction Number"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/rRefNum"
+                app:layout_constraintTop_toBottomOf="@+id/rRefNum" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

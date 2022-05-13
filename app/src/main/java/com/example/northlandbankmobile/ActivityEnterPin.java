@@ -225,7 +225,7 @@ public class ActivityEnterPin extends AppCompatActivity {
     //Set where the return activity should be.
     /*
     Return activity is where this activity should redirect to if the user has entered the pin correctly.
-    This is determined by the data passed to this class by the activity that the user was before they triggered this EnterPin Activity
+    This is determined by the data passed to this class by the activity where the user was before they triggered this EnterPin Activity
      */
     private void determineReturnActivity(){
         returnActivityName = getIntent().getStringExtra(KEY_FOR_ENTER_PIN);
