@@ -11,45 +11,34 @@
 
 
     <Button
-        android:id="@+id/BUTTON_SEND_CONF_BACK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:text="Go Back"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.381"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recVerifMessage" />
-
-    <Button
-        android:id="@+id/BUTTON_SEND_CONFIRM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:text="Send Money"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/BUTTON_SEND_CONF_BACK"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/BUTTON_SEND_CONF_BACK"
-        app:layout_constraintTop_toTopOf="@+id/BUTTON_SEND_CONF_BACK" />
-
-    <TextView
-        android:id="@+id/recVerifMessage"
+        android:id="@+id/actSendSuccessBtnPdf"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#EEEEE6"
-        android:elegantTextHeight="true"
-        android:gravity="center"
-        android:padding="1dp"
-        android:text="The name is displayed for verification purposes"
-        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/global_button"
+        android:text="Generate PDF"
+        android:textColor="@color/black"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/actSendSuccessBtnHome"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amountConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/actSendSuccesRefNum" />
+
+    <Button
+        android:id="@+id/actSendSuccessBtnHome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/global_button"
+        android:text="Home"
+        android:textColor="@color/black"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/actSendSuccessBtnPdf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/actSendSuccessBtnPdf"
+        app:layout_constraintTop_toTopOf="@+id/actSendSuccessBtnPdf"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/amountConfirm"
@@ -114,21 +103,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/confirm_details" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="56dp"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/lion_pic" />
+        app:srcCompat="@drawable/success_text" />
 
     <TextView
         android:id="@+id/textView8"
@@ -138,22 +113,12 @@
         android:elegantTextHeight="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Please review the following details"
+        android:text="Transaction Successful"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_ImageView" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
-        android:text="You are about to Send Money to:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/sendToConfirm"
@@ -177,10 +142,63 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="User Name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/actSendSuccessDate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="1999-09-06"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_UserName2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_UserName2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView_UserName2"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Date"
+        app:layout_constraintStart_toStartOf="@+id/textView_UserName4"
+        app:layout_constraintTop_toBottomOf="@+id/textView_UserName5" />
+
+    <TextView
+        android:id="@+id/actSendSuccesRefNum"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_rounded"
+        android:gravity="center_vertical"
+        android:paddingStart="92dp"
+        android:text="123456789"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_UserName6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_UserName6" />
+
+    <TextView
+        android:id="@+id/textView_UserName6"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Ref #"
+        app:layout_constraintStart_toStartOf="@+id/textView_UserName4"
+        app:layout_constraintTop_toBottomOf="@+id/textView_UserName2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

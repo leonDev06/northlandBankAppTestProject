@@ -18,6 +18,7 @@ public class TransactionManager {
     private boolean transactionSuccess;
     private boolean noUnpaidLoans;
     private User user;
+    private String referenceNumber;
 
     //Responsible for Generating receipt and storing them to the database
     private TransactionReceipt receipt;
@@ -35,6 +36,9 @@ public class TransactionManager {
     }
     public boolean hasNoUnpaidLoans() {
         return noUnpaidLoans;
+    }
+    public String getReferenceNumber() {
+        return referenceNumber;
     }
 
     public void sendMoney(String receiver, String amount){
@@ -98,8 +102,11 @@ public class TransactionManager {
                 Database.getMainDB().delete();
                 temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
 
+                //Generate referenceNumber for this transaction
+                referenceNumber = generateRefNum();
+
                 //Generate Receipt to mainReceiptTable and userReceiptTable
-                generateReceipt(generateRefNum(), sender, receiver, amount, "SEND MONEY", dateManager.getCurrentDate().toString());
+                generateReceipt(referenceNumber, sender, receiver, amount, "SEND MONEY", dateManager.getCurrentDate().toString());
 
                 //Close resources
                 scan.close();

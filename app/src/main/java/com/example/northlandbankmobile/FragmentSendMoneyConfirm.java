@@ -1,93 +1,89 @@
 package com.example.northlandbankmobile;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class ActivitySendMoneyConfirm extends AppCompatActivity {
+
+public class FragmentSendMoneyConfirm extends Fragment {
+    //This Fragment's view
+    private View view;
+    
+    //Widgets
     private Button SEND, BACK;
     private TextView sendToUserName, fullName, amount, message;
     private TransactionManager transactionManager;
     private Navigator navigator;
 
-    private static final String KEY_SEND_TO = "sendTo";
-    private static final String KEY_AMOUNT = "amount";
+    //Keys for passing data
+    public static final String KEY_AMOUNT_SENT = "fragmentSendConfirmAmountSentKey";
+    public static final String KEY_USERNAME = "fragmentSendConfirmUsernameKey";
+    public static final String KEY_FULL_NAME  = "fragmentSendConfirmFullNameKey";
+    public static final String KEY_REF_NUM = "fragmentSendConfirmrRefNumKey";
 
-    //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
-    private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
-    private static final String CLASS_NAME = "com.example.northlandbankmobile.ActivitySendMoney";
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_money_confirm);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_send_money_confirm, container, false);
 
-        sendToUserName = findViewById(R.id.sendToConfirm);
-        fullName = findViewById(R.id.fullnameConfirm);
-        amount = findViewById(R.id.amountConfirm);
-        message = findViewById(R.id.recVerifMessage);
+        sendToUserName = view.findViewById(R.id.fragSendMoneyRecipient);
+        fullName = view.findViewById(R.id.fragSendMoneyFullName);
+        amount = view.findViewById(R.id.fragSendMoneyAmount);
+
+        message = view.findViewById(R.id.fragSendMoney);
 
 
-        sendToUserName.setText(getIntent().getStringExtra(ActivitySendMoney.KEY_SEND_TO));
+        sendToUserName.setText(getArguments().getString(ActivitySendMoney.KEY_SEND_TO));
         fullName.setText(getFullName());
-        amount.setText(getIntent().getStringExtra(ActivitySendMoney.KEY_AMOUNT));
+        amount.setText(getArguments().getString(ActivitySendMoney.KEY_AMOUNT));
         verifyRecipient();
 
         transactionManager = new TransactionManager();
-        navigator = new Navigator(this);
+        navigator = new Navigator(getActivity());
         navigator.setGoingToAnotherActivity(true);
 
 
-        SEND = findViewById(R.id.BUTTON_SEND_CONFIRM);
+        SEND = view.findViewById(R.id.fragSendMoneyBtnSend);
         SEND.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Performs sendMoney transaction on user confirmation
                 transactionManager.sendMoney(sendToUserName.getText().toString(), amount.getText().toString());
                 if(transactionManager.isTransactionSuccess()){
-                    navigator.redirectTo(ActivityHome.class, true);
+                    navigator.putExtra(KEY_AMOUNT_SENT, amount.getText().toString());
+                    navigator.putExtra(KEY_USERNAME, sendToUserName.getText().toString());
+                    navigator.putExtra(KEY_FULL_NAME, getFullName());
+                    navigator.putExtra(KEY_REF_NUM, transactionManager.getReferenceNumber());
+                    navigator.redirectTo(ActivitySendMoneySuccess.class, true);
                 }else{
 
                 }
             }
         });
-        BACK = findViewById(R.id.BUTTON_SEND_CONF_BACK);
+        BACK = view.findViewById(R.id.fragSendMoneyBtnBack);
         BACK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+
             }
         });
+        
+        return view;
     }
 
-    //Overwrite Lifecycle Methods
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if(!navigator.isGoingToAnotherActivity()){
-            navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
-            navigator.redirectTo(ActivityEnterPin.class, true);
-        }
-        navigator.setGoingToAnotherActivity(false);
-    }
-
-    public void sendMoney(){
-
-    }
     private String getFullName(){
         String fullName="";
-
         try {
             Scanner scan = new Scanner(Database.getMainDB());
             while (scan.hasNextLine()){

@@ -1,36 +1,24 @@
 package com.example.northlandbankmobile;
 
-import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ActivityLoanCreditsConfirm extends AppCompatActivity {
     //Initialize Widgets
@@ -72,7 +60,7 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
 
 
         //Clickable Buttons
-        buttonPrintPdf = findViewById(R.id.loanSuccessPrintPdf);
+        buttonPrintPdf = findViewById(R.id.fragSendMoneyBtnBack);
         buttonPrintPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +68,7 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
                 generatePdf();
             }
         });
-        buttonHome = findViewById(R.id.loanSuccessHome);
+        buttonHome = findViewById(R.id.fragSendMoneyBtnSend);
         buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +132,7 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
 
         try {
             pdfDocument.writeTo(new FileOutputStream(file));
-            Toast.makeText(this, "PDFGenerated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PDF Receipt Stored in Documents Folder", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "PDFGeneratednOT", Toast.LENGTH_SHORT).show();
             e.printStackTrace();

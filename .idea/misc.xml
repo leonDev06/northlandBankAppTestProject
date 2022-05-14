@@ -23,6 +23,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/activity_registration.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/activity_send_money.xml" value="0.4" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/activity_send_money_confirm.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/activity_send_money_success.xml" value="0.4" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/activity_transac_records.xml" value="0.4" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_auto_pay_loan_notice.xml" value="0.4" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_confirm_exit.xml" value="0.4" />
@@ -30,6 +31,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_logout_confirm.xml" value="0.536" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_no_existing_loans.xml" value="0.264" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_pay_loan.xml" value="0.264" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/fragment_send_money_confirm.xml" value="0.4" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/layout/receipts_view_layout.xml" value="0.536" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NorthlandBankMobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>

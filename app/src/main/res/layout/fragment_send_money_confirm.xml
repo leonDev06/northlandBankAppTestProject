@@ -2,32 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    tools:context=".ActivityLoanCreditsConfirm">
-
-    <ImageView
-        android:id="@+id/login_ImageView4"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="45dp"
-        android:adjustViewBounds="false"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/success_text" />
+    tools:context=".FragmentSendMoneyConfirm">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/padd"
+        android:id="@+id/paddI"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="180dp"
         android:background="@drawable/inside_background"
         android:paddingStart="3dp"
         android:paddingEnd="3dp"
@@ -36,8 +21,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_ImageView4"
-        app:layout_constraintVertical_bias="0.112">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/fragSendMoneyFullName"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittext_rounded"
+            android:gravity="center_vertical"
+            android:paddingStart="92dp"
+            app:layout_constraintBottom_toBottomOf="@+id/abc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/abc" />
+
+        <TextView
+            android:id="@+id/abc"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="@+id/textView28"
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <Button
             android:id="@+id/fragSendMoneyBtnBack"
@@ -46,7 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/global_button"
-            android:text="Print PDF"
+            android:text="Back"
             android:textColor="@color/white"
             app:backgroundTint="@null"
             app:layout_constraintBaseline_toBaselineOf="@+id/fragSendMoneyBtnSend"
@@ -55,7 +63,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/loanSuccessRefNum"
+            android:id="@+id/fragSendMoneyRecipient"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
@@ -77,13 +85,13 @@
             android:layout_marginEnd="2dp"
             android:background="#e5e5e5"
             android:gravity="center"
-            android:text="Loan Credits Successful"
+            android:text="Please review the following details"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/loanSuccessAmount"
+            android:id="@+id/fragSendMoneyAmount"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
@@ -97,22 +105,6 @@
             app:layout_constraintTop_toTopOf="@+id/textView24" />
 
         <TextView
-            android:id="@+id/loanSuccessCurrentDate"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/edittext_rounded"
-            android:gravity="center_vertical"
-            android:paddingStart="92dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView30"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView30"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
             android:id="@+id/textView24"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -120,7 +112,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center_vertical"
             android:text="Amount"
-            app:layout_constraintStart_toStartOf="@+id/loanSuccessAmount"
+            app:layout_constraintStart_toStartOf="@+id/fragSendMoneyAmount"
             app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
         <TextView
@@ -129,19 +121,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="12dp"
             android:gravity="center_vertical"
-            android:text="Ref #"
+            android:text="Recipient"
             app:layout_constraintStart_toStartOf="@+id/textView24"
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
-        <TextView
-            android:id="@+id/textView30"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:text="Date"
-            app:layout_constraintStart_toStartOf="@+id/textView28"
-            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <Button
             android:id="@+id/fragSendMoneyBtnSend"
@@ -151,50 +133,25 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/global_button"
-            android:text="Home"
+            android:text="confirm"
             android:textColor="@color/white"
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/fragSendMoneyBtnBack"
-            app:layout_constraintTop_toBottomOf="@+id/textView34" />
+            app:layout_constraintTop_toBottomOf="@+id/fragSendMoney" />
 
         <TextView
-            android:id="@+id/loanSuccessDueDate"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/edittext_rounded"
-            android:gravity="center_vertical"
-            android:paddingStart="92dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView32"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView32"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
-            android:id="@+id/textView32"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:text="Due"
-            app:layout_constraintStart_toStartOf="@+id/textView30"
-            app:layout_constraintTop_toBottomOf="@+id/textView30" />
-
-        <TextView
-            android:id="@+id/textView34"
+            android:id="@+id/fragSendMoney"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:background="#e5e5e5"
             android:padding="5dp"
-            android:text="Please make sure to have enough balance on your pocket on the due date stated above."
+            android:text="The system won't offer refunds for"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loanSuccessDueDate" />
+            app:layout_constraintTop_toBottomOf="@+id/fragSendMoneyFullName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

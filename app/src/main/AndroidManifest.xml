@@ -13,28 +13,36 @@
         android:theme="@style/Theme.NorthlandBankMobile">
         <activity
             android:name=".ActivityTransacRecords"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityEnterPin"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
 
             android:name=".ActivityLoanCreditsConfirm"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityLoanCredits"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityAbout"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityAccountView"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".ActivitySendMoneyConfirm"
+            android:name=".ActivitySendMoneySuccess"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivitySendMoney"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ActivityHome"
@@ -57,8 +65,5 @@
         </activity>
     </application>
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
 </manifest>
