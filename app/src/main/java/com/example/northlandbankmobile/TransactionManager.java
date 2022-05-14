@@ -41,6 +41,11 @@ public class TransactionManager {
         return referenceNumber;
     }
 
+
+    //Transaction Methods
+    //Handles Money Transactions of the user
+
+    //Allows the user to send money to another person, whether said person is a user of this app or not. (Found in database or not.)
     public void sendMoney(String receiver, String amount){
         String sender;
         double amount_ = Double.parseDouble(amount);
@@ -123,9 +128,10 @@ public class TransactionManager {
             e.printStackTrace();
             Log.e("errorIOE", "Error writing Temp File / Error reading MainDB file");
         }
-
-
     }
+
+    //Allows the user to loan from the system. Amount not to exceed 10kPhp, 14 days due date, only one active loan per user.
+    //The user will first have to pay their existing loan if they want to make another loan.
     public void loanCredits(String userInputAmount){
         Integer amountLoan = Integer.parseInt(userInputAmount);
         String username = Database.getCurrentUser();
@@ -195,6 +201,7 @@ public class TransactionManager {
         }
     }
 
+    //Used to pay any active loans the user may have. Called automatically if the user's active loan is past due date.
     public void payExistingLoan(){
         File updatedLoansTable = new File("/data/user/0/com.example.northlandbankmobile/files/tempLoansTable");
         String user = Database.getCurrentUser();
@@ -269,72 +276,8 @@ public class TransactionManager {
         }
     }
 
-   private void generateReceipt(String refNum, String sender, String receiver, String amount, String transactType, String transactDate){
-        receipt = new TransactionReceipt(refNum, sender, receiver, amount, transactType, transactDate);
-        receipt.storeToDatabase();
-        receipt = null;
-
-        userTransactions = new UserTransactions(refNum, sender, receiver, amount, transactType, transactDate);
-        userTransactions.storeToDatabase();
-        userTransactions = null;
-
-
-   }
-
-    //Loans methods
-    private void writeToLoansTable(String user, String amount, String dateLoaned, String dateDue, String refNum){
-
-        try {
-            FileOutputStream fos = new FileOutputStream(Database.getLoansTable(), true);
-            fos.write(user.getBytes());
-            fos.write(",".getBytes());
-            fos.write(amount.getBytes());
-            fos.write(",".getBytes());
-            fos.write("unpaid".getBytes());
-            fos.write(",".getBytes());
-            fos.write(dateLoaned.getBytes());
-            fos.write(",".getBytes());
-            fos.write(dateDue.getBytes());
-            fos.write(",".getBytes());
-            fos.write(refNum.getBytes());
-            fos.write("\n".getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-    public boolean noUnpaidLoans(){
-        String user = Database.getCurrentUser();
-        String scannedLine;
-        String[] loansData;
-        noUnpaidLoans=true;
-        try {
-            Scanner scan = new Scanner(Database.getLoansTable());
-            while(scan.hasNextLine()){
-                scannedLine = scan.nextLine();
-                loansData = scannedLine.split(",");
-                if(loansData[0].equals(user)){
-                    if(loansData[2].equals("unpaid")){
-                        noUnpaidLoans = false;
-                        break;
-                    }else{
-                        noUnpaidLoans = true;
-                    }
-
-                }else {
-                    noUnpaidLoans = true;
-                }
-            }
-            scan.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return noUnpaidLoans;
-    }
-
+    //Generate Reference Number for the Transaction made.
+    //All transaction numbers are randomly generated, but is made sure to be unique for each transaction.
     private String generateRefNum(){
         //Generates a random number to be used for ReferenceNumber
         Random rnd = new Random();
@@ -367,6 +310,125 @@ public class TransactionManager {
         return refNum;
     }
 
+    //Used to generate the receipt of the Transaction
+    //Stores it in 2 Tables. User Transaction table and All transactions accross all users table (MainReceiptTable)
+   private void generateReceipt(String refNum, String sender, String receiver, String amount, String transactType, String transactDate){
+        //Store to MainReceiptTable
+        receipt = new TransactionReceipt(refNum, sender, receiver, amount, transactType, transactDate);
+        receipt.storeToDatabase();
+        receipt = null;
+        //Store to user transaction table. Used to display user's past transactions (Transaction History)
+        userTransactions = new UserTransactions(refNum, sender, receiver, amount, transactType, transactDate);
+        userTransactions.storeToDatabase();
+        userTransactions = null;
+   }
+
+    //Loans methods
+
+    //Save to loansTable.
+    private void writeToLoansTable(String user, String amount, String dateLoaned, String dateDue, String refNum){
+
+        try {
+            FileOutputStream fos = new FileOutputStream(Database.getLoansTable(), true);
+            fos.write(user.getBytes());
+            fos.write(",".getBytes());
+            fos.write(amount.getBytes());
+            fos.write(",".getBytes());
+            fos.write("unpaid".getBytes());
+            fos.write(",".getBytes());
+            fos.write(dateLoaned.getBytes());
+            fos.write(",".getBytes());
+            fos.write(dateDue.getBytes());
+            fos.write(",".getBytes());
+            fos.write(refNum.getBytes());
+            fos.write("\n".getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //Checks whether the user has unpaid loans.
+    public boolean noUnpaidLoans(){
+        String user = Database.getCurrentUser();
+        String scannedLine;
+        String[] loansData;
+        noUnpaidLoans=true;
+        try {
+            Scanner scan = new Scanner(Database.getLoansTable());
+            while(scan.hasNextLine()){
+                scannedLine = scan.nextLine();
+                loansData = scannedLine.split(",");
+                if(loansData[0].equals(user)){
+                    if(loansData[2].equals("unpaid")){
+                        noUnpaidLoans = false;
+                        break;
+                    }else{
+                        noUnpaidLoans = true;
+                    }
+
+                }else {
+                    noUnpaidLoans = true;
+                }
+            }
+            scan.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return noUnpaidLoans;
+    }
+
+    //Check if entered amount digits are valid
+    //Pass through a series of filters/test. Immediately fail if even just one test is failed.
+    public boolean isValidAmount(String amount){
+        int decimalPointCount=0;
+        int decimalPointPosition=0;
+
+        //Amount can't be empty (Mainly used to avoid NullPointerException
+        //This is returning true just so that the lines below will be unreachable if amount TextField is empty (NullPointerException).
+        //It's not returning false because it will cause problems in showing the correct error message to the user.
+        if(amount.isEmpty()){
+            return true;
+        }
+        //Loop through each character in the amount TextView
+        for(int i=0; i<amount.length(); i++){
+            //Only allow digits or a decimal points.
+            if(!Character.isDigit(amount.charAt(i)) && amount.charAt(i)!='.'){
+                return  false;
+            }
+            //Check if the number is a decimal. Permits only 1 decimal point aka a dot.
+            if(i>=1 && amount.charAt(i)=='.'){
+                decimalPointCount++;
+                if (decimalPointCount>1){
+                    return false;
+                }
+                //Only allow whole numbers in tens value to have a decimal
+            }else if(i<2 && amount.charAt(i)=='.'){
+                return false;
+            }//Prevents '.' at the end of the amount
+            else if(amount.charAt(amount.length()-1)=='.'){
+                return false;
+            }
+            //Makes sure that, if there are decimals, that there would only be 1 to 2 decimal places
+            if(amount.charAt(i)=='.'){
+                decimalPointPosition=i;
+                if(amount.length()-(decimalPointPosition+1) > 2){
+                    return false;
+                }
+            }
+        }
+        //First digit must be a whole number. Fails '.'
+        if(amount.charAt(0)=='0' || amount.charAt(0)=='.'){
+            return false;
+        }
+        //If the amount passed all the filters, the amount is valid. Return true.
+        return true;
+    }
+
+
 
 
     //FOR TESTING/DEBUGGING PURPOSES METHODS
@@ -376,21 +438,6 @@ public class TransactionManager {
             while(scan.hasNextLine()){
                 String line = scan.nextLine();
                 Log.d(tag, line);
-            }
-            scan.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void printFileDataSingle(String tag, File file){
-        try {
-            Scanner scan = new Scanner(file);
-            while(scan.hasNextLine()){
-                String line = scan.nextLine();
-                String[] array = line.split(",");
-                for(int i=0; i<array.length; i++){
-                    Log.d(tag, array[i]);
-                }
             }
             scan.close();
         } catch (Exception e) {

@@ -1,17 +1,29 @@
 package com.example.northlandbankmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ActivitySendMoneySuccess extends AppCompatActivity {
     private Button btnHome, btnPdf;
-    private TextView mUserName, mFullName, mAmount, mMessage, mDate, mRefNum;
+    private TextView mUserName, mFullName, mAmount, mDate, mRefNum;
+
     private TransactionManager transactionManager;
     private Navigator navigator;
+
 
 
     //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
@@ -48,7 +60,8 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
         btnPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ThreadGeneratePdfSendMoney generatePdf = new ThreadGeneratePdfSendMoney(mUserName, mAmount, mDate, mRefNum, getApplicationContext());
+                generatePdf.start();
             }
         });
     }

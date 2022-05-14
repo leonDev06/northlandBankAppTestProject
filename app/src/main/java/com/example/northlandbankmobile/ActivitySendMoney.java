@@ -5,20 +5,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ActivitySendMoney extends AppCompatActivity {
     //Widgets
     private TextView errorMessage;
-    private EditText sendToUserName, sendAmount;
-    private Button BUTTON_SEND;
+    private static EditText mUsername, mAmount;
+    private Button mBtnSend;
     private FrameLayout fragmentHolder;
 
     //Helper Classes
@@ -42,9 +43,10 @@ public class ActivitySendMoney extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_money);
 
+
         //Link Widgets
-        sendToUserName = findViewById(R.id.sendToUserName);
-        sendAmount = findViewById(R.id.sendAmount);
+        mUsername = findViewById(R.id.sendToUserName);
+        mAmount = findViewById(R.id.sendAmount);
         errorMessage = findViewById(R.id.sendMoneyErrMsg);
         fragmentHolder = findViewById(R.id.actSendMoneyFragHolder);
 
@@ -55,41 +57,46 @@ public class ActivitySendMoney extends AppCompatActivity {
 
 
         //Clickable buttons
-        BUTTON_SEND = findViewById(R.id.BUTTON_SEND);
-        BUTTON_SEND.setOnClickListener(new View.OnClickListener() {
+        mBtnSend = findViewById(R.id.BUTTON_SEND);
+        mBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Variables for readability
-                username = sendToUserName.getText().toString();
-                amount = sendAmount.getText().toString();
+                username = mUsername.getText().toString();
+                amount = mAmount.getText().toString();
 
                 //Filters for empty field / user has enough balance / user is not trying to send money to self
-                //Redirects to confirmation activity after passing the filter
+                //Inflate confirmation fragment if filters are passed
                 if
-                (!username.isEmpty() && !amount.isEmpty() && isValidAmount()){
+                (!username.isEmpty() && !amount.isEmpty()
+                        && transactionManager.isValidAmount(amount)){
                     double currentUserBalance = Double.parseDouble(Database.getUserBalance());
-                    double amountToSend = Double.parseDouble(sendAmount.getText().toString());
+                    double amountToSend = Double.parseDouble(mAmount.getText().toString());
                     errorMessage.setText("");
                     if(currentUserBalance>=amountToSend
-                            && !sendToUserName.getText().toString().equals(user.getUserName())
+                            && !mUsername.getText().toString().equals(user.getUserName())
                             && !(amountToSend <=0)){
-
-
+                        //Filters passed. Begin Transaction
+                        //Pass the required transaction details to FragmentConfirmation and launch Fragment
                         Bundle bundle = new Bundle();
                         Fragment confirmationScreen = new FragmentSendMoneyConfirm();
-                        bundle.putString(KEY_SEND_TO, sendToUserName.getText().toString());
-                        bundle.putString(KEY_AMOUNT, sendAmount.getText().toString());
+                        bundle.putString(KEY_SEND_TO, mUsername.getText().toString());
+                        bundle.putString(KEY_AMOUNT, mAmount.getText().toString());
                         confirmationScreen.setArguments(bundle);
                         inflateFragment(R.id.actSendMoneyFragHolder, confirmationScreen);
-                        Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
-                    }else if (sendToUserName.getText().toString().equals(Database.getCurrentUser())){
+
+                        hideKeyboard();
+                        setTextFieldsEnabled(false);
+
+                        //Transaction not initiated. Invalidated. Display error message to user.
+                    }else if (mUsername.getText().toString().equals(Database.getCurrentUser())){
                         errorMessage.setText("You can't send money to yourself.");
                     }else if(amountToSend <=0){
                         errorMessage.setText("Amount must be greater than 0");
                     }else{
                         errorMessage.setText("You don't have enough money to send this amount.");
                     }
-                }else if(!isValidAmount()) {
+                }else if(!transactionManager.isValidAmount(amount)) {
                     errorMessage.setText("Invalid Amount");
                 }
                 else{
@@ -103,17 +110,23 @@ public class ActivitySendMoney extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-
+        Log.d("lifecycle", "onPause");
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        Log.d("lifecycle", "onResume");
         if(!navigator.isGoingToAnotherActivity()){
             navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
             navigator.redirectTo(ActivityEnterPin.class, true);
         }
         navigator.setGoingToAnotherActivity(false);
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        setTextFieldsEnabled(true);
     }
 
     //private helper methods
@@ -121,43 +134,20 @@ public class ActivitySendMoney extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(layout, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
-    //Check if entered digits are valid
-    private boolean isValidAmount(){
-        int decimalPointCount=0;
-        int decimalPointPosition=0;
-
-        //Prevents user from entering characters that is not a digit or a decimal point.
-        for(int i=0; i<amount.length(); i++){
-            if(!Character.isDigit(amount.charAt(i)) && amount.charAt(i)!='.'){
-                return  false;
-            }
-            //Check if the number is a decimal. Permits only 1 decimal point aka a dot.
-            if(i>=2 && amount.charAt(i)=='.'){
-                decimalPointCount++;
-                if (decimalPointCount>1){
-                    return false;
-                }
-            }else if(i<2 && amount.charAt(i)=='.'){
-                return false;
-            }
-
-            //Makes sure that, if there are decimals, that there would only be 2 and only 2 decimal places
-            if(amount.charAt(i)=='.'){
-                decimalPointPosition=i;
-                if(amount.length()-(decimalPointPosition+1) != 2){
-                    return false;
-                }
-            }
-        }
-        //First digit must be a whole number
-        if(amount.charAt(0)=='0' || amount.charAt(0)=='.'){
-            return false;
-        }
-
-        //If the amount passed all the filters, the amount is valid. Return true.
-        return true;
+    //Used to make the text fields non=clickable when the confirmation fragment pops up and clickable if not
+    public static void setTextFieldsEnabled(boolean enabled){
+        mUsername.setEnabled(enabled);
+        mAmount.setEnabled(enabled);
     }
+    //Hide the Keyboard when called. Used for better UI
+    private void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(fragmentHolder.getWindowToken(), 0);
+    }
+
+
 }

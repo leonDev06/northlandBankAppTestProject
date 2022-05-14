@@ -64,8 +64,9 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
         buttonPrintPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                generatePdf();
+                ThreadGeneratePdfLoan generatePdfLoan = new ThreadGeneratePdfLoan
+                        (getApplicationContext(), mAmount, mCurrentDate, mDueDate, mRefNum);
+                generatePdfLoan.start();
             }
         });
         buttonHome = findViewById(R.id.fragSendMoneyBtnSend);
@@ -102,61 +103,5 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
         mCurrentDate.setText(date);
         mDueDate.setText(dateDue);
         mRefNum.setText(refNum);
-    }
-
-    private void generatePdf(){
-        PdfDocument pdfDocument = new PdfDocument();
-
-        Paint text = new Paint();
-
-        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create();
-
-        PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
-
-        Canvas canvas = myPage.getCanvas();
-
-        text.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-        text.setTextSize(15);
-        text.setColor(ContextCompat.getColor(this, R.color.black));
-
-        canvas.drawText("LOAN", 209, 100, text);
-        canvas.drawText(("AMOUNT: "+mAmount.getText().toString()), 209, 80, text);
-        canvas.drawText(("DATE: "+mCurrentDate.getText().toString()), 209, 60, text);
-        canvas.drawText(("DUE: "+mDueDate.getText().toString()), 209, 40, text);
-        canvas.drawText(("REFERENCE NUMBER: "+mRefNum.getText().toString()), 209, 20, text);
-
-        pdfDocument.finishPage(myPage);
-
-
-        File file = new File(commonDocumentDirPath("Northland Bank Receipts"), ("/"+mRefNum.getText().toString()+"Receipt.pdf"));
-
-        try {
-            pdfDocument.writeTo(new FileOutputStream(file));
-            Toast.makeText(this, "PDF Receipt Stored in Documents Folder", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Toast.makeText(this, "PDFGeneratednOT", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-        pdfDocument.close();
-
-    }
-
-    public static File commonDocumentDirPath(String name){
-        File dir = null;
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/"+name);
-        }else{
-            dir = new File(Environment.getExternalStorageDirectory()+"/"+name);
-        }
-
-        if(!dir.exists()){
-            boolean success = dir.mkdirs();
-            if(!success){
-                dir = null;
-            }
-        }
-        return dir;
     }
 }

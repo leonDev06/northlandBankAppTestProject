@@ -1,6 +1,8 @@
 package com.example.northlandbankmobile;
 
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -174,5 +176,23 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static File commonDocumentDirPath(String name){
+        File dir = null;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/"+name);
+        }else{
+            dir = new File(Environment.getExternalStorageDirectory()+"/"+name);
+        }
+
+        if(!dir.exists()){
+            boolean success = dir.mkdirs();
+            if(!success){
+                dir = null;
+            }
+        }
+        return dir;
     }
 }

@@ -75,7 +75,8 @@ public class FragmentSendMoneyConfirm extends Fragment {
         BACK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ActivitySendMoney.setTextFieldsEnabled(true);
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         

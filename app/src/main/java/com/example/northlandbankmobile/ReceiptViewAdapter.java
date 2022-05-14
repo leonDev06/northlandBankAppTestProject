@@ -27,7 +27,7 @@ public class ReceiptViewAdapter extends RecyclerView.Adapter<ReceiptViewAdapter.
     @Override
     public ReceiptViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.receipts_view_layout, parent, false);
+        View view = layoutInflater.inflate(R.layout.layout_receipts_view, parent, false);
         return new ReceiptViewAdapter.MyViewHolder(view);
     }
 
