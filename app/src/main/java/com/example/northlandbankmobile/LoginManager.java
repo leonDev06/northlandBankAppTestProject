@@ -9,6 +9,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class LoginManager {
     public LoginManager(Activity act){
         this.activity=act;
         activity.getApplicationContext();
+        activity.getFilesDir();
     }
 
     //Getters and Setters
@@ -190,11 +192,21 @@ public class LoginManager {
             }
     }
     private boolean pinsMatch(){
-        if (pinRegister.getText().toString().equals(pinRegisterConfirm.getText().toString())) {
+
+        if (pinRegister.getText().toString().length()==4
+                && pinRegister.getText().toString().equals(pinRegisterConfirm.getText().toString())) {
             return true;
         } else {
             //Check error to display correct message
-            invalidRegistrationMessage.setText("Pins don't match");
+            if(pinRegister.getText().toString().length()!=4){
+                invalidRegistrationMessage.setText("User Pin must be composed of 4 numbers");
+                return false;
+            }
+            if(!pinRegister.getText().toString().equals(pinRegisterConfirm.getText().toString())){
+                invalidRegistrationMessage.setText("Pins don't match");
+                return false;
+            }
+
             return false;
         }
     }

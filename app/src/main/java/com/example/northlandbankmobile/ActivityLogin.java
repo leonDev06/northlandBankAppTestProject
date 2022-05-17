@@ -5,16 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class ActivityLogin extends AppCompatActivity{
     //Widgets
-    private Button buttonLogin, buttonGoToRegistration;
+    private Button buttonLogin, buttonGoToRegistration, btnShowPassword;
+    private EditText mPassword;
 
     //Helper Classes
     private LoginManager loginManager;
     private Navigator navigator;
+
+    //For showing password
+    private boolean isPasswordVisible;
 
     //Key for passing data to Enter Pin
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
@@ -33,6 +40,10 @@ public class ActivityLogin extends AppCompatActivity{
         loginManager.initializeWidgets();
         navigator = new Navigator(this);
 
+        //Initialize password EditText and isPasswordVisible boolean
+        mPassword = loginManager.getPasswordLogin();
+        isPasswordVisible = false;
+
         //Redirect to Enter Pin if there's currently a logged-in user
         if(Database.getCurrentlyLoggedInUserFile().getAbsoluteFile().exists()){
             navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
@@ -40,6 +51,21 @@ public class ActivityLogin extends AppCompatActivity{
         }
 
         //Clickable Buttons
+        btnShowPassword = findViewById(R.id.showPassword);
+        btnShowPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPasswordVisible){
+                    isPasswordVisible=false;
+                    mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    btnShowPassword.setBackgroundResource(R.drawable.ic_baseline_visibility_off_24);
+                }else{
+                    isPasswordVisible=true;
+                    mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    btnShowPassword.setBackgroundResource(R.drawable.ic_baseline_visibility_24);
+                }
+            }
+        });
         buttonLogin = findViewById(R.id.BUTTON_LOGIN);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

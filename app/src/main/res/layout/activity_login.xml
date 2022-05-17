@@ -155,4 +155,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BUTTON_LOGIN" />
 
+    <Button
+        android:id="@+id/showPassword"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_baseline_visibility_24"
+        android:drawablePadding="20dp"
+        android:padding="40dp"
+        app:backgroundTint="@null"
+        app:iconPadding="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

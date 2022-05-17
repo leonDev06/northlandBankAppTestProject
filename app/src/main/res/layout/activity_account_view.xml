@@ -75,7 +75,7 @@
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
@@ -115,7 +115,7 @@
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
@@ -126,7 +126,7 @@
     <TextView
         android:id="@+id/textView25"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
@@ -137,7 +137,7 @@
     <TextView
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
@@ -148,7 +148,7 @@
     <TextView
         android:id="@+id/textView27"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
@@ -166,7 +166,7 @@
         android:background="@drawable/global_button"
         android:text="View Transaction Record"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="@+id/detailsBalance"
         app:layout_constraintHorizontal_bias="0.498"
@@ -181,7 +181,7 @@
         android:background="@drawable/global_button"
         android:text="Back Home"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="@+id/BUTTON_DETAILS_RECORD"
         app:layout_constraintStart_toStartOf="@+id/BUTTON_DETAILS_RECORD"

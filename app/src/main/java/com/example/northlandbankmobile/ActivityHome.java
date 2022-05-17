@@ -35,7 +35,7 @@ public class ActivityHome extends AppCompatActivity {
     private User user;
 
     //Keys for passing data
-    //Guides which class the ActivityEnterPin returns back to
+    //Guides which class the ActivityEnterPin returns back to.
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private static final String CLASS_NAME = "com.example.northlandbankmobile.ActivityHome";
 

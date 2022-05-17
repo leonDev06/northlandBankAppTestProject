@@ -40,10 +40,9 @@ public class FragmentConfirmLogout extends Fragment {
             @Override
             public void onClick(View view) {
                 new LoginManager(getActivity()).logout();
-                new Navigator().redirectTo(ActivityLogin.class, true);
+                new Navigator(getActivity()).redirectTo(ActivityLogin.class, true);
             }
         });
-
         return view;
     }
 }

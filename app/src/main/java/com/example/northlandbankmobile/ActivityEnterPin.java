@@ -73,6 +73,7 @@ public class ActivityEnterPin extends AppCompatActivity {
         mCurrentUser.setText(Database.getCurrentUser());
 
         //Create the Pin Check Thread
+        runPinCheckThread();
 
 
         //Clickable Buttons
@@ -160,6 +161,7 @@ public class ActivityEnterPin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginManager.logout();
+                navigator.redirectTo(ActivityLogin.class, true);
             }
         });
 
@@ -247,6 +249,38 @@ public class ActivityEnterPin extends AppCompatActivity {
     //Create a thread that constantly checks if the pin entered by the user is correct without obligating the user to press OK button.
     //This Thread will run indefinitely until the user entered his/her correct pin.
     //This will only check the entered pin once all 4 digits have been entered by the user.
-
+    private void runPinCheckThread(){
+        //Create the pinCheck Runnable
+        Runnable pinCheck = new Runnable() {
+            @Override
+            public void run() {
+                while (!isCorrectPin()){
+                    if(!mDigitFour.getText().toString().isEmpty()){
+                        if(isCorrectPin()) {
+                            try{
+                                navigator.redirectTo(ActivityReturnActivity, true);
+                            }catch(Exception e) {
+                                navigator.redirectTo(ActivityHome.class, true);
+                            }
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    clearComposingText();
+                                    if(!isCorrectPin()){
+                                        mErrMsg.setText("Incorrect Pin");
+                                    }else{
+                                        mErrMsg.setText("");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        };
+        //Run the created runnable on a new thread
+        new Thread(pinCheck).start();
+    }
 
 }

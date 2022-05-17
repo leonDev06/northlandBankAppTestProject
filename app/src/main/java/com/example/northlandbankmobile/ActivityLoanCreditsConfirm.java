@@ -77,16 +77,22 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
             }
         });
     }
+
     //Overwrite Lifecycle Methods
     @Override
     protected void onPause(){
         super.onPause();
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-
+        if(!navigator.isGoingToAnotherActivity()){
+            navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
+            navigator.redirectTo(ActivityEnterPin.class, true);
+        }
+        navigator.setGoingToAnotherActivity(false);
     }
 
     //private helper functions

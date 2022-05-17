@@ -9,11 +9,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="#f7ef8a"
-        app:cardCornerRadius="5dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/global_button"
+            android:background="@drawable/edittext_rounded"
             android:padding="10dp">
 
             <TextView
@@ -44,6 +43,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="SEND MONEY"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"
                 android:gravity="fill"
-                android:text="TextView"
+                android:text="1,000"
                 app:autoSizeTextType="none"
                 app:layout_constraintEnd_toEndOf="@+id/rType"
                 app:layout_constraintHorizontal_bias="0.0"

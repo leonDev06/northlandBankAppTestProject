@@ -99,7 +99,7 @@ public class Database {
             try {
                 Log.d(TAG, "initDatabase: DB Initialized");
                 FileOutputStream fos = new FileOutputStream(mainDB);
-                fos.write(" ".getBytes());
+                fos.write("".getBytes());
                 fos.close();
             } catch (Exception e) {
                 Log.d(TAG, "initDatabase: not initialized Main DB");
@@ -114,7 +114,7 @@ public class Database {
             Log.d("checkCreate", "loansTable created.");
             try {
                 FileOutputStream fos = new FileOutputStream(loansTable);
-                fos.write(" ".getBytes());
+                fos.write("".getBytes());
                 fos.close();
             } catch (Exception e) {
                 Log.d(TAG, "initDatabase: Db not initialized");
@@ -127,7 +127,7 @@ public class Database {
             Log.d("checkCreate", "loansTable created.");
             try {
                 FileOutputStream fos = new FileOutputStream(transactionsTable);
-                fos.write(" ".getBytes());
+                fos.write("".getBytes());
                 fos.close();
             } catch (Exception e) {
                 e.printStackTrace();
