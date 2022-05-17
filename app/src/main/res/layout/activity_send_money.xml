@@ -77,14 +77,17 @@
 
     <Button
         android:id="@+id/BUTTON_SEND"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/global_button"
         android:text="Send"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="@+id/sendAmount"
+        app:layout_constraintStart_toStartOf="@+id/sendAmount"
         app:layout_constraintTop_toBottomOf="@+id/sendAmount" />
 
     <TextView
@@ -98,20 +101,6 @@
         app:layout_constraintEnd_toEndOf="@+id/sendAmount"
         app:layout_constraintTop_toTopOf="@+id/sendAmount"
         app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="56dp"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/lion_pic" />
 
     <TextView
         android:id="@+id/sendMoneyErrMsg"

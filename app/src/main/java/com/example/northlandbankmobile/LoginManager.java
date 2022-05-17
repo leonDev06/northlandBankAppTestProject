@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class LoginManager {
     private Activity activity;
-    private Navigator navigator;
 
 
     private EditText firstNameRegister, lastNameRegister, emailRegister, userNameRegister, passwordRegister, confirmPassRegister;
@@ -28,11 +27,6 @@ public class LoginManager {
     public LoginManager(Activity act){
         this.activity=act;
         activity.getApplicationContext();
-        navigator = new Navigator(activity);
-        File path = activity.getFilesDir();
-    }
-    public LoginManager(){
-
     }
 
     //Getters and Setters
@@ -90,7 +84,7 @@ public class LoginManager {
         }
 
     }
-    public void verifyRegistration(){
+    public boolean verifyRegistration(){
         boolean passwordsMatch= passwordsMatch();
         boolean pinsMatch = pinsMatch();
         boolean validEmail=validEmail();
@@ -101,14 +95,17 @@ public class LoginManager {
         generateAccountNumber();
         if(passwordsMatch && noNullFields && validEmail && uniqueAccount && noInvalidCharacters && pinsMatch){
             registerToDatabase();
-            navigator.redirectTo(ActivityLogin.class);
             clearText();
+            return true;
         }
+        return false;
     }
     public boolean verifyLogin(){
-        String line;
+
         boolean userFound=false;
         boolean loginVerified=false;
+        
+        String line;
         String[] accountsDetails;
 
 
@@ -136,6 +133,7 @@ public class LoginManager {
             }
             scan.close();
         } catch (FileNotFoundException e) {
+            Log.d("LoginTag", "DBProblem");
             e.printStackTrace();
         }
         return loginVerified;
@@ -147,7 +145,6 @@ public class LoginManager {
     public void logout(){
         Database.getCurrentlyLoggedInUserFile().delete();
         Database.getCurrentUserData().getAbsoluteFile().delete();
-        navigator.redirectTo(ActivityLogin.class, true);
     }
 
     
@@ -196,7 +193,8 @@ public class LoginManager {
         if (pinRegister.getText().toString().equals(pinRegisterConfirm.getText().toString())) {
             return true;
         } else {
-            invalidRegistrationMessage.setText("Pins");
+            //Check error to display correct message
+            invalidRegistrationMessage.setText("Pins don't match");
             return false;
         }
     }
@@ -296,15 +294,5 @@ public class LoginManager {
         passwordRegister.setText("");
         confirmPassRegister.setText("");
         invalidRegistrationMessage.setText("");
-    }
-    private String getCurrentUser(){
-        String currentUser="";
-        try {
-            Scanner scan = new Scanner(Database.getCurrentlyLoggedInUserFile());
-            currentUser = scan.nextLine();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return currentUser;
     }
 }

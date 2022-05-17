@@ -99,6 +99,8 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
         mRefNum.setText(getIntent().getStringExtra(FragmentSendMoneyConfirm.KEY_REF_NUM));
     }
 
+    //Generate PDF receipt
+    //2 Threads. 1 thread is for generating the PDF file, the other is for showing the loading icon
     private void generatePdfReceipt(){
         ThreadGeneratePdfSendMoney generatePdf = new ThreadGeneratePdfSendMoney();
         generatePdf.start();
@@ -126,6 +128,7 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
         }).start();
     }
 
+    //Thread class generating the PDF for sendMoney
     class ThreadGeneratePdfSendMoney extends Thread{
         public void run(){
             //See ActivityLoanCreditsConfirm's documentation on how generating a Pdf File works

@@ -7,36 +7,44 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class ActivityRegistration extends AppCompatActivity implements View.OnClickListener{
-    Button BUTTON_GO_TO_LOGIN, BUTTON_REGISTER;
-    LoginManager loginManager;
-    Navigator navigator;
+public class ActivityRegistration extends AppCompatActivity{
+    //Buttons
+    private Button mBtnGoToLogin, mBtnRegister;
+
+    //Helper CLasses
+    private LoginManager loginManager;
+    private Navigator navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        BUTTON_GO_TO_LOGIN = (Button) findViewById(R.id.button_goToLogin);
-        BUTTON_GO_TO_LOGIN.setOnClickListener(this);
-        BUTTON_REGISTER = (Button) findViewById(R.id.BUTTON_REGISTER);
-        BUTTON_REGISTER.setOnClickListener(this);
-
+        //Construct and Initialize Helper Objects
         loginManager = new LoginManager(this);
         loginManager.initializeWidgets();
-
         navigator = new Navigator(this);
-    }
 
-    @Override
-    public void onClick(View view) {
-        if(view.getId()==R.id.button_goToLogin){
-            navigator.redirectTo(ActivityLogin.class, true);
-        }
-        if(view.getId()==R.id.BUTTON_REGISTER){
-            loginManager.verifyRegistration();
-        }
+        //Clickable Buttons
+        mBtnGoToLogin = findViewById(R.id.button_goToLogin);
+        mBtnGoToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigator.redirectTo(ActivityLogin.class, true);
+            }
+        });
+        mBtnRegister = findViewById(R.id.BUTTON_REGISTER);
+        mBtnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (loginManager.verifyRegistration()) {
+                    navigator.redirectTo(ActivityLogin.class);
+                    Toast.makeText(getApplicationContext(), "Account Registration Successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
     @Override
     protected void attachBaseContext(Context newBase){

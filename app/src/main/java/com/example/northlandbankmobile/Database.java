@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Database {
+    private static final String TAG = "Database";
     //Initializes all database files needed throughout the application
     //(Users Table Indexes) 0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number 6. Account Balance 7. Pin
 
@@ -94,12 +95,14 @@ public class Database {
     //Database functions
     public static void initDatabase() {
         //Initialize main table
-        if(!mainDB.exists()){ ;
+        if(!mainDB.exists()){
             try {
+                Log.d(TAG, "initDatabase: DB Initialized");
                 FileOutputStream fos = new FileOutputStream(mainDB);
-                fos.write("".getBytes());
+                fos.write(" ".getBytes());
                 fos.close();
             } catch (Exception e) {
+                Log.d(TAG, "initDatabase: not initialized Main DB");
                 e.printStackTrace();
             }
         }
@@ -111,9 +114,10 @@ public class Database {
             Log.d("checkCreate", "loansTable created.");
             try {
                 FileOutputStream fos = new FileOutputStream(loansTable);
-                fos.write("".getBytes());
+                fos.write(" ".getBytes());
                 fos.close();
             } catch (Exception e) {
+                Log.d(TAG, "initDatabase: Db not initialized");
                 e.printStackTrace();
             }
         }
@@ -123,7 +127,7 @@ public class Database {
             Log.d("checkCreate", "loansTable created.");
             try {
                 FileOutputStream fos = new FileOutputStream(transactionsTable);
-                fos.write("".getBytes());
+                fos.write(" ".getBytes());
                 fos.close();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -3,6 +3,7 @@ package com.example.northlandbankmobile;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +17,14 @@ public class ActivityEnterPin extends AppCompatActivity {
     private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven,
             buttonEight, buttonNine, buttonZero, buttonClear, buttonEnter, buttonLogout;
     private EditText mDigitOne, mDigitTwo, mDigitThree, mDigitFour;
-    private TextView mCurrentUser;
+    private TextView mCurrentUser, mErrMsg;
 
     //Helper Classes
     private Navigator navigator;
     private LoginManager loginManager;
+
+    //Thread
+    Handler handler = new Handler();
 
     //Used to determine which activity triggered this EnterPin Activity
     private Class ActivityReturnActivity;
@@ -63,9 +67,13 @@ public class ActivityEnterPin extends AppCompatActivity {
         mDigitFour = findViewById(R.id.digit4);
         //Link TextView
         mCurrentUser = findViewById(R.id.enterPinCurrentUser);
+        mErrMsg = findViewById(R.id.errPinMsg);
 
         //Display the current user on the screen
         mCurrentUser.setText(Database.getCurrentUser());
+
+        //Create the Pin Check Thread
+
 
         //Clickable Buttons
         buttonOne.setOnClickListener(new View.OnClickListener() {
@@ -235,4 +243,10 @@ public class ActivityEnterPin extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    //Create a thread that constantly checks if the pin entered by the user is correct without obligating the user to press OK button.
+    //This Thread will run indefinitely until the user entered his/her correct pin.
+    //This will only check the entered pin once all 4 digits have been entered by the user.
+
+
 }

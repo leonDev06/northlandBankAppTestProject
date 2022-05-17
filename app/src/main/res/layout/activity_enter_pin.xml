@@ -34,7 +34,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="#e5e5e5"
+        android:background="@drawable/edittext_rounded"
+        android:elevation="3dp"
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/enter_pin"
@@ -48,10 +49,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/inside_background"
-        android:padding="60dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/main_background"
+        android:padding="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -61,10 +63,9 @@
         <Button
             android:id="@+id/buttonPin1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -78,17 +79,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPin4"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin2"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonPin2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -102,17 +104,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPin5"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin3"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/buttonPin1"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin3" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonPin3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -134,10 +137,9 @@
         <Button
             android:id="@+id/buttonPin4"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -151,17 +153,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPin7"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin5"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin5" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPin1" />
 
         <Button
             android:id="@+id/buttonPin5"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -175,17 +178,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPin8"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin6"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/buttonPin4"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin6" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPin2" />
 
         <Button
             android:id="@+id/buttonPin6"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -207,10 +211,9 @@
         <Button
             android:id="@+id/buttonPin7"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -224,17 +227,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPinClear"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin8"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin8" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPin4" />
 
         <Button
             android:id="@+id/buttonPin8"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -248,17 +252,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonPin0"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin9"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/buttonPin7"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin9" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPin5" />
 
         <Button
             android:id="@+id/buttonPin9"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -280,10 +285,9 @@
         <Button
             android:id="@+id/buttonPin0"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -297,17 +301,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonPinConfirm"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/buttonPinClear"
-            app:layout_constraintTop_toTopOf="@+id/buttonPinConfirm" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPin8" />
 
         <Button
             android:id="@+id/buttonPinClear"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -321,17 +326,18 @@
             android:textSize="20sp"
             app:backgroundTint="@null"
             app:iconPadding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonPin0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/buttonPin0" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPin7" />
 
         <Button
             android:id="@+id/buttonPinConfirm"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/pin_button_bg"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/global_button"
             android:elegantTextHeight="true"
             android:includeFontPadding="false"
             android:padding="1dp"
@@ -370,11 +376,11 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="150dp"
+        android:background="@drawable/edittext_rounded"
         android:orientation="horizontal"
         android:padding="5dp"
         android:weightSum="4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29">
 
@@ -449,6 +455,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="username"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textView29"
         app:layout_constraintTop_toTopOf="@+id/textView29" />
@@ -464,5 +471,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/enterPinCurrentUser"
         app:layout_constraintStart_toEndOf="@+id/enterPinCurrentUser"
         app:layout_constraintTop_toTopOf="@+id/enterPinCurrentUser" />
+
+    <TextView
+        android:id="@+id/errPinMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
