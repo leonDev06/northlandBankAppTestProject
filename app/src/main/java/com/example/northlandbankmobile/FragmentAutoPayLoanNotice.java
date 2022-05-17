@@ -70,6 +70,6 @@ public class FragmentAutoPayLoanNotice extends Fragment {
         }
     }
     private void deductAmountFromUser(){
-        new TransactionManager(getActivity()).payExistingLoan();
+        new TransactionManager().payExistingLoan();
     }
 }

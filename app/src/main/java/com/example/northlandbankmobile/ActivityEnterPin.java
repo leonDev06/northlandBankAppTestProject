@@ -23,9 +23,6 @@ public class ActivityEnterPin extends AppCompatActivity {
     private Navigator navigator;
     private LoginManager loginManager;
 
-    //Thread
-    Handler handler = new Handler();
-
     //Used to determine which activity triggered this EnterPin Activity
     private Class ActivityReturnActivity;
     private java.lang.String returnActivityName;

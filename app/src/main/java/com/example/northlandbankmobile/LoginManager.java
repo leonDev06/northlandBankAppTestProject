@@ -1,22 +1,20 @@
 package com.example.northlandbankmobile;
 
 import android.app.Activity;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class LoginManager {
     private Activity activity;
 
-
+    //Widgets for both ActivityLogin and ActivityRegistration are initialized here
     private EditText firstNameRegister, lastNameRegister, emailRegister, userNameRegister, passwordRegister, confirmPassRegister;
     private EditText pinRegister, pinRegisterConfirm;
     private EditText userNameLogin, passwordLogin;
@@ -28,52 +26,21 @@ public class LoginManager {
     public LoginManager(Activity act){
         this.activity=act;
         activity.getApplicationContext();
-        activity.getFilesDir();
     }
 
-    //Getters and Setters
-    //Getters for EditText
-    public EditText getFirstNameRegister() {
-        return firstNameRegister;
-    }
-    public EditText getLastNameRegister() {
-        return lastNameRegister;
-    }
-    public EditText getEmailRegister() {
-        return emailRegister;
-    }
-    public EditText getUserNameRegister() {
-        return userNameRegister;
-    }
-    public EditText getPasswordRegister() {
-        return passwordRegister;
-    }
-    public EditText getConfirmPassRegister() {
-        return confirmPassRegister;
-    }
-    public EditText getUserNameLogin() {
-        return userNameLogin;
-    }
+    //Getters
     public EditText getPasswordLogin() {
         return passwordLogin;
     }
-    //Getters for Strings
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-    //Getters for Files/Database
 
-    public File getCurrentUserData() {
-        return Database.getCurrentUserData();
-    }
-
-    //Methods
+    //LoginManager FUNCTIONS
+    //This initializes the Widgets of the login/registration activity. Widgets Initialized will depend on where this method is called
     public void initializeWidgets(){
-        if(activity.getClass()== ActivityLogin.class){
+        if(activity.getClass().equals(ActivityLogin.class)){
             userNameLogin = activity.findViewById(R.id.userName);
             passwordLogin = activity.findViewById(R.id.password);
             invalidLoginMessage = activity.findViewById(R.id.invalidLoginMessage);
-        }else if(activity.getClass()== ActivityRegistration.class){
+        }else if(activity.getClass().equals(ActivityRegistration.class)){
             firstNameRegister = activity.findViewById(R.id.firstNameRegister);
             lastNameRegister = activity.findViewById(R.id.lastNameRegister);
             emailRegister = activity.findViewById(R.id.emailRegister);
@@ -86,15 +53,19 @@ public class LoginManager {
         }
 
     }
-    public boolean verifyRegistration(){
-        boolean passwordsMatch= passwordsMatch();
-        boolean pinsMatch = pinsMatch();
-        boolean validEmail=validEmail();
+    //Verify the attempted registration of the user.
+    public boolean isValidRegistration(){
+        //Initialize the conditions that the registration attempt needs to pass
+        boolean passwordsMatch= isValidPassword();
+        boolean pinsMatch = isValidPin();
+        boolean validEmail= iValidEmail();
         boolean noNullFields=noNullFields();
         boolean uniqueAccount=makeAccountUnique();
         boolean noInvalidCharacters=noInvalidCharacters();
 
+        //Generate a random account number. Made unique with makeAccountUnique function
         generateAccountNumber();
+        //If all conditions are met, registration is valid. Register user account to Database.
         if(passwordsMatch && noNullFields && validEmail && uniqueAccount && noInvalidCharacters && pinsMatch){
             registerToDatabase();
             clearText();
@@ -102,30 +73,33 @@ public class LoginManager {
         }
         return false;
     }
-    public boolean verifyLogin(){
+
+    //Verify the attempted login
+    public boolean isValidLogin(){
 
         boolean userFound=false;
         boolean loginVerified=false;
-        
+
+        //Start searching for the entered username in the database
         String line;
         String[] accountsDetails;
-
-
         try {
             Scanner scan = new Scanner(Database.getMainDB().getAbsoluteFile());
             while (scan.hasNextLine()){
                 line = scan.nextLine();
                 accountsDetails=line.split(",");
+                //The user is found in the database. Set userFound to true. Important for setting correct error message
                 if(accountsDetails[3].equals(userNameLogin.getText().toString())){
                     userFound=true;
-                    Log.d("UserFound", "Found");
                 }
+                //Conditions are met. Entered username matches with its corresponding password. Valid Login
                 if(accountsDetails[3].equals(userNameLogin.getText().toString()) && accountsDetails[4].equals(passwordLogin.getText().toString())){
                     persistLogIn();
                     loginVerified=true;
                     break;
                 }
             }
+            //If there are errors, display corresponding error messages to user.
             if(!userFound){
                 invalidLoginMessage.setText("User not found.");
             }else if(!loginVerified){
@@ -135,43 +109,38 @@ public class LoginManager {
             }
             scan.close();
         } catch (FileNotFoundException e) {
-            Log.d("LoginTag", "DBProblem");
             e.printStackTrace();
         }
         return loginVerified;
     }
-    public void prepareUserData(){
 
-
-    }
+    //Used to remove the login data of the current user.
     public void logout(){
         Database.getCurrentlyLoggedInUserFile().delete();
         Database.getCurrentUserData().getAbsoluteFile().delete();
     }
+    //END OF LoginManager FUNCTIONS
 
     
     //PRIVATE FUNCTIONS
-    //For Readability/Code Shortening functions
+
+    //Called if the attempted registration is valid. Used to Register new account to database.
     private void registerToDatabase(){
+        //As this is a mock app, users start with 5,000Php in their pcokets.
         accountBalance = 5000.0;
         try {
             FileOutputStream writer = new FileOutputStream(Database.getMainDB().getAbsolutePath(), true);
-            writer.write(firstNameRegister.getText().toString().getBytes());
-            writer.write(",".getBytes());
-            writer.write(lastNameRegister.getText().toString().getBytes());
-            writer.write(",".getBytes());
-            writer.write(emailRegister.getText().toString().getBytes());
-            writer.write(",".getBytes());
-            writer.write(userNameRegister.getText().toString().getBytes());
-            writer.write(",".getBytes());
-            writer.write(passwordRegister.getText().toString().getBytes());
-            writer.write(",".getBytes());
-            writer.write(accountNumber.getBytes());
-            writer.write(",".getBytes());
-            writer.write(accountBalance.toString().getBytes());
-            writer.write(",".getBytes());
-            writer.write(pinRegister.getText().toString().getBytes());
-            writer.write("\n".getBytes());
+            for (String s : Arrays.asList(
+                    firstNameRegister.getText().toString(), ",",
+                    lastNameRegister.getText().toString(),",",
+                    emailRegister.getText().toString(), ",",
+                    userNameRegister.getText().toString(), ",",
+                    passwordRegister.getText().toString(), ",",
+                    accountNumber, ",",
+                    accountBalance.toString(), ",",
+                    pinRegister.getText().toString(), "\n" )){
+                writer.write(s.getBytes());
+            }
             writer.close();
             Toast.makeText(activity.getApplicationContext(), "Registered Account", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
@@ -179,20 +148,24 @@ public class LoginManager {
             Toast.makeText(activity.getApplicationContext(), "Account wasn't registered", Toast.LENGTH_SHORT).show();
         }
     }
-    private boolean passwordsMatch(){
-            if(passwordRegister.getText().toString().length()<8){
-                invalidRegistrationMessage.setText("Password must contain at least 8 characters.");
-                return false;
-            }
-            if (passwordRegister.getText().toString().equals(confirmPassRegister.getText().toString())) {
-                return true;
-            } else {
-                invalidRegistrationMessage.setText("Passwords don't match.");
-                return false;
-            }
+    //Check to see if the password is Valid.
+    private boolean isValidPassword(){
+        //Not empty. Not less than 8 characters
+        if(passwordRegister.getText().toString().length()<8){
+            invalidRegistrationMessage.setText("Password must contain at least 8 characters.");
+            return false;
+        }
+        //Password and Password Confirm match
+        if (passwordRegister.getText().toString().equals(confirmPassRegister.getText().toString())) {
+            return true;
+        } else {
+            invalidRegistrationMessage.setText("Passwords don't match.");
+            return false;
+        }
     }
-    private boolean pinsMatch(){
-
+    //Check if pin is valid
+    private boolean isValidPin(){
+        //Pins must be 4 in length and Pin and Pin confirm must match
         if (pinRegister.getText().toString().length()==4
                 && pinRegister.getText().toString().equals(pinRegisterConfirm.getText().toString())) {
             return true;
@@ -210,25 +183,25 @@ public class LoginManager {
             return false;
         }
     }
+    //No Null fields
     private boolean noNullFields(){
         if (firstNameRegister.getText().toString().isEmpty()) {
             invalidRegistrationMessage.setText("First Name can't be empty");
             return false;
-        }
-        if(lastNameRegister.getText().toString().isEmpty()){
+        }else if(lastNameRegister.getText().toString().isEmpty()){
             invalidRegistrationMessage.setText("Last Name can't be empty");
             return false;
-        }
-        if (emailRegister.getText().toString().isEmpty()){
+        }else if (emailRegister.getText().toString().isEmpty()){
             invalidRegistrationMessage.setText("Email can't be empty");
             return false;
-        }
-        if(userNameRegister.getText().toString().isEmpty()){
+        }else if(userNameRegister.getText().toString().isEmpty()){
             invalidRegistrationMessage.setText("Username can't be empty");
             return false;
         }
+        //If filters passed, there are no null fields
         return true;
     }
+    //No invalid characters (',') Will mess up the indexing if allowed
     private boolean noInvalidCharacters(){
         if(emailRegister.getText().toString().contains(",")){
             invalidRegistrationMessage.setText("Text fields can't contain ','");
@@ -244,16 +217,20 @@ public class LoginManager {
         }
         return true;
     }
-    private boolean validEmail(){
-        if(emailRegister.getText().toString().contains("@neu.edu.ph")){
+    //Own Regex. Emails must contain these characters
+    private boolean iValidEmail(){
+        if(emailRegister.getText().toString().contains("edu.ph")){
             return true;
         }
+        //Emails must contain @ and .com
         if(!emailRegister.getText().toString().contains("@") || !emailRegister.getText().toString().contains(".com")){
             invalidRegistrationMessage.setText("Invalid Email");
             return false;
         }
         return true;
     }
+
+    //Makes sure that an email only belongs to one account. Same goes for username and account number
     private boolean makeAccountUnique(){
         String line;
         String [] accountDetails; //0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number
@@ -262,14 +239,17 @@ public class LoginManager {
             while(scan.hasNextLine()){
                 line = scan.nextLine();
                 accountDetails = line.split(",");
+                //Make sure email is unique
                 if(accountDetails[2].equals(emailRegister.getText().toString())){
                     invalidRegistrationMessage.setText("Email belongs to another account.");
                     return false;
                 }
+                //Make sure username is unique
                 if(accountDetails[3].equals(userNameRegister.getText().toString())){
                     invalidRegistrationMessage.setText("The username is already in use.");
                     return false;
                 }
+                //Make sure account number is unique
                 if(accountDetails[5].equals(accountNumber)){
                     while(accountDetails[5].equals(accountNumber)){
                         generateAccountNumber();
@@ -282,12 +262,14 @@ public class LoginManager {
         }
         return true;
     }
+    //Generate a random account number of length 10
     private void generateAccountNumber(){
         Random rnd = new Random();
         Integer rand = 1000000000 + rnd.nextInt(900000000);
         String accountNumber = rand.toString();
         this.accountNumber=accountNumber;
     }
+    //Persist login. Create a token/file that the app reads to check if there's a logged in user.
     private void persistLogIn(){
         try {
             FileOutputStream fos = new FileOutputStream(Database.getCurrentlyLoggedInUserFile());
@@ -298,6 +280,7 @@ public class LoginManager {
         }
 
     }
+    //Clear text of all fields
     private void clearText(){
         firstNameRegister.setText("");
         lastNameRegister.setText("");

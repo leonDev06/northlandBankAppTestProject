@@ -1,46 +1,41 @@
 package com.example.northlandbankmobile;
 
-import android.app.Activity;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 //This class is responsible for handling all Transactions of the user (Send Money, Loan, etc.)
 public class TransactionManager {
-    private DateManager dateManager;
-
     //Member variables
     private boolean transactionSuccess;
     private boolean noUnpaidLoans;
     private User user;
     private String referenceNumber;
 
+    //Helper Classes
+    //Handles Date
+    private DateManager dateManager;
     //Responsible for Generating receipt and storing them to the database
     private TransactionReceipt receipt;
     private UserTransactions userTransactions;
 
-    public TransactionManager(Activity activity){
-        dateManager = new DateManager();
-    }
+    //Constructors
     public TransactionManager(){
         dateManager = new DateManager();
     }
 
+    //Getters
     public boolean isTransactionSuccess() {
         return transactionSuccess;
-    }
-    public boolean hasNoUnpaidLoans() {
-        return noUnpaidLoans;
     }
     public String getReferenceNumber() {
         return referenceNumber;
     }
-
 
     //Transaction Methods
     //Handles Money Transactions of the user
@@ -103,7 +98,7 @@ public class TransactionManager {
                     }
                     fos.write("\n".getBytes());
                 }
-                //Replace mainDb file with the TEMP one
+                //Replace usersTable file with the TEMP one
                 Database.getMainDB().delete();
                 temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
 
@@ -130,43 +125,50 @@ public class TransactionManager {
         }
     }
 
-    //Allows the user to loan from the system. Amount not to exceed 10kPhp, 14 days due date, only one active loan per user.
+    //Allows the user to loan from the system. Amount not to exceed 10kPhp, has 14 days due date, only one active loan per user.
     //The user will first have to pay their existing loan if they want to make another loan.
     public void loanCredits(String userInputAmount){
+        //Data vital for making the loan
         Integer amountLoan = Integer.parseInt(userInputAmount);
         String username = Database.getCurrentUser();
         String refNum;
         user = new User();
 
+        //Check if the user has unpaid loans
         noUnpaidLoans = noUnpaidLoans();
 
-
+        //Gets date and due date of the loan (if success)
         String dateLoaned = dateManager.getCurrentDate().toString();
         String dateDue="";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             dateDue = dateManager.getCurrentDate().plusDays(14).toString();
         }
 
+        //Creates temp file where the updated table will be stored
+        //Retrieves the users table from the Database
         try {
             File temp = new File("/data/user/0/com.example.northlandbankmobile/files/tempMainDB");
             Scanner usersDataTable = new Scanner(Database.getMainDB());
             FileOutputStream fos = new FileOutputStream(temp, true);
 
+            //Check if the loan is valid. (Amount less than 10kPhp and user has no unpaid loans
             if(amountLoan<=10000 && noUnpaidLoans){
                 String scannedLine;
                 String[] userDataIndexOf;
                 String updatedUserData;
 
-
+                //Updates the usersTable with the new available balance of the user
                 while(usersDataTable.hasNextLine()){
                     //Re-initializes each variable per scanned line
                     scannedLine = usersDataTable.nextLine();
                     userDataIndexOf = scannedLine.split(",");
                     updatedUserData="";
 
+                    //Not user. Simply copy to the temp file without modifying data
                     if(!userDataIndexOf[3].equals(username)){
                         fos.write(scannedLine.getBytes());
                     }else{
+                        //The user is found in the database. Update user's data (update account balance)
                         Double updatedBalance;
                         double balance = Double.parseDouble(userDataIndexOf[6]);
                         updatedBalance = balance+amountLoan;
@@ -186,10 +188,11 @@ public class TransactionManager {
                 transactionSuccess=true;
                 writeToLoansTable(username, amountLoan.toString(), dateLoaned, dateDue, refNum);
                 generateReceipt(refNum, "SYSTEM", username, amountLoan.toString(), "LOAN", dateLoaned);
+
                 Database.getMainDB().delete();
                 temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
                 usersDataTable.close();
-                printFileDataMulti("loans",Database.getLoansTable());
+                fos.close();
             }else{
                 transactionSuccess=false;
             }
@@ -327,21 +330,18 @@ public class TransactionManager {
 
     //Save to loansTable.
     private void writeToLoansTable(String user, String amount, String dateLoaned, String dateDue, String refNum){
-
         try {
             FileOutputStream fos = new FileOutputStream(Database.getLoansTable(), true);
-            fos.write(user.getBytes());
-            fos.write(",".getBytes());
-            fos.write(amount.getBytes());
-            fos.write(",".getBytes());
-            fos.write("unpaid".getBytes());
-            fos.write(",".getBytes());
-            fos.write(dateLoaned.getBytes());
-            fos.write(",".getBytes());
-            fos.write(dateDue.getBytes());
-            fos.write(",".getBytes());
-            fos.write(refNum.getBytes());
-            fos.write("\n".getBytes());
+
+            for (String s : Arrays.asList(
+                    user, ",",
+                    amount, ",",
+                    "unpaid", ",",
+                    dateLoaned, ",",
+                    dateDue, ",",
+                    refNum, "\n")) {
+                fos.write(s.getBytes());
+            }
             fos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -369,7 +369,6 @@ public class TransactionManager {
                     }else{
                         noUnpaidLoans = true;
                     }
-
                 }else {
                     noUnpaidLoans = true;
                 }

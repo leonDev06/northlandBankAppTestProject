@@ -20,7 +20,7 @@ public class ActivityLogin extends AppCompatActivity{
     private LoginManager loginManager;
     private Navigator navigator;
 
-    //For showing password
+    //For showing/hiding password
     private boolean isPasswordVisible;
 
     //Key for passing data to Enter Pin
@@ -40,9 +40,8 @@ public class ActivityLogin extends AppCompatActivity{
         loginManager.initializeWidgets();
         navigator = new Navigator(this);
 
-        //Initialize password EditText and isPasswordVisible boolean
+        //Initialize password EditText
         mPassword = loginManager.getPasswordLogin();
-        isPasswordVisible = false;
 
         //Redirect to Enter Pin if there's currently a logged-in user
         if(Database.getCurrentlyLoggedInUserFile().getAbsoluteFile().exists()){
@@ -70,7 +69,7 @@ public class ActivityLogin extends AppCompatActivity{
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(loginManager.verifyLogin()){
+                if(loginManager.isValidLogin()){
                     navigator.redirectTo(ActivityHome.class, true);
                 }
             }

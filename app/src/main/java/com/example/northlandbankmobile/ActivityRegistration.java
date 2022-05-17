@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class ActivityRegistration extends AppCompatActivity{
     //Buttons
@@ -32,16 +31,15 @@ public class ActivityRegistration extends AppCompatActivity{
         mBtnGoToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigator.redirectTo(ActivityLogin.class, true);
+                finish();
             }
         });
         mBtnRegister = findViewById(R.id.BUTTON_REGISTER);
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (loginManager.verifyRegistration()) {
+                if (loginManager.isValidRegistration()) {
                     navigator.redirectTo(ActivityLogin.class);
-                    Toast.makeText(getApplicationContext(), "Account Registration Successful", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -51,7 +49,6 @@ public class ActivityRegistration extends AppCompatActivity{
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
-
         super.attachBaseContext(newBase);
     }
 }

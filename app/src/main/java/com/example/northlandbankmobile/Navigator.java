@@ -16,9 +16,7 @@ public class Navigator {
         intent = new Intent();
         isGoingToAnotherActivity=true;
     }
-    public Navigator(){
 
-    }
     //Getters and Setters
     public Intent getIntent() {
         return intent;
@@ -33,12 +31,18 @@ public class Navigator {
         isGoingToAnotherActivity = goingToAnotherActivity;
     }
 
+    /*
+    Navigator functions
+     */
+    //Used to navigate from one activity to another.
+    //Keeps the previous activity in the activity stack
     public void redirectTo(Class destinationClass){
         this.intent.setClass(activity, destinationClass);
         isGoingToAnotherActivity=true;
         activity.startActivity(intent);
 
     }
+    //Redirect from one activity to another. Destroy activity that called this.
     public void redirectTo(Class destinationClass, boolean finishAct){
         this.intent.setClass(activity, destinationClass);
         isGoingToAnotherActivity=true;
@@ -47,7 +51,7 @@ public class Navigator {
             activity.finish();
         }
     }
-
+    //Used to pass a String Extra from a previous activity to the target activity
     public void putExtra(String name, String s){
         intent.putExtra(name, s);
     }
