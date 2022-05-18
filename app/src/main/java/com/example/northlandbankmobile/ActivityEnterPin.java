@@ -232,7 +232,8 @@ public class ActivityEnterPin extends AppCompatActivity {
     //Set where the return activity should be.
     /*
     Return activity is where this activity should redirect to if the user has entered the pin correctly.
-    This is determined by the data passed to this class by the activity where the user was before they triggered this EnterPin Activity
+    This is determined by the data passed to this class by the activity where the user was
+    before they triggered this EnterPin Activity
      */
     private void determineReturnActivity(){
         returnActivityName = getIntent().getStringExtra(KEY_FOR_ENTER_PIN);
@@ -243,7 +244,9 @@ public class ActivityEnterPin extends AppCompatActivity {
         }
     }
 
-    //Create a thread that constantly checks if the pin entered by the user is correct without obligating the user to press OK button.
+    /*Create a thread that constantly checks if the pin entered by the user is correct
+     without obligating the user to press OK button.
+     */
     //This Thread will run indefinitely until the user entered his/her correct pin.
     //This will only check the entered pin once all 4 digits have been entered by the user.
     private void runPinCheckThread(){
@@ -251,8 +254,11 @@ public class ActivityEnterPin extends AppCompatActivity {
         Runnable pinCheck = new Runnable() {
             @Override
             public void run() {
+                //Keep the thread alive/running until user has not entered correct pin.
                 while (!isCorrectPin()){
+                    //Check if all 4 digits are entered
                     if(!mDigitFour.getText().toString().isEmpty()){
+                        //If correct pin is entered, redirect to return activity
                         if(isCorrectPin()) {
                             try{
                                 navigator.redirectTo(ActivityReturnActivity, true);
@@ -260,6 +266,7 @@ public class ActivityEnterPin extends AppCompatActivity {
                                 navigator.redirectTo(ActivityHome.class, true);
                             }
                         }else{
+                            //Display error message (Incorrect Pin)
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

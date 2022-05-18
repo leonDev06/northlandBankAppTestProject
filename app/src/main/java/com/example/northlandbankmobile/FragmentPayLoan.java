@@ -58,7 +58,7 @@ public class FragmentPayLoan extends Fragment {
                   Redirects the user to FragmentNoExistingLoan
                  */
                 if(enoughBalance){
-                    transactionManager.payExistingLoan();
+                    transactionManager.payUnpaidLoan();
                     replaceFragment(R.id.actLoanCreditsMainFragHolder, new FragmentNoExistingLoan());
 
                 }else{

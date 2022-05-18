@@ -18,7 +18,6 @@ public class TransactionManager {
     private String referenceNumber;
 
     //Helper Classes
-    //Handles Date
     private DateManager dateManager;
     //Responsible for Generating receipt and storing them to the database
     private TransactionReceipt receipt;
@@ -60,13 +59,13 @@ public class TransactionManager {
              */
             if(enoughBalance){
                 File temp = new File("/data/user/0/com.example.northlandbankmobile/files/tempMainDB");
-                Scanner scan = new Scanner(Database.getMainDB());
+                Scanner usersTable = new Scanner(Database.getMainDB());
                 FileOutputStream fos = new FileOutputStream(temp, true);
 
                 String[] userData;
-                while(scan.hasNextLine()){
+                while(usersTable.hasNextLine()){
 
-                    String line = scan.nextLine();
+                    String line = usersTable.nextLine();
                     userData = line.split(",");
                     String updatedUserData="";
 
@@ -104,12 +103,11 @@ public class TransactionManager {
 
                 //Generate referenceNumber for this transaction
                 referenceNumber = generateRefNum();
-
                 //Generate Receipt to mainReceiptTable and userReceiptTable
                 generateReceipt(referenceNumber, sender, receiver, amount, "SEND MONEY", dateManager.getCurrentDate().toString());
 
                 //Close resources
-                scan.close();
+                usersTable.close();
                 fos.close();
 
                 transactionSuccess =true;
@@ -125,7 +123,8 @@ public class TransactionManager {
         }
     }
 
-    //Allows the user to loan from the system. Amount not to exceed 10kPhp, has 14 days due date, only one active loan per user.
+    //Allows the user to make a loan from the system.
+    // Amount not to exceed 10kPhp, has 14 days due date, only one active loan per user.
     //The user will first have to pay their existing loan if they want to make another loan.
     public void loanCredits(String userInputAmount){
         //Data vital for making the loan
@@ -137,15 +136,15 @@ public class TransactionManager {
         //Check if the user has unpaid loans
         noUnpaidLoans = noUnpaidLoans();
 
-        //Gets date and due date of the loan (if success)
+        //Gets date and the would be due date of the loan.
         String dateLoaned = dateManager.getCurrentDate().toString();
         String dateDue="";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             dateDue = dateManager.getCurrentDate().plusDays(14).toString();
         }
 
-        //Creates temp file where the updated table will be stored
-        //Retrieves the users table from the Database
+        //Creates temp file where the updated usersTable will be stored
+        //Retrieves and reads the users table from the Database
         try {
             File temp = new File("/data/user/0/com.example.northlandbankmobile/files/tempMainDB");
             Scanner usersDataTable = new Scanner(Database.getMainDB());
@@ -188,7 +187,7 @@ public class TransactionManager {
                 transactionSuccess=true;
                 writeToLoansTable(username, amountLoan.toString(), dateLoaned, dateDue, refNum);
                 generateReceipt(refNum, "SYSTEM", username, amountLoan.toString(), "LOAN", dateLoaned);
-
+                //Delete outdated users table and replace it with the updated (TEMP) one.
                 Database.getMainDB().delete();
                 temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
                 usersDataTable.close();
@@ -205,19 +204,21 @@ public class TransactionManager {
     }
 
     //Used to pay any active loans the user may have. Called automatically if the user's active loan is past due date.
-    public void payExistingLoan(){
+    //Updates 2 tables. The usersTable to deduct balance and the loansTable to change from unpaid to paid.
+    public void payUnpaidLoan(){
         File updatedLoansTable = new File("/data/user/0/com.example.northlandbankmobile/files/tempLoansTable");
         String user = Database.getCurrentUser();
         Integer amount = null;
+        //Loans Table
         try {
-            Scanner getLoansTable = new Scanner(Database.getLoansTable());
+            Scanner loansTable = new Scanner(Database.getLoansTable());
             FileOutputStream loansTableUpdater = new FileOutputStream(updatedLoansTable, true);
             String scannedLine;
             String[] loans;
             String updatedData="";
             //Update the loansTable. Change "unpaid" to "paid."
-            while (getLoansTable.hasNextLine()){
-                scannedLine = getLoansTable.nextLine();
+            while (loansTable.hasNextLine()){
+                scannedLine = loansTable.nextLine();
                 loans = scannedLine.split(",");
                 updatedData="";
 
@@ -234,22 +235,26 @@ public class TransactionManager {
                 }
                 loansTableUpdater.write("\n".getBytes());
             }
-            //Generate Receipts
+            //Generate Receipt for the payment transaction
             generateReceipt(generateRefNum(), user, "SYSTEM", amount.toString(), "PAY LOAN",
                     dateManager.getCurrentDate().toString());
 
             //Close scanner resource. Nulls value of variables to prepare for re-use.
+            //Delete outdated loansTable and replace it with the updated (TEMP) one.
             Database.getLoansTable().delete();
             updatedLoansTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/loansTable"));
-            getLoansTable.close();
+            loansTable.close();
             updatedData = "";
 
-            //Updates the accountsTable. Deducts the paid amount to user balance.
-            Scanner getAccountsTable = new Scanner(Database.getMainDB());
-            File updatedAccountsTable = new File("/data/user/0/com.example.northlandbankmobile/files/accountsUpdating");
-            FileOutputStream accountsTableUpdater = new FileOutputStream(updatedAccountsTable, true);
-            while(getAccountsTable.hasNextLine()){
-                scannedLine = getAccountsTable.nextLine();
+            //End of Loans Table
+
+            //usersTable
+            //Updates the usersTable. Deducts the paid amount to user balance.
+            Scanner usersTable = new Scanner(Database.getMainDB());
+            File updatedUsersTable = new File("/data/user/0/com.example.northlandbankmobile/files/accountsUpdating");
+            FileOutputStream accountsTableUpdater = new FileOutputStream(updatedUsersTable, true);
+            while(usersTable.hasNextLine()){
+                scannedLine = usersTable.nextLine();
                 String[] userData = scannedLine.split(",");
                 updatedData="";
                 if(userData[3].equals(user)){
@@ -267,9 +272,9 @@ public class TransactionManager {
                 }
                 accountsTableUpdater.write("\n".getBytes());
             }
-            //generateReceipt();
+            //Deletes outdated usersTable and update it with the updated one
             Database.getMainDB().delete();
-            updatedAccountsTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
+            updatedUsersTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
             accountsTableUpdater.close();
             transactionSuccess=true;
         } catch (FileNotFoundException e) {
@@ -277,78 +282,6 @@ public class TransactionManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    //Generate Reference Number for the Transaction made.
-    //All transaction numbers are randomly generated, but is made sure to be unique for each transaction.
-    private String generateRefNum(){
-        //Generates a random number to be used for ReferenceNumber
-        Random rnd = new Random();
-        Integer rand = 1000000000 + rnd.nextInt(900000000);
-        String refNum = rand.toString();
-
-
-        //Makes sure that the reference number is unique within the database
-        try {
-            Scanner transactionTable = new Scanner(Database.getTransactionsTable());
-            String scannedLine;
-            String[] transaction;
-            //The generated refNum is already unique if it's the first-ever record in the transactionTable
-            if(!transactionTable.hasNextLine()){
-                return refNum;
-            }
-            //Generates a new refNum if the refNum is already existing in the transactionTable
-            while(transactionTable.hasNextLine()){
-                scannedLine = transactionTable.nextLine();
-                transaction = scannedLine.split(",");
-                if(transaction[0].equals(refNum)){
-                    rand = 1000000000 + rnd.nextInt(900000000);
-                }else{
-                    refNum = rand.toString();
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return refNum;
-    }
-
-    //Used to generate the receipt of the Transaction
-    //Stores it in 2 Tables. User Transaction table and All transactions accross all users table (MainReceiptTable)
-   private void generateReceipt(String refNum, String sender, String receiver, String amount, String transactType, String transactDate){
-        //Store to MainReceiptTable
-        receipt = new TransactionReceipt(refNum, sender, receiver, amount, transactType, transactDate);
-        receipt.storeToDatabase();
-        receipt = null;
-        //Store to user transaction table. Used to display user's past transactions (Transaction History)
-        userTransactions = new UserTransactions(refNum, sender, receiver, amount, transactType, transactDate);
-        userTransactions.storeToDatabase();
-        userTransactions = null;
-   }
-
-    //Loans methods
-
-    //Save to loansTable.
-    private void writeToLoansTable(String user, String amount, String dateLoaned, String dateDue, String refNum){
-        try {
-            FileOutputStream fos = new FileOutputStream(Database.getLoansTable(), true);
-
-            for (String s : Arrays.asList(
-                    user, ",",
-                    amount, ",",
-                    "unpaid", ",",
-                    dateLoaned, ",",
-                    dateDue, ",",
-                    refNum, "\n")) {
-                fos.write(s.getBytes());
-            }
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     //Checks whether the user has unpaid loans.
@@ -419,7 +352,7 @@ public class TransactionManager {
                 }
             }
         }
-        //First digit must be a whole number. Fails '.'
+        //First digit must be a whole number. Fails if '.'
         if(amount.charAt(0)=='0' || amount.charAt(0)=='.'){
             return false;
         }
@@ -427,19 +360,72 @@ public class TransactionManager {
         return true;
     }
 
+    //PRIVATE METHODS/HELPER METHODS
 
+    //Generate Reference Number for the Transaction made.
+    //All transaction numbers are randomly generated, but is made sure to be unique for each transaction.
+    private String generateRefNum(){
+        //Generates a random number to be used for ReferenceNumber
+        Random rnd = new Random();
+        Integer rand = 1000000000 + rnd.nextInt(900000000);
+        String refNum = rand.toString();
 
-
-    //FOR TESTING/DEBUGGING PURPOSES METHODS
-    public void printFileDataMulti(String tag, File file){
+        //Makes sure that the reference number is unique within the database
         try {
-            Scanner scan = new Scanner(file);
-            while(scan.hasNextLine()){
-                String line = scan.nextLine();
-                Log.d(tag, line);
+            Scanner transactionTable = new Scanner(Database.getTransactionsTable());
+            String scannedLine;
+            String[] transaction;
+            //The generated refNum is already unique if it's the first-ever record in the transactionTable
+            if(!transactionTable.hasNextLine()){
+                return refNum;
             }
-            scan.close();
-        } catch (Exception e) {
+            //Generates a new refNum if the refNum is already existing in the transactionTable (not unique)
+            while(transactionTable.hasNextLine()){
+                scannedLine = transactionTable.nextLine();
+                transaction = scannedLine.split(",");
+                if(transaction[0].equals(refNum)){
+                    rand = 1000000000 + rnd.nextInt(900000000);
+                }else{
+                    refNum = rand.toString();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return refNum;
+    }
+
+    //Used to generate the receipt of the Transaction
+    //Stores it in 2 Tables. User-exclusive Transaction table and All transactions made by all users
+   private void generateReceipt(String refNum, String sender, String receiver,
+                                String amount, String transactType, String transactDate){
+        //Store to MainReceiptTable
+        receipt = new TransactionReceipt(refNum, sender, receiver, amount, transactType, transactDate);
+        receipt.storeToDatabase();
+        receipt = null;
+        //Store to user transaction table. Used to display user's past transactions (Transaction History)
+        userTransactions = new UserTransactions(refNum, sender, receiver, amount, transactType, transactDate);
+        userTransactions.storeToDatabase();
+        userTransactions = null;
+   }
+
+    //Called to save the loan transaction to the database.
+    private void writeToLoansTable(String user, String amount, String dateLoaned, String dateDue, String refNum){
+        try {
+            FileOutputStream fos = new FileOutputStream(Database.getLoansTable(), true);
+            for (String s : Arrays.asList(
+                    user, ",",
+                    amount, ",",
+                    "unpaid", ",",
+                    dateLoaned, ",",
+                    dateDue, ",",
+                    refNum, "\n")) {
+                fos.write(s.getBytes());
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

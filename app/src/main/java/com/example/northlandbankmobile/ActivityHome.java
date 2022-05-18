@@ -127,7 +127,6 @@ public class ActivityHome extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-
         //Remove any popup notification shown when user goes to another activity or leaves the app
         fragmentManager.popBackStack();
     }
@@ -165,9 +164,17 @@ public class ActivityHome extends AppCompatActivity {
 
         //If user has active loans, checks whether current date is before/equal to/after current existing loan's due date
         //The function to deduct amount from user balance is called in the fragment. (FragmentAutoPayLoanNotice)
-        if(user.hasActiveLoans() && user.getActiveLoanDateDue().compareTo(dateManager.getCurrentDate().toString())<0){
-            Fragment fragment = new FragmentAutoPayLoanNotice();
-            inflateFragment(fragment);
+        //Wrapped in try/catch to make sure the loan gets collected
+        try {
+            if(user.hasActiveLoans() && user.getActiveLoanDateDue().compareTo(dateManager.getCurrentDate().toString())<=0){
+                Fragment fragment = new FragmentAutoPayLoanNotice();
+                inflateFragment(fragment);
+            }
+            //If ever the popup notice failed to inflate(0.00001% chance??), collect loans without notifying the user.
+        } catch(Exception e) {
+            if(user.hasActiveLoans() && user.getActiveLoanDateDue().compareTo(dateManager.getCurrentDate().toString())<0){
+                new TransactionManager().payUnpaidLoan();
+            }
         }
     }
 

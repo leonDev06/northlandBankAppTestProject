@@ -34,7 +34,8 @@ public class LoginManager {
     }
 
     //LoginManager FUNCTIONS
-    //This initializes the Widgets of the login/registration activity. Widgets Initialized will depend on where this method is called
+    //This initializes the Widgets of the login/registration activity.
+    // Widgets Initialized will depend on where this method is called
     public void initializeWidgets(){
         if(activity.getClass().equals(ActivityLogin.class)){
             userNameLogin = activity.findViewById(R.id.userName);
@@ -269,7 +270,7 @@ public class LoginManager {
         String accountNumber = rand.toString();
         this.accountNumber=accountNumber;
     }
-    //Persist login. Create a token/file that the app reads to check if there's a logged in user.
+    //Persist login. Create a token/file that the app reads to check if there's a logged-in user.
     private void persistLogIn(){
         try {
             FileOutputStream fos = new FileOutputStream(Database.getCurrentlyLoggedInUserFile());
