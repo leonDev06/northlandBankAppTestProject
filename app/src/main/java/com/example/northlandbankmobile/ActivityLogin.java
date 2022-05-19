@@ -41,7 +41,7 @@ public class ActivityLogin extends AppCompatActivity{
 
         try {
             Database.initDatabase();
-            Log.d(TAG, "onCreate: dbInited");))
+            Log.d(TAG, "onCreate: dbInited");
         } catch (IOException e) {
             Log.d(TAG, "onCreate: notInited");
             e.printStackTrace();
