@@ -26,6 +26,7 @@ public class TransactionManager {
     //Constructors
     public TransactionManager(){
         dateManager = new DateManager();
+        user = new User();
     }
 
     //Getters
@@ -45,13 +46,10 @@ public class TransactionManager {
         double amount_ = Double.parseDouble(amount);
         try {
             //Retrieves the username of the sender
-            Scanner getSender = new Scanner(Database.getCurrentUserDataFile());
-            sender = getSender.nextLine();
-            String[] senderData = sender.split(",");
-            sender = senderData[3];
-            getSender.close();
+            sender = user.getUserName();
 
-            boolean enoughBalance = Double.parseDouble(senderData[6]) >= amount_;
+
+            boolean enoughBalance = Double.parseDouble(user.getAccountBalance()) >= amount_;
 
             /*Sends money to the recipient and deducts the amount from the sender
             This is done by searching the whole database for both the receiver and the sender's username
@@ -99,7 +97,7 @@ public class TransactionManager {
                 }
                 //Replace usersTable file with the TEMP one
                 Database.accessUsersTable().delete();
-                temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
+                temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/usersTable"));
 
                 //Generate referenceNumber for this transaction
                 referenceNumber = generateRefNum();
@@ -129,7 +127,7 @@ public class TransactionManager {
     public void loanCredits(String userInputAmount){
         //Data vital for making the loan
         Integer amountLoan = Integer.parseInt(userInputAmount);
-        String username = Database.getCurrentUser();
+        String username = user.getUserName();
         String refNum;
         user = new User();
 
@@ -189,7 +187,7 @@ public class TransactionManager {
                 generateReceipt(refNum, "SYSTEM", username, amountLoan.toString(), "LOAN", dateLoaned);
                 //Delete outdated users table and replace it with the updated (TEMP) one.
                 Database.accessUsersTable().delete();
-                temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
+                temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/usersTable"));
                 usersDataTable.close();
                 fos.close();
             }else{
@@ -211,7 +209,7 @@ public class TransactionManager {
         Integer amount = null;
         //Loans Table
         try {
-            Scanner loansTable = new Scanner(Database.getLoansTable());
+            Scanner loansTable = new Scanner(Database.accessLoansTable());
             FileOutputStream loansTableUpdater = new FileOutputStream(updatedLoansTable, true);
             String scannedLine;
             String[] loans;
@@ -241,7 +239,7 @@ public class TransactionManager {
 
             //Close scanner resource. Nulls value of variables to prepare for re-use.
             //Delete outdated loansTable and replace it with the updated (TEMP) one.
-            Database.getLoansTable().delete();
+            Database.accessLoansTable().delete();
             updatedLoansTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/loansTable"));
             loansTable.close();
             updatedData = "";
@@ -274,7 +272,7 @@ public class TransactionManager {
             }
             //Deletes outdated usersTable and update it with the updated one
             Database.accessUsersTable().delete();
-            updatedUsersTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
+            updatedUsersTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/usersTable"));
             accountsTableUpdater.close();
             transactionSuccess=true;
         } catch (FileNotFoundException e) {
@@ -291,7 +289,7 @@ public class TransactionManager {
         String[] loansData;
         noUnpaidLoans=true;
         try {
-            Scanner scan = new Scanner(Database.getLoansTable());
+            Scanner scan = new Scanner(Database.accessLoansTable());
             while(scan.hasNextLine()){
                 scannedLine = scan.nextLine();
                 loansData = scannedLine.split(",");
@@ -412,7 +410,7 @@ public class TransactionManager {
     //Called to save the loan transaction to the database.
     private void writeToLoansTable(String user, String amount, String dateLoaned, String dateDue, String refNum){
         try {
-            FileOutputStream fos = new FileOutputStream(Database.getLoansTable(), true);
+            FileOutputStream fos = new FileOutputStream(Database.accessLoansTable(), true);
             for (String s : Arrays.asList(
                     user, ",",
                     amount, ",",

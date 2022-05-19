@@ -70,7 +70,7 @@ public class ActivitySendMoney extends AppCompatActivity {
                 if
                 (!username.isEmpty() && !amount.isEmpty()
                         && transactionManager.isValidAmount(amount)){
-                    double currentUserBalance = Double.parseDouble(Database.getUserBalance());
+                    double currentUserBalance = Double.parseDouble(user.getAccountBalance());
                     double amountToSend = Double.parseDouble(mAmount.getText().toString());
                     errorMessage.setText("");
                     if(currentUserBalance>=amountToSend
@@ -89,7 +89,7 @@ public class ActivitySendMoney extends AppCompatActivity {
                         setTextFieldsEnabled(false);
 
                         //Transaction not initiated. Invalidated. Display error message to user.
-                    }else if (mUsername.getText().toString().equals(Database.getCurrentUser())){
+                    }else if (mUsername.getText().toString().equals(user.getUserName())){
                         errorMessage.setText("You can't send money to yourself.");
                     }else if(amountToSend <=0){
                         errorMessage.setText("Amount must be greater than 0");

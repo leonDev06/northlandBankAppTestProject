@@ -40,7 +40,7 @@ public class ActivityRegistration extends AppCompatActivity{
             public void onClick(View view) {
                 loginManager.isValidRegistration();
                 if (loginManager.isRegistrationSuccess()) {
-                    navigator.redirectTo(ActivityLogin.class);
+                    finish();
                 }
             }
         });

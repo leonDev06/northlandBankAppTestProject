@@ -94,7 +94,7 @@ public class User {
     public void syncUserDetailsData(){
         Database.prepareCurrentUserData();
         try {
-            Scanner getUserData = new Scanner(Database.getCurrentUserDataFile());
+            Scanner getUserData = new Scanner(Database.accessCurrentUserDataFile());
             String scannedLine;
             String[] userData;
             while (getUserData.hasNextLine()){
@@ -117,7 +117,7 @@ public class User {
     private void syncUserActiveLoanData(){
         String user = Database.getCurrentUser();
         try {
-            Scanner getLoansTable = new Scanner(Database.getLoansTable());
+            Scanner getLoansTable = new Scanner(Database.accessLoansTable());
             String scannedLine;
             String[] loans;
 
@@ -145,7 +145,7 @@ public class User {
         String[] loansData;
         hasActiveLoans=false;
         try {
-            Scanner scan = new Scanner(Database.getLoansTable());
+            Scanner scan = new Scanner(Database.accessLoansTable());
             while(scan.hasNextLine()){
                 scannedLine = scan.nextLine();
                 loansData = scannedLine.split(",");

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ActivityLogin extends AppCompatActivity{
@@ -38,14 +39,7 @@ public class ActivityLogin extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         //Initialize Database
-
-        try {
-            Database.initDatabase();
-            Log.d(TAG, "onCreate: dbInited");
-        } catch (IOException e) {
-            Log.d(TAG, "onCreate: notInited");
-            e.printStackTrace();
-        }
+        Database.checkDatabase();
 
 
 
@@ -58,7 +52,7 @@ public class ActivityLogin extends AppCompatActivity{
         mPassword = loginManager.getPasswordLogin();
 
         //Redirect to Enter Pin if there's currently a logged-in user
-        if(Database.getCurrentlyLoggedInUserFile().getAbsoluteFile().exists()){
+        if(Database.accessCurrentlyLoggedInUserFile().getAbsoluteFile().exists()){
             navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
             navigator.redirectTo(ActivityEnterPin.class, true);
         }

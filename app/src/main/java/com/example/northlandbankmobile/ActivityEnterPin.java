@@ -66,7 +66,7 @@ public class ActivityEnterPin extends AppCompatActivity {
         mErrMsg = findViewById(R.id.errPinMsg);
 
         //Display the current user on the screen
-        mCurrentUser.setText(Database.getCurrentUser());
+        mCurrentUser.setText(new User().getUserName());
 
         //Create the Pin Check Thread
         runPinCheckThread();
@@ -216,7 +216,7 @@ public class ActivityEnterPin extends AppCompatActivity {
 
         //Retrieve the correct user pin from the database
         try {
-            Scanner scanGetCorrectPin = new Scanner(Database.getCurrentUserDataFile());
+            Scanner scanGetCorrectPin = new Scanner(Database.accessCurrentUserDataFile());
             String readUserData = scanGetCorrectPin.nextLine();
             String userData[] = readUserData.split(",");
             correctUserPin = userData[7];

@@ -5,6 +5,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -91,13 +92,17 @@ public class LoginManager {
         boolean loginVerified=false;
 
         //Double sure that the usersTable is created when there's currently no users in the database. BUG FIX
-
+        try {
+            Database.accessUsersTable().createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //Start searching for the entered username in the database
         String line;
         String[] accountsDetails;
         try {
-            Scanner scan = new Scanner(Database.accessUsersTable().getAbsoluteFile());
+            Scanner scan = new Scanner(Database.accessUsersTable());
             while (scan.hasNextLine()){
                 line = scan.nextLine();
                 accountsDetails=line.split(",");
@@ -129,8 +134,8 @@ public class LoginManager {
 
     //Used to remove the login data of the current user.
     public void logout(){
-        Database.getCurrentlyLoggedInUserFile().delete();
-        Database.getCurrentUserDataFile().getAbsoluteFile().delete();
+        Database.accessCurrentlyLoggedInUserFile().delete();
+        Database.accessCurrentUserDataFile().getAbsoluteFile().delete();
     }
     //END OF LoginManager FUNCTIONS
 
@@ -142,7 +147,7 @@ public class LoginManager {
         //As this is a mock app, users start with 5,000Php in their pcokets.
         accountBalance = 5000.0;
         try {
-            FileOutputStream writer = new FileOutputStream(Database.accessUsersTable().getAbsolutePath(), true);
+            FileOutputStream writer = new FileOutputStream(Database.accessUsersTable(), true);
             for (String s : Arrays.asList(
                     firstNameRegister.getText().toString(), ",",
                     lastNameRegister.getText().toString(),",",
@@ -156,9 +161,11 @@ public class LoginManager {
             }
             writer.close();
             Toast.makeText(activity.getApplicationContext(), "Registered Account", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(activity.getApplicationContext(), "Account wasn't registered", Toast.LENGTH_SHORT).show();
+        } catch (IOException exception){
+            exception.printStackTrace();
         }
     }
     //Check to see if the password is Valid.
@@ -285,7 +292,7 @@ public class LoginManager {
     //Persist login. Create a token/file that the app reads to check if there's a logged-in user.
     private void persistLogIn(){
         try {
-            FileOutputStream fos = new FileOutputStream(Database.getCurrentlyLoggedInUserFile());
+            FileOutputStream fos = new FileOutputStream(Database.accessCurrentlyLoggedInUserFile());
             fos.write(userNameLogin.getText().toString().getBytes());
             fos.close();
         } catch (Exception e) {
