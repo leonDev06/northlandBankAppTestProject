@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Database {
-    private static final String filesPath = "";
-    private static final String TAG = "Database";
+
     //Initializes all database files needed throughout the application
     //(Users Table Indexes) 0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number 6. Account Balance 7. Pin
 
@@ -25,6 +24,7 @@ public class Database {
     //Receipts Table
     private static File transactionsTable = new File("/data/user/0/com.example.northlandbankmobile/files/mainReceiptDb");
 
+    private static final String TAG = "Database";
 
     //Loans Table
     private static File loansTable = new File("/data/user/0/com.example.northlandbankmobile/files/loansTable");
@@ -94,49 +94,12 @@ public class Database {
     }
 
     //Database functions
-    public static void initDatabase() {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void initDatabase() throws IOException {
         //Initialize main table
-        if(!mainDB.exists()){
-            try {
-                Log.d(TAG, "initDatabase: DB Initialized");
-                FileOutputStream fos = new FileOutputStream(mainDB);
-                fos.write("".getBytes());
-                fos.close();
-            } catch (Exception e) {
-                Log.d(TAG, "initDatabase: not initialized Main DB");
-                e.printStackTrace();
-            }
-        }
-
-
-
-        //Initialize loans table
-        if(!loansTable.exists()){
-            Log.d("checkCreate", "loansTable created.");
-            try {
-                FileOutputStream fos = new FileOutputStream(loansTable);
-                fos.write("".getBytes());
-                fos.close();
-            } catch (Exception e) {
-                Log.d(TAG, "initDatabase: Db not initialized");
-                e.printStackTrace();
-            }
-        }
-
-        //Initialize transactions table
-        if(!transactionsTable.exists()){
-            Log.d("checkCreate", "loansTable created.");
-            try {
-                FileOutputStream fos = new FileOutputStream(transactionsTable);
-                fos.write("".getBytes());
-                fos.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        //Initialize userTransactions table and makes sure each user's transactions gets stored in their own file
-
+        mainDB.createNewFile();
+        loansTable.createNewFile();
+        transactionsTable.createNewFile();
 
 
 

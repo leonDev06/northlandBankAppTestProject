@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class ActivityHome extends AppCompatActivity {
@@ -52,7 +53,11 @@ public class ActivityHome extends AppCompatActivity {
         mLayoutConfirmExitFragment = findViewById(R.id.homeConfirmFragContainer);
 
         //Initialize the Database to be used by the whole App
-        Database.initDatabase();
+        try {
+            Database.initDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Database.prepareCurrentUserData();
 
         //Initialize helper objects/classes

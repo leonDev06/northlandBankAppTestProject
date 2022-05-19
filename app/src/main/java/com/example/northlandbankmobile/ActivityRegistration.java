@@ -38,7 +38,8 @@ public class ActivityRegistration extends AppCompatActivity{
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (loginManager.isValidRegistration()) {
+                loginManager.isValidRegistration();
+                if (loginManager.isRegistrationSuccess()) {
                     navigator.redirectTo(ActivityLogin.class);
                 }
             }

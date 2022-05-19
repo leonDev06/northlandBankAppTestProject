@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -28,9 +29,19 @@ public class LoginManager {
         activity.getApplicationContext();
     }
 
+    //booleans
+    private boolean isLoginSuccess;
+    private boolean isRegistrationSuccess;
+
     //Getters
     public EditText getPasswordLogin() {
         return passwordLogin;
+    }
+    public boolean isLoginSuccess() {
+        return isLoginSuccess;
+    }
+    public boolean isRegistrationSuccess() {
+        return isRegistrationSuccess;
     }
 
     //LoginManager FUNCTIONS
@@ -55,7 +66,7 @@ public class LoginManager {
 
     }
     //Verify the attempted registration of the user.
-    public boolean isValidRegistration(){
+    public void isValidRegistration(){
         //Initialize the conditions that the registration attempt needs to pass
         boolean passwordsMatch= isValidPassword();
         boolean pinsMatch = isValidPin();
@@ -70,14 +81,17 @@ public class LoginManager {
         if(passwordsMatch && noNullFields && validEmail && uniqueAccount && noInvalidCharacters && pinsMatch){
             registerToDatabase();
             clearText();
-            return true;
+            isRegistrationSuccess=true;
         }
-        return false;
     }
 
     //Verify the attempted login
-    public boolean isValidLogin(){
-
+    public void isValidLogin(){
+        try {
+            Database.getMainDB().createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         boolean userFound=false;
         boolean loginVerified=false;
 
@@ -96,6 +110,7 @@ public class LoginManager {
                 //Conditions are met. Entered username matches with its corresponding password. Valid Login
                 if(accountsDetails[3].equals(userNameLogin.getText().toString()) && accountsDetails[4].equals(passwordLogin.getText().toString())){
                     persistLogIn();
+                    isLoginSuccess=true;
                     loginVerified=true;
                     break;
                 }
@@ -112,7 +127,6 @@ public class LoginManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return loginVerified;
     }
 
     //Used to remove the login data of the current user.

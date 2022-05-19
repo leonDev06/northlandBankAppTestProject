@@ -7,9 +7,12 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.io.IOException;
 
 public class ActivityLogin extends AppCompatActivity{
     //Widgets
@@ -33,7 +36,11 @@ public class ActivityLogin extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         //Initialize Database
-        Database.initDatabase();
+        try {
+            Database.initDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //Initialize Login Manager and other helper classes
         loginManager = new LoginManager(this);
@@ -69,7 +76,9 @@ public class ActivityLogin extends AppCompatActivity{
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(loginManager.isValidLogin()){
+                loginManager.isValidLogin();
+                Log.d("fileDir", getFilesDir().getAbsolutePath());
+                if(loginManager.isLoginSuccess()){
                     navigator.redirectTo(ActivityHome.class, true);
                 }
             }
