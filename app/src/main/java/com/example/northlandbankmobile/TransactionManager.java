@@ -45,7 +45,7 @@ public class TransactionManager {
         double amount_ = Double.parseDouble(amount);
         try {
             //Retrieves the username of the sender
-            Scanner getSender = new Scanner(Database.getCurrentUserData());
+            Scanner getSender = new Scanner(Database.getCurrentUserDataFile());
             sender = getSender.nextLine();
             String[] senderData = sender.split(",");
             sender = senderData[3];
@@ -59,7 +59,7 @@ public class TransactionManager {
              */
             if(enoughBalance){
                 File temp = new File("/data/user/0/com.example.northlandbankmobile/files/tempMainDB");
-                Scanner usersTable = new Scanner(Database.getMainDB());
+                Scanner usersTable = new Scanner(Database.accessUsersTable());
                 FileOutputStream fos = new FileOutputStream(temp, true);
 
                 String[] userData;
@@ -98,7 +98,7 @@ public class TransactionManager {
                     fos.write("\n".getBytes());
                 }
                 //Replace usersTable file with the TEMP one
-                Database.getMainDB().delete();
+                Database.accessUsersTable().delete();
                 temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
 
                 //Generate referenceNumber for this transaction
@@ -147,7 +147,7 @@ public class TransactionManager {
         //Retrieves and reads the users table from the Database
         try {
             File temp = new File("/data/user/0/com.example.northlandbankmobile/files/tempMainDB");
-            Scanner usersDataTable = new Scanner(Database.getMainDB());
+            Scanner usersDataTable = new Scanner(Database.accessUsersTable());
             FileOutputStream fos = new FileOutputStream(temp, true);
 
             //Check if the loan is valid. (Amount less than 10kPhp and user has no unpaid loans
@@ -188,7 +188,7 @@ public class TransactionManager {
                 writeToLoansTable(username, amountLoan.toString(), dateLoaned, dateDue, refNum);
                 generateReceipt(refNum, "SYSTEM", username, amountLoan.toString(), "LOAN", dateLoaned);
                 //Delete outdated users table and replace it with the updated (TEMP) one.
-                Database.getMainDB().delete();
+                Database.accessUsersTable().delete();
                 temp.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
                 usersDataTable.close();
                 fos.close();
@@ -250,7 +250,7 @@ public class TransactionManager {
 
             //usersTable
             //Updates the usersTable. Deducts the paid amount to user balance.
-            Scanner usersTable = new Scanner(Database.getMainDB());
+            Scanner usersTable = new Scanner(Database.accessUsersTable());
             File updatedUsersTable = new File("/data/user/0/com.example.northlandbankmobile/files/accountsUpdating");
             FileOutputStream accountsTableUpdater = new FileOutputStream(updatedUsersTable, true);
             while(usersTable.hasNextLine()){
@@ -273,7 +273,7 @@ public class TransactionManager {
                 accountsTableUpdater.write("\n".getBytes());
             }
             //Deletes outdated usersTable and update it with the updated one
-            Database.getMainDB().delete();
+            Database.accessUsersTable().delete();
             updatedUsersTable.renameTo(new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB"));
             accountsTableUpdater.close();
             transactionSuccess=true;
@@ -372,7 +372,7 @@ public class TransactionManager {
 
         //Makes sure that the reference number is unique within the database
         try {
-            Scanner transactionTable = new Scanner(Database.getTransactionsTable());
+            Scanner transactionTable = new Scanner(Database.accessTransactionsTable());
             String scannedLine;
             String[] transaction;
             //The generated refNum is already unique if it's the first-ever record in the transactionTable

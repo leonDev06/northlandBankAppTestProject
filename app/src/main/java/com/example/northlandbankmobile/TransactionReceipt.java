@@ -1,11 +1,8 @@
 package com.example.northlandbankmobile;
 
-import android.util.Log;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class TransactionReceipt {
 
@@ -58,7 +55,7 @@ public class TransactionReceipt {
     //Receipt functions
     public void storeToDatabase(){
         try {
-            FileOutputStream fos = new FileOutputStream(Database.getTransactionsTable(), true);
+            FileOutputStream fos = new FileOutputStream(Database.accessTransactionsTable(), true);
             fos.write(refNum.getBytes());
             fos.write(",".getBytes());
             fos.write(sender.getBytes());

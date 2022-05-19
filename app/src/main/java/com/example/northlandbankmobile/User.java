@@ -94,7 +94,7 @@ public class User {
     public void syncUserDetailsData(){
         Database.prepareCurrentUserData();
         try {
-            Scanner getUserData = new Scanner(Database.getCurrentUserData());
+            Scanner getUserData = new Scanner(Database.getCurrentUserDataFile());
             String scannedLine;
             String[] userData;
             while (getUserData.hasNextLine()){

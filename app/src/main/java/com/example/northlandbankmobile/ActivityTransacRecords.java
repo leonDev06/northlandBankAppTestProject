@@ -1,19 +1,9 @@
 package com.example.northlandbankmobile;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -96,7 +86,7 @@ public class ActivityTransacRecords extends AppCompatActivity {
         String scannedLine;
         String [] transactionData;
         try {
-            Scanner getTransactions = new Scanner(Database.getUserTransactions());
+            Scanner getTransactions = new Scanner(Database.accessUserTransactions());
             while (getTransactions.hasNextLine()){
                 scannedLine = getTransactions.nextLine();
                 transactionData = scannedLine.split(",");

@@ -14,7 +14,7 @@ public class UserTransactions extends TransactionReceipt {
     @Override
     public void storeToDatabase() {
         try {
-            FileOutputStream fos = new FileOutputStream(Database.getUserTransactions(), true);
+            FileOutputStream fos = new FileOutputStream(Database.accessUserTransactions(), true);
             fos.write(refNum.getBytes());
             fos.write(",".getBytes());
             fos.write(sender.getBytes());

@@ -87,19 +87,17 @@ public class LoginManager {
 
     //Verify the attempted login
     public void isValidLogin(){
-        try {
-            Database.getMainDB().createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         boolean userFound=false;
         boolean loginVerified=false;
+
+        //Double sure that the usersTable is created when there's currently no users in the database. BUG FIX
+
 
         //Start searching for the entered username in the database
         String line;
         String[] accountsDetails;
         try {
-            Scanner scan = new Scanner(Database.getMainDB().getAbsoluteFile());
+            Scanner scan = new Scanner(Database.accessUsersTable().getAbsoluteFile());
             while (scan.hasNextLine()){
                 line = scan.nextLine();
                 accountsDetails=line.split(",");
@@ -132,7 +130,7 @@ public class LoginManager {
     //Used to remove the login data of the current user.
     public void logout(){
         Database.getCurrentlyLoggedInUserFile().delete();
-        Database.getCurrentUserData().getAbsoluteFile().delete();
+        Database.getCurrentUserDataFile().getAbsoluteFile().delete();
     }
     //END OF LoginManager FUNCTIONS
 
@@ -144,7 +142,7 @@ public class LoginManager {
         //As this is a mock app, users start with 5,000Php in their pcokets.
         accountBalance = 5000.0;
         try {
-            FileOutputStream writer = new FileOutputStream(Database.getMainDB().getAbsolutePath(), true);
+            FileOutputStream writer = new FileOutputStream(Database.accessUsersTable().getAbsolutePath(), true);
             for (String s : Arrays.asList(
                     firstNameRegister.getText().toString(), ",",
                     lastNameRegister.getText().toString(),",",
@@ -250,7 +248,7 @@ public class LoginManager {
         String line;
         String [] accountDetails; //0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number
         try {
-            Scanner scan = new Scanner(Database.getMainDB().getAbsoluteFile());
+            Scanner scan = new Scanner(Database.accessUsersTable().getAbsoluteFile());
             while(scan.hasNextLine()){
                 line = scan.nextLine();
                 accountDetails = line.split(",");

@@ -56,6 +56,7 @@ public class ActivityHome extends AppCompatActivity {
         try {
             Database.initDatabase();
         } catch (IOException e) {
+
             e.printStackTrace();
         }
         Database.prepareCurrentUserData();

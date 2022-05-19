@@ -30,17 +30,24 @@ public class ActivityLogin extends AppCompatActivity{
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private static final String CLASS_NAME = "ActivityLogin";
 
+    private static final String TAG = "ActivityLogin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         //Initialize Database
+
         try {
             Database.initDatabase();
+            Log.d(TAG, "onCreate: dbInited");))
         } catch (IOException e) {
+            Log.d(TAG, "onCreate: notInited");
             e.printStackTrace();
         }
+
+
 
         //Initialize Login Manager and other helper classes
         loginManager = new LoginManager(this);

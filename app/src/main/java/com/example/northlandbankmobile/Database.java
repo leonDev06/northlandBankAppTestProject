@@ -1,9 +1,10 @@
 package com.example.northlandbankmobile;
 
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,53 +13,40 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Database {
-
-    //Initializes all database files needed throughout the application
-    //(Users Table Indexes) 0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number 6. Account Balance 7. Pin
-
-    //Created on the first user's registration. Deleted/Updated everytime a transaction is made
-    private static File mainDB = new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB");
-    //Created when a user logs in. (ActivityLogin Login Button Click). Deleted every logout event. (Activity Home Logout Button)
-    private static File currentlyLoggedInUser = new File("/data/user/0/com.example.northlandbankmobile/files/currentLoggedUser");
-    private static File currentUserData = new File("/data/user/0/com.example.northlandbankmobile/files/currentUserData");
-    //Receipts Table
-    private static File transactionsTable = new File("/data/user/0/com.example.northlandbankmobile/files/mainReceiptDb");
-
-    private static final String TAG = "Database";
-
-    //Loans Table
-    private static File loansTable = new File("/data/user/0/com.example.northlandbankmobile/files/loansTable");
-    private static File userLoans = new File("/data/user/0/com.example.northlandbankmobile/files/userLoans");
-
     //Single member variables. User data retrieved from the currentUserDatabase.
     private static String currentUser;
     private static String userBalance;
 
     //Getters for user database
-    public static File getMainDB() {
+    @NonNull
+    public static File accessUsersTable() {
+        File mainDB = new File("/data/user/0/com.example.northlandbankmobile/files/usersTable");
         return mainDB;
     }
     public static File getCurrentlyLoggedInUserFile(){
+        File currentlyLoggedInUser = new File("/data/user/0/com.example.northlandbankmobile/files/currentLoggedUser");
         return currentlyLoggedInUser;
     }
-    public static File getCurrentUserData() {
+    public static File getCurrentUserDataFile() {
+        File currentUserData = new File("/data/user/0/com.example.northlandbankmobile/files/currentUserData");
         return currentUserData;
     }
-
     //Getters for receipt database
-    public static File getTransactionsTable() {
+    public static File accessTransactionsTable() {
+        File transactionsTable = new File("/data/user/0/com.example.northlandbankmobile/files/mainReceiptDb");
         return transactionsTable;
     }
-    public static File getUserTransactions() {
+    public static File accessUserTransactions() {
         File userTransactions = new File("/data/user/0/com.example.northlandbankmobile/files/receiptsOf"+currentUser);
         return userTransactions;
     }
-
     //Getters for loans table
     public static File getLoansTable() {
+        File loansTable = new File("/data/user/0/com.example.northlandbankmobile/files/loansTable");
         return loansTable;
     }
     public static File getUserLoans() {
+        File userLoans = new File("/data/user/0/com.example.northlandbankmobile/files/userLoans");
         return userLoans;
     }
 
@@ -86,7 +74,6 @@ public class Database {
         Database.userBalance = userBalance;
     }
 
-    private static SharedPreferences sharedPreferences;
 
     //Constructors. Tho, not really needed because Database class is not treated as an object.
     public Database(){
@@ -97,9 +84,9 @@ public class Database {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void initDatabase() throws IOException {
         //Initialize main table
-        mainDB.createNewFile();
-        loansTable.createNewFile();
-        transactionsTable.createNewFile();
+        accessUsersTable().createNewFile();
+        getLoansTable().createNewFile();
+        accessTransactionsTable().createNewFile();
 
 
 
@@ -113,14 +100,14 @@ public class Database {
             /*If not deleted, fos.append will keep writing lines to the file without replacing existing lines
             resulting in an inconsistent/corrupted userData
              */
-            if(Database.getCurrentUserData()!=null){
-                Database.getCurrentUserData().delete();
+            if(Database.getCurrentUserDataFile()!=null){
+                Database.getCurrentUserDataFile().delete();
             }
 
             //Retrieves the user data line from the database and stores the user data in its own database file
             //This is done to avoid accessing the main database just to get the current user data
-            FileOutputStream createUserData = new FileOutputStream(Database.getCurrentUserData(), true);
-            Scanner scan = new Scanner(Database.getMainDB());
+            FileOutputStream createUserData = new FileOutputStream(Database.getCurrentUserDataFile(), true);
+            Scanner scan = new Scanner(Database.accessUsersTable());
             while (scan.hasNextLine()){
                 String currentLoopedUser = scan.nextLine();
                 accountDetails = currentLoopedUser.split(",");
@@ -135,8 +122,8 @@ public class Database {
                 }
 
             }
-            Log.d("checkNameFile1", getUserTransactions().getAbsolutePath());
-            Log.d("checkNameFile2", getUserTransactions().getAbsolutePath());
+            Log.d("checkNameFile1", accessUserTransactions().getAbsolutePath());
+            Log.d("checkNameFile2", accessUserTransactions().getAbsolutePath());
             scan.close();
             createUserData.close();
         } catch (FileNotFoundException e) {

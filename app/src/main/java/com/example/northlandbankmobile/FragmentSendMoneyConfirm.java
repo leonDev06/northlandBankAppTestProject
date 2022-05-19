@@ -86,7 +86,7 @@ public class FragmentSendMoneyConfirm extends Fragment {
     private String getFullName(){
         String fullName="";
         try {
-            Scanner scan = new Scanner(Database.getMainDB());
+            Scanner scan = new Scanner(Database.accessUsersTable());
             while (scan.hasNextLine()){
                 String line = scan.nextLine();
                 String[] lineData = line.split(",");

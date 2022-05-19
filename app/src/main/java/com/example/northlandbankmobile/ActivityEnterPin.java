@@ -3,7 +3,6 @@ package com.example.northlandbankmobile;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -217,7 +216,7 @@ public class ActivityEnterPin extends AppCompatActivity {
 
         //Retrieve the correct user pin from the database
         try {
-            Scanner scanGetCorrectPin = new Scanner(Database.getCurrentUserData());
+            Scanner scanGetCorrectPin = new Scanner(Database.getCurrentUserDataFile());
             String readUserData = scanGetCorrectPin.nextLine();
             String userData[] = readUserData.split(",");
             correctUserPin = userData[7];
