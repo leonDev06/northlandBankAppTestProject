@@ -53,12 +53,8 @@ public class ActivityHome extends AppCompatActivity {
         mLayoutConfirmExitFragment = findViewById(R.id.homeConfirmFragContainer);
 
         //Initialize the Database to be used by the whole App
-        try {
-            Database.initDatabase();
-        } catch (IOException e) {
+        Database.initDatabase(getApplicationContext());
 
-            e.printStackTrace();
-        }
         Database.prepareCurrentUserData();
 
         //Initialize helper objects/classes

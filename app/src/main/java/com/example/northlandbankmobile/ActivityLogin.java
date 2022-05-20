@@ -39,7 +39,7 @@ public class ActivityLogin extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         //Initialize Database
-        Database.checkDatabase();
+        Database.initDatabase(getApplicationContext());
 
 
 

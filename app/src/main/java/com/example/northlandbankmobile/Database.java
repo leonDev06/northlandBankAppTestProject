@@ -1,9 +1,11 @@
 package com.example.northlandbankmobile;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -11,98 +13,159 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Database {
-    //Tables
-    public static File accessUsersTable() {
-        //This is where the details of all users are stored
-        File usersTable = new File("/data/user/0/com.example.northlandbankmobile/files/usersTable");
-        return usersTable.getAbsoluteFile();
-    }
-    public static File accessTransactionsTable() {
-        //This is where all transactions of all users in the app are stored
-        File transactionsTable = new File("/data/user/0/com.example.northlandbankmobile/files/mainReceiptDb");
-        return transactionsTable;
-    }
-    public static File accessUserTransactions() {
-        //Creates a unique userTransactionsTable for each user.
-        File userTransactions = new File("/data/user/0/com.example.northlandbankmobile/files/receiptsOf"
-                                                                        +currentUser);
-        return userTransactions;
-    }
-    public static File accessLoansTable() {
-        //This is where all the loans of all users are stored (Paid or unpaid)
-        File loansTable = new File("/data/user/0/com.example.northlandbankmobile/files/loansTable");
-        return loansTable;
-    }
+    private static final String TAG = "Database";
+    private static Context context;
+    //Initializes all database files needed throughout the application
+    //(Users Table Indexes) 0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number 6. Account Balance 7. Pin
+
+    //Created on the first user's registration. Deleted/Updated everytime a transaction is made
+    private static File mainDB = new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB");
+    //Created when a user logs in. (ActivityLogin Login Button Click). Deleted every logout event. (Activity Home Logout Button)
+    private static File currentlyLoggedInUser = new File("/data/user/0/com.example.northlandbankmobile/files/currentLoggedUser");
+    private static File currentUserData = new File("/data/user/0/com.example.northlandbankmobile/files/currentUserData");
+    //Receipts Table
+    private static File transactionsTable = new File("/data/user/0/com.example.northlandbankmobile/files/mainReceiptDb");
+
+
+    //Loans Table
+    private static File loansTable = new File("/data/user/0/com.example.northlandbankmobile/files/loansTable");
+    private static File userLoans = new File("/data/user/0/com.example.northlandbankmobile/files/userLoans");
 
     //Single member variables. User data retrieved from the currentUserDatabase.
     private static String currentUser;
+    private static String userBalance;
 
-    //Caches
+    //Getters for user database
+    @NonNull
+    public static File accessUsersTable() {
+        return mainDB;
+    }
+    public static File accessUsersTable(Context context) {
+        File mainDB = new File(context.getFilesDir().getAbsolutePath(), "MAIN_DB");
+        return mainDB;
+    }
     public static File accessCurrentlyLoggedInUserFile(){
-        //This is for persisting user-login. If this file exists, it lets the app know that there's a currently logged in user.
-        //This gets created every successful login and deleted every successful logout.
-        File currentlyLoggedInUser = new File("/data/user/0/com.example.northlandbankmobile/files/currentLoggedUser");
         return currentlyLoggedInUser;
     }
     public static File accessCurrentUserDataFile() {
-        //This is for caching the user data in its own file instead of having to constantly access the main usersTable file
-        File currentUserData = new File("/data/user/0/com.example.northlandbankmobile/files/currentUserData");
         return currentUserData;
     }
 
-    //Getters
+    //Getters for receipt database
+    public static File accessTransactionsTable() {
+        return transactionsTable;
+    }
+    public static File accessUserTransactions() {
+        File userTransactions = new File("/data/user/0/com.example.northlandbankmobile/files/receiptsOf"+currentUser);
+        return userTransactions;
+    }
+
+    //Getters for loans table
+    public static File accessLoansTable() {
+        return loansTable;
+    }
+    public static File getUserLoans() {
+        return userLoans;
+    }
+
+    //Getters for single variables
     public static String getCurrentUser() {
         String currentUser_="";
         try {
             Scanner getUser = new Scanner(Database.accessCurrentlyLoggedInUserFile());
             currentUser_ = getUser.nextLine();
-            currentUser = currentUser_;
+            setCurrentUser(currentUser_);
             getUser.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return currentUser;
     }
+    public static String getUserBalance() {
+        return userBalance;
+    }
+    // Setters for single variables
+    public static void setCurrentUser(String s){
+        currentUser=s;
+    }
+    public static void setUserBalance(String userBalance) {
+        Database.userBalance = userBalance;
+    }
+
+    private static SharedPreferences sharedPreferences;
+
+    //Constructors. Tho, not really needed because Database class is not treated as an object.
+    public Database(){
+
+    }
 
     //Database functions
-    public static void initDatabase() throws IOException {
+    public static void initDatabase(Context context) {
         //Initialize main table
-        accessUsersTable().createNewFile();
-        accessLoansTable().createNewFile();
-        accessTransactionsTable().createNewFile();
+        mainDB.getParentFile().mkdirs();
+        if(!accessUsersTable(context).exists()){
+            Log.d(TAG, "initDatabase: MAINDBDOESN'TEXIST");
+            try{
+                accessUsersTable(context).createNewFile();
+                Log.d(TAG, "initDatabase: fuckingcreated");
+            }catch (IOException e){
+                Log.d(TAG, "initDatabase: whatthefuckisyourproblem");
+            }
+        }else{
+            Log.d(TAG, "initDatabase: ITFUCKINGEXIST!");
+        }
 
-    }
 
-    public static void checkDatabase(){
-        if(!accessUsersTable().getAbsoluteFile().exists()){
+
+        //Initialize loans table
+        if(!loansTable.exists()){
+            Log.d("checkCreate", "loansTable created.");
             try {
-                accessUsersTable().createNewFile();
-                FileOutputStream fos = new FileOutputStream(accessUsersTable());
+                FileOutputStream fos = new FileOutputStream(loansTable);
                 fos.write("".getBytes());
-            } catch (FileNotFoundException e) {
+                fos.close();
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (IOException e){
-
             }
         }
-    }
 
+        //Initialize transactions table
+        if(!transactionsTable.exists()){
+            Log.d("checkCreate", "loansTable created.");
+            try {
+                FileOutputStream fos = new FileOutputStream(transactionsTable);
+                fos.write("".getBytes());
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Initialize userTransactions table and makes sure each user's transactions gets stored in their own file
+
+
+
+
+    }
 
     public static void prepareCurrentUserData(){
         //This is for writing to the currentUserData file
-        String[] accountDetails;
+        String accountDetails[];
         try {
-            //Delete to ensure file consistency
+            //If the currentUserData file has lines, delete the file to maintain file consistency.
             /*If not deleted, fos.append will keep writing lines to the file without replacing existing lines
             resulting in an inconsistent/corrupted userData
              */
-            Database.accessCurrentUserDataFile().delete();
-
+            if(Database.accessCurrentUserDataFile()!=null){
+                Database.accessCurrentUserDataFile().delete();
+            }
 
             //Retrieves the user data line from the database and stores the user data in its own database file
+            //This is done to avoid accessing the main database just to get the current user data
             FileOutputStream createUserData = new FileOutputStream(Database.accessCurrentUserDataFile(), true);
             Scanner scan = new Scanner(Database.accessUsersTable());
             while (scan.hasNextLine()){
@@ -114,20 +177,22 @@ public class Database {
                         createUserData.write(accountDetails[i].getBytes());
                         createUserData.write(",".getBytes());
                     }
+                    setUserBalance(accountDetails[6]);
+
                 }
+
             }
+            Log.d("checkNameFile1", accessUserTransactions().getAbsolutePath());
+            Log.d("checkNameFile2", accessUserTransactions().getAbsolutePath());
             scan.close();
             createUserData.close();
         } catch (FileNotFoundException e) {
-            Log.d("errorDatabase", "prepareCurrentUserData: FileNotFoundException");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.d("errorDatabase", "prepareCurrentUserData: IOException");
             e.printStackTrace();
         }
     }
 
-    @SuppressWarnings("deprecation")
     public static File commonDocumentDirPath(String name){
         File dir;
 

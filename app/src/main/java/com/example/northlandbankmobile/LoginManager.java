@@ -91,12 +91,6 @@ public class LoginManager {
         boolean userFound=false;
         boolean loginVerified=false;
 
-        //Double sure that the usersTable is created when there's currently no users in the database. BUG FIX
-        try {
-            Database.accessUsersTable().createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         //Start searching for the entered username in the database
         String line;
