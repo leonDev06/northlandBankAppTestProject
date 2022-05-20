@@ -12,9 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.io.File;
-import java.io.IOException;
-
 public class ActivityLogin extends AppCompatActivity{
     //Widgets
     private Button buttonLogin, buttonGoToRegistration, btnShowPassword;
@@ -31,16 +28,15 @@ public class ActivityLogin extends AppCompatActivity{
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private static final String CLASS_NAME = "ActivityLogin";
 
-    private static final String TAG = "ActivityLogin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Initialize Database
-        Database.initDatabase(getApplicationContext());
 
+        //Initialize Database
+        Database.onDatabaseFirstCreate(getApplicationContext());
 
 
         //Initialize Login Manager and other helper classes
@@ -92,6 +88,7 @@ public class ActivityLogin extends AppCompatActivity{
             }
         });
     }
+
 
     //Makes sure that fonts are non-scalable
     @Override

@@ -16,24 +16,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Database {
-    private static final String TAG = "Database";
+//This will be the mock database of the whole application.
+public final class Database {
+    //Get the Context of the application that this Database will be working with
     private static Context context;
-    //Initializes all database files needed throughout the application
-    //(Users Table Indexes) 0. firstName 1. lastName 2. email 3. username 4. password 5. Account Number 6. Account Balance 7. Pin
-
-    //Created on the first user's registration. Deleted/Updated everytime a transaction is made
-    private static File mainDB = new File("/data/user/0/com.example.northlandbankmobile/files/MAIN_DB");
-    //Created when a user logs in. (ActivityLogin Login Button Click). Deleted every logout event. (Activity Home Logout Button)
-    private static File currentlyLoggedInUser = new File("/data/user/0/com.example.northlandbankmobile/files/currentLoggedUser");
-    private static File currentUserData = new File("/data/user/0/com.example.northlandbankmobile/files/currentUserData");
-    //Receipts Table
-    private static File transactionsTable = new File("/data/user/0/com.example.northlandbankmobile/files/mainReceiptDb");
-
-
-    //Loans Table
-    private static File loansTable = new File("/data/user/0/com.example.northlandbankmobile/files/loansTable");
-    private static File userLoans = new File("/data/user/0/com.example.northlandbankmobile/files/userLoans");
 
     //Single member variables. User data retrieved from the currentUserDatabase.
     private static String currentUser;
@@ -42,34 +28,32 @@ public class Database {
     //Getters for user database
     @NonNull
     public static File accessUsersTable() {
-        return mainDB;
+        File usersTable = new File("/data/user/0/com.example.northlandbankmobile/files","usersTable");
+        return usersTable;
     }
     public static File accessUsersTable(Context context) {
-        File mainDB = new File(context.getFilesDir().getAbsolutePath(), "MAIN_DB");
-        return mainDB;
+        Database.context = context;
+        File usersTable = new File(context.getFilesDir().getAbsolutePath(), "usersTable");
+        return usersTable;
     }
     public static File accessCurrentlyLoggedInUserFile(){
-        return currentlyLoggedInUser;
+        return new File(context.getFilesDir().getAbsolutePath(), "currentLoggedUser");
     }
     public static File accessCurrentUserDataFile() {
-        return currentUserData;
+        return new File(context.getFilesDir().getAbsolutePath(),"currentUserData");
     }
 
     //Getters for receipt database
     public static File accessTransactionsTable() {
-        return transactionsTable;
+        return new File(context.getFilesDir().getAbsolutePath(),"mainReceiptDb");
     }
     public static File accessUserTransactions() {
-        File userTransactions = new File("/data/user/0/com.example.northlandbankmobile/files/receiptsOf"+currentUser);
-        return userTransactions;
+        return new File("/data/user/0/com.example.northlandbankmobile/files/receiptsOf"+currentUser);
     }
 
     //Getters for loans table
     public static File accessLoansTable() {
-        return loansTable;
-    }
-    public static File getUserLoans() {
-        return userLoans;
+        return new File(context.getFilesDir().getAbsolutePath(),"loansTable");
     }
 
     //Getters for single variables
@@ -98,63 +82,29 @@ public class Database {
 
     private static SharedPreferences sharedPreferences;
 
-    //Constructors. Tho, not really needed because Database class is not treated as an object.
-    public Database(){
+    //Hides the constructor. This class is not to be instantiated.
+    private Database(){
 
     }
 
     //Database functions
-    public static void initDatabase(Context context) {
+    public static void onDatabaseFirstCreate(Context context) {
         //Initialize main table
-        mainDB.getParentFile().mkdirs();
+        accessUsersTable().getParentFile().mkdirs();
         if(!accessUsersTable(context).exists()){
-            Log.d(TAG, "initDatabase: MAINDBDOESN'TEXIST");
             try{
                 accessUsersTable(context).createNewFile();
-                Log.d(TAG, "initDatabase: fuckingcreated");
+                accessTransactionsTable().createNewFile();
+                accessLoansTable().createNewFile();
             }catch (IOException e){
-                Log.d(TAG, "initDatabase: whatthefuckisyourproblem");
-            }
-        }else{
-            Log.d(TAG, "initDatabase: ITFUCKINGEXIST!");
-        }
-
-
-
-        //Initialize loans table
-        if(!loansTable.exists()){
-            Log.d("checkCreate", "loansTable created.");
-            try {
-                FileOutputStream fos = new FileOutputStream(loansTable);
-                fos.write("".getBytes());
-                fos.close();
-            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        //Initialize transactions table
-        if(!transactionsTable.exists()){
-            Log.d("checkCreate", "loansTable created.");
-            try {
-                FileOutputStream fos = new FileOutputStream(transactionsTable);
-                fos.write("".getBytes());
-                fos.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        //Initialize userTransactions table and makes sure each user's transactions gets stored in their own file
-
-
-
-
     }
 
     public static void prepareCurrentUserData(){
         //This is for writing to the currentUserData file
-        String accountDetails[];
+        String[] accountDetails;
         try {
             //If the currentUserData file has lines, delete the file to maintain file consistency.
             /*If not deleted, fos.append will keep writing lines to the file without replacing existing lines
@@ -178,12 +128,8 @@ public class Database {
                         createUserData.write(",".getBytes());
                     }
                     setUserBalance(accountDetails[6]);
-
                 }
-
             }
-            Log.d("checkNameFile1", accessUserTransactions().getAbsolutePath());
-            Log.d("checkNameFile2", accessUserTransactions().getAbsolutePath());
             scan.close();
             createUserData.close();
         } catch (FileNotFoundException e) {
@@ -195,7 +141,6 @@ public class Database {
 
     public static File commonDocumentDirPath(String name){
         File dir;
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
             dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/"+name);
         }else{

@@ -6,13 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class ActivityHome extends AppCompatActivity {
@@ -53,7 +51,7 @@ public class ActivityHome extends AppCompatActivity {
         mLayoutConfirmExitFragment = findViewById(R.id.homeConfirmFragContainer);
 
         //Initialize the Database to be used by the whole App
-        Database.initDatabase(getApplicationContext());
+        Database.onDatabaseFirstCreate(getApplicationContext());
 
         Database.prepareCurrentUserData();
 
