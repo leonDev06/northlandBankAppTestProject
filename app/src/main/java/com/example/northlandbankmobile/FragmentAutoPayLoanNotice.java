@@ -20,8 +20,8 @@ public class FragmentAutoPayLoanNotice extends Fragment {
     private User user;
 
     //Member Variables
-    Double testData1;
-    Double testData2;
+    private Double testData1;
+    private Double testData2;
 
     //This fragment's view
     private View view;
@@ -37,9 +37,6 @@ public class FragmentAutoPayLoanNotice extends Fragment {
         mAmountPaid = view.findViewById(R.id.fragmentNoticePayLoanAmount);
         mRefNum = view.findViewById(R.id.fragmentNoticePayLoanRefNum);
         mButtonConfirm = view.findViewById(R.id.fragAutoPayNoticeButtonConfirm);
-
-
-
 
         //Display data for this fragment
         displayData();

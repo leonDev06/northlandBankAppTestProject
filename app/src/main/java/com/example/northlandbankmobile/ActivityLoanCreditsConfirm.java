@@ -24,11 +24,8 @@ import java.io.IOException;
 public class ActivityLoanCreditsConfirm extends AppCompatActivity {
     //Initialize Widgets
     private TextView mAmount, mRefNum, mCurrentDate, mDueDate;
-    private Button buttonPrintPdf, buttonHome;
+    private Button btnPrintPdf, btnHome;
     private ProgressBar progressBar;
-
-    int pageHeight = 1120;
-    int pageWidth = 792;
 
     //Helper Class
     private Navigator navigator;
@@ -37,10 +34,6 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
     private final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private final String CLASS_NAME = "com.example.northlandbankmobile.ActivityLoanCreditsConfirm";
 
-    //PDF variables
-    private static final int PERMISSION_REQUEST_CODE = 200;
-
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,15 +54,15 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
         displayData();
 
         //Clickable Buttons
-        buttonPrintPdf = findViewById(R.id.fragSendMoneyBtnBack);
-        buttonPrintPdf.setOnClickListener(new View.OnClickListener() {
+        btnPrintPdf = findViewById(R.id.fragSendMoneyBtnBack);
+        btnPrintPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 generatePdfReceipt();
             }
         });
-        buttonHome = findViewById(R.id.fragSendMoneyBtnSend);
-        buttonHome.setOnClickListener(new View.OnClickListener() {
+        btnHome = findViewById(R.id.fragSendMoneyBtnSend);
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Returns to home activity
@@ -79,12 +72,6 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
     }
 
     //Overwrite Lifecycle Methods
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-    }
-
     @Override
     protected void onResume(){
         super.onResume();
@@ -172,14 +159,14 @@ public class ActivityLoanCreditsConfirm extends AppCompatActivity {
             canvas.drawText(("DATE DUE: " + mDueDate.getText().toString()), 209, 100, text);
             canvas.drawText(("REFERENCE NUMBER: " + mRefNum.getText().toString()), 209, 120, text);
 
-            //Finish
+            //Finish drawing the PDF page
             pdfDocument.finishPage(myPage);
 
             //Create a PDF file in the phone storage
             File file = new File(Database.commonDocumentDirPath
                     ("Northland Bank Receipts"), ("/Loan_" + mRefNum.getText().toString() + "_Receipt.pdf"));
 
-            //Store the generated Pdf info in the PDF file created in the phone storage
+            //Store the generated Pdf info in the PDF file created in the document's folder
             try {
                 pdfDocument.writeTo(new FileOutputStream(file));
                 Looper.prepare();

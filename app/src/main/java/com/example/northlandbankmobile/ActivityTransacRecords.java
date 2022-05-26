@@ -20,14 +20,11 @@ public class ActivityTransacRecords extends AppCompatActivity {
     private Navigator navigator;
 
     //Receipt Display
-    private ArrayList<UserTransactions> mTransactions = new ArrayList<>();
+    private ArrayList<UserTransactions> userTransactions = new ArrayList<>();
 
     //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private static final String CLASS_NAME = "com.example.northlandbankmobile.ActivityTransacRecords";
-
-    //Pdf Variables
-    private static final int PERMISSION_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +44,13 @@ public class ActivityTransacRecords extends AppCompatActivity {
 
         //Load in Transaction Receipts
         setUpTransactionReceipts();
-        ReceiptViewAdapter adapter = new ReceiptViewAdapter(this, mTransactions);
+        ReceiptViewAdapter adapter = new ReceiptViewAdapter(this, userTransactions);
         mReceiptView.setAdapter(adapter);
         mReceiptView.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
     //Overwrite Lifecycle Methods
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-    }
-
     @Override
     protected void onResume(){
         super.onResume();
@@ -103,7 +94,7 @@ public class ActivityTransacRecords extends AppCompatActivity {
         }
 
         for (int i=0; i<rRefNum.size(); i++){
-            mTransactions.add(new UserTransactions(rRefNum.get(i),
+            userTransactions.add(new UserTransactions(rRefNum.get(i),
                     rSender.get(i),
                     rReceiver.get(i),
                     rAmount.get(i),
@@ -111,8 +102,4 @@ public class ActivityTransacRecords extends AppCompatActivity {
                     rTransactDate.get(i)));
         }
     }
-
-    //private methods
-
-
 }

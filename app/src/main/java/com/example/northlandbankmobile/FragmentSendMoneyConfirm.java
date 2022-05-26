@@ -37,23 +37,26 @@ public class FragmentSendMoneyConfirm extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_send_money_confirm, container, false);
 
+        //Link Widgets
         sendToUserName = view.findViewById(R.id.fragSendMoneyRecipient);
         fullName = view.findViewById(R.id.fragSendMoneyFullName);
         amount = view.findViewById(R.id.fragSendMoneyAmount);
-
         message = view.findViewById(R.id.fragSendMoney);
 
-
+        //Retrieve passed bundle arguments
         sendToUserName.setText(getArguments().getString(ActivitySendMoney.KEY_SEND_TO));
         fullName.setText(getFullName());
         amount.setText(getArguments().getString(ActivitySendMoney.KEY_AMOUNT));
+
+        //Check if the recipient is a user or not of the app
         verifyRecipient();
 
+        //Initialize helper objects
         transactionManager = new TransactionManager();
         navigator = new Navigator(getActivity());
         navigator.setGoingToAnotherActivity(true);
 
-
+        //Clickable buttons
         SEND = view.findViewById(R.id.fragSendMoneyBtnSend);
         SEND.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,23 +69,13 @@ public class FragmentSendMoneyConfirm extends Fragment {
                     navigator.putExtra(KEY_FULL_NAME, getFullName());
                     navigator.putExtra(KEY_REF_NUM, transactionManager.getReferenceNumber());
                     navigator.redirectTo(ActivitySendMoneySuccess.class, true);
-                }else{
-
                 }
             }
         });
-        BACK = view.findViewById(R.id.fragSendMoneyBtnBack);
-        BACK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivitySendMoney.setTextFieldsEnabled(true);
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-        
         return view;
     }
 
+    //Formats the full name of the recipient
     private String getFullName(){
         String fullName="";
         try {
@@ -102,8 +95,9 @@ public class FragmentSendMoneyConfirm extends Fragment {
         return fullName;
     }
 
+    //Check if the receiver is a user or not of the app
     private void verifyRecipient(){
-        if(!fullName.getText().toString().isEmpty() && Database.getCurrentUser()!=sendToUserName.getText().toString()){
+        if(!fullName.getText().toString().isEmpty() && !Database.getCurrentUser().equals(sendToUserName.getText().toString())){
             message.setText("The name is displayed for verification purposes");
         }else if(fullName.getText().toString().isEmpty()){
             message.setText("User not found in Database. Be careful when proceeding.");

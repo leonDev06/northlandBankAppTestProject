@@ -11,14 +11,10 @@ public class DateManager {
     public DateManager(){
 
     }
-
     public LocalDate getCurrentDate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             currentDate = LocalDate.now();
         }
         return currentDate;
-    }
-    public void setCurrentDate(LocalDate currentDate) {
-        this.currentDate = currentDate;
     }
 }

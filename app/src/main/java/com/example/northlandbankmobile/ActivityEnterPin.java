@@ -13,8 +13,9 @@ import java.util.Scanner;
 
 public class ActivityEnterPin extends AppCompatActivity {
     //Widgets
-    private Button buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven,
-            buttonEight, buttonNine, buttonZero, buttonClear, buttonEnter, buttonLogout;
+    @SuppressWarnings("FieldCanBeLocal")
+    private Button btnOne, btnTwo, btnThree, btnFour, btnFive, btnSix, btnSeven,
+            btnEight, btnNine, btnZero, btnClear, btnEnter, btnLogout;
     private EditText mDigitOne, mDigitTwo, mDigitThree, mDigitFour;
     private TextView mCurrentUser, mErrMsg;
 
@@ -42,19 +43,19 @@ public class ActivityEnterPin extends AppCompatActivity {
         determineReturnActivity();
 
         //Link buttons
-        buttonOne = findViewById(R.id.buttonPin1);
-        buttonTwo = findViewById(R.id.buttonPin2);
-        buttonThree = findViewById(R.id.buttonPin3);
-        buttonFour = findViewById(R.id.buttonPin4);
-        buttonFive = findViewById(R.id.buttonPin5);
-        buttonSix = findViewById(R.id.buttonPin6);
-        buttonSeven = findViewById(R.id.buttonPin7);
-        buttonEight = findViewById(R.id.buttonPin8);
-        buttonNine = findViewById(R.id.buttonPin9);
-        buttonZero = findViewById(R.id.buttonPin0);
-        buttonClear = findViewById(R.id.buttonPinClear);
-        buttonEnter = findViewById(R.id.buttonPinConfirm);
-        buttonLogout = findViewById(R.id.buttonPinLogout);
+        btnOne = findViewById(R.id.buttonPin1);
+        btnTwo = findViewById(R.id.buttonPin2);
+        btnThree = findViewById(R.id.buttonPin3);
+        btnFour = findViewById(R.id.buttonPin4);
+        btnFive = findViewById(R.id.buttonPin5);
+        btnSix = findViewById(R.id.buttonPin6);
+        btnSeven = findViewById(R.id.buttonPin7);
+        btnEight = findViewById(R.id.buttonPin8);
+        btnNine = findViewById(R.id.buttonPin9);
+        btnZero = findViewById(R.id.buttonPin0);
+        btnClear = findViewById(R.id.buttonPinClear);
+        btnEnter = findViewById(R.id.buttonPinConfirm);
+        btnLogout = findViewById(R.id.buttonPinLogout);
 
         //Link EditText
         mDigitOne = findViewById(R.id.digit1);
@@ -73,67 +74,67 @@ public class ActivityEnterPin extends AppCompatActivity {
 
 
         //Clickable Buttons
-        buttonOne.setOnClickListener(new View.OnClickListener() {
+        btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("1");
             }
         });
-        buttonTwo.setOnClickListener(new View.OnClickListener() {
+        btnTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("2");
             }
         });
-        buttonThree.setOnClickListener(new View.OnClickListener() {
+        btnThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("3");
             }
         });
-        buttonFour.setOnClickListener(new View.OnClickListener() {
+        btnFour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("4");
             }
         });
-        buttonFive.setOnClickListener(new View.OnClickListener() {
+        btnFive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("5");
             }
         });
-        buttonSix.setOnClickListener(new View.OnClickListener() {
+        btnSix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("6");
             }
         });
-        buttonSeven.setOnClickListener(new View.OnClickListener() {
+        btnSeven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("7");
             }
         });
-        buttonEight.setOnClickListener(new View.OnClickListener() {
+        btnEight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("8");
             }
         });
-        buttonNine.setOnClickListener(new View.OnClickListener() {
+        btnNine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("9");
             }
         });
-        buttonZero.setOnClickListener(new View.OnClickListener() {
+        btnZero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 typeUserInput("0");
             }
         });
-        buttonEnter.setOnClickListener(new View.OnClickListener() {
+        btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Go back to the previous activity where the user left off if entered pin is correct
@@ -147,13 +148,13 @@ public class ActivityEnterPin extends AppCompatActivity {
                 clearComposingText();
             }
         });
-        buttonClear.setOnClickListener(new View.OnClickListener() {
+        btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteInput();
             }
         });
-        buttonLogout.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginManager.logout();

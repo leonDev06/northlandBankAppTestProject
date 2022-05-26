@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class ActivityAccountView extends AppCompatActivity {
     //Widgets
     private TextView mFullName, mUsername, mEmail, mCurrentBalance, mAccountNumber;
-    private Button buttonViewRecords, buttonHome;
+    private Button btnViewRecords, btnHome;
 
     //Helper Classes
     private Navigator navigator;
@@ -39,16 +39,16 @@ public class ActivityAccountView extends AppCompatActivity {
         navigator = new Navigator(this);
 
         //Clickable buttons
-        buttonViewRecords = findViewById(R.id.BUTTON_DETAILS_RECORD);
-        buttonViewRecords.setOnClickListener(new View.OnClickListener() {
+        btnViewRecords = findViewById(R.id.BUTTON_DETAILS_RECORD);
+        btnViewRecords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navigator.redirectTo(ActivityTransacRecords.class);
             }
         });
 
-        buttonHome = findViewById(R.id.BUTTON_DETAILS_BACK);
-        buttonHome.setOnClickListener(new View.OnClickListener() {
+        btnHome = findViewById(R.id.BUTTON_DETAILS_BACK);
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

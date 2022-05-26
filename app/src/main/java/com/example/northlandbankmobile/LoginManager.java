@@ -67,7 +67,7 @@ public class LoginManager {
 
     }
     //Verify the attempted registration of the user.
-    public void isValidRegistration(){
+    public void attemptRegistration(){
         //Initialize the conditions that the registration attempt needs to pass
         boolean passwordsMatch= isValidPassword();
         boolean pinsMatch = isValidPin();

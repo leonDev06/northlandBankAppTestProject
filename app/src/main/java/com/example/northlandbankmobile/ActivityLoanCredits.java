@@ -1,22 +1,16 @@
 package com.example.northlandbankmobile;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class ActivityLoanCredits extends AppCompatActivity {
     //Widgets
-    private Button buttonNewLoan, buttonPayExistingLoan;
+    private Button btnNewLoan, btnPayExistingLoan;
     private Fragment fragment;
 
     //Helper Classes/Utility
@@ -46,15 +40,15 @@ public class ActivityLoanCredits extends AppCompatActivity {
         displayInitialFragmentOnCreate();
 
         //Clickable Buttons
-        buttonNewLoan = findViewById(R.id.actLoanCreditsButtonNewLoan);
-        buttonNewLoan.setOnClickListener(new View.OnClickListener() {
+        btnNewLoan = findViewById(R.id.actLoanCreditsButtonNewLoan);
+        btnNewLoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 replaceFragmentView(R.id.actLoanCreditsMainFragHolder, new FragmentNewLoan());
             }
         });
-        buttonPayExistingLoan = findViewById(R.id.buttonPayLoan);
-        buttonPayExistingLoan.setOnClickListener(new View.OnClickListener() {
+        btnPayExistingLoan = findViewById(R.id.buttonPayLoan);
+        btnPayExistingLoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(user.hasActiveLoans()){
@@ -74,6 +68,7 @@ public class ActivityLoanCredits extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    //Redirect the user to FragmentPayLoan if they currently have an active loan, FragmentNewLoan if there is none
     private void displayInitialFragmentOnCreate(){
         if(user.hasActiveLoans()){
             fragment = new FragmentPayLoan();

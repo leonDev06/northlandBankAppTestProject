@@ -24,64 +24,34 @@ public class User {
     public String getFirstName() {
         return firstName;
     }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
     public String getLastName() {
         return lastName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
     public String getUserName() {
         return userName;
     }
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
     public String getEmail() {
         return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
     }
     public String getAccountNumber() {
         return accountNumber;
     }
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
     public String getAccountBalance() {
         return accountBalance;
-    }
-    public void setAccountBalance(String accountBalance) {
-        this.accountBalance = accountBalance;
     }
 
     //Getters and Setters for User's active loans
     public String getActiveLoanAmount() {
         return activeLoanAmount;
     }
-    public void setActiveLoanAmount(String activeLoanAmount) {
-        this.activeLoanAmount = activeLoanAmount;
-    }
     public String getActiveLoanDateLoaned() {
         return activeLoanDateLoaned;
-    }
-    public void setActiveLoanDateLoaned(String activeLoanDateLoaned) {
-        this.activeLoanDateLoaned = activeLoanDateLoaned;
     }
     public String getActiveLoanDateDue() {
         return activeLoanDateDue;
     }
-    public void setActiveLoanDateDue(String activeLoanDateDue) {
-        this.activeLoanDateDue = activeLoanDateDue;
-    }
     public String getActiveLoanRefNum() {
         return activeLoanRefNum;
-    }
-    public void setActiveLoanRefNum(String activeLoanRefNum) {
-        this.activeLoanRefNum = activeLoanRefNum;
     }
 
     //Constructors
@@ -110,7 +80,6 @@ public class User {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Log.d("checkUser", "getDetailsRan");
     }
 
     //Get user's active loans data from the database

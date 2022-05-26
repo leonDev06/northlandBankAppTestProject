@@ -17,7 +17,7 @@ public class FragmentNewLoan extends Fragment {
     //Widgets
     private EditText amountLoan;
     private TextView errMsg;
-    private Button buttonProcessLoan;
+    private Button btnProcessLoan;
 
     //Helper Classes/Utility
     private Navigator navigator;
@@ -45,10 +45,9 @@ public class FragmentNewLoan extends Fragment {
 
         user = new User();
 
-
         //Clickable Buttons
-        buttonProcessLoan = view.findViewById(R.id.loan_button4);
-        buttonProcessLoan.setOnClickListener(new View.OnClickListener() {
+        btnProcessLoan = view.findViewById(R.id.loan_button4);
+        btnProcessLoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Boolean amountOverLimit=null;

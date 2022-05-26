@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class ActivitySendMoney extends AppCompatActivity {
     //Widgets
     private TextView errorMessage;
-    private static EditText mUsername, mAmount;
+    private EditText mUsername, mAmount;
     private Button mBtnSend;
     private FrameLayout fragmentHolder;
 
@@ -108,15 +108,8 @@ public class ActivitySendMoney extends AppCompatActivity {
 
     //Overwrite Lifecycle Methods
     @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d("lifecycle", "onPause");
-    }
-
-    @Override
     protected void onResume(){
         super.onResume();
-        Log.d("lifecycle", "onResume");
         if(!navigator.isGoingToAnotherActivity()){
             navigator.putExtra(KEY_FOR_ENTER_PIN, CLASS_NAME);
             navigator.redirectTo(ActivityEnterPin.class, true);
@@ -139,7 +132,7 @@ public class ActivitySendMoney extends AppCompatActivity {
     }
 
     //Used to make the text fields non=clickable when the confirmation fragment pops up and clickable if not
-    public static void setTextFieldsEnabled(boolean enabled){
+    public void setTextFieldsEnabled(boolean enabled){
         mUsername.setEnabled(enabled);
         mAmount.setEnabled(enabled);
     }

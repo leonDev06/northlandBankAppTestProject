@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import java.text.DecimalFormat;
 
 public class ActivityHome extends AppCompatActivity {
@@ -50,9 +48,7 @@ public class ActivityHome extends AppCompatActivity {
         mCurrentBalance = findViewById(R.id.balance);
         mLayoutConfirmExitFragment = findViewById(R.id.homeConfirmFragContainer);
 
-        //Initialize the Database to be used by the whole App
-        Database.onDatabaseFirstCreate(getApplicationContext());
-
+        //Prepare the current user's data
         Database.prepareCurrentUserData();
 
         //Initialize helper objects/classes
@@ -61,7 +57,7 @@ public class ActivityHome extends AppCompatActivity {
         user = new User();
         loginManager = new LoginManager(this);
 
-        //Display data for UI
+        //Display data for the Home UI
         displayUserData();
 
         //Check if there are any due loans.

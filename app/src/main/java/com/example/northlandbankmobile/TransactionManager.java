@@ -34,6 +34,7 @@ public class TransactionManager {
         return transactionSuccess;
     }
     public String getReferenceNumber() {
+        //Commonly used to pass the reference number of a transaction from the transaction screen to the verify and comfirmation screen
         return referenceNumber;
     }
 

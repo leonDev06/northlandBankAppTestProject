@@ -4,15 +4,12 @@ package com.example.northlandbankmobile;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -24,14 +21,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ActivitySendMoneySuccess extends AppCompatActivity {
+    //Widgets
     private Button btnHome, btnPdf;
     private TextView mUserName, mFullName, mAmount, mDate, mRefNum;
-    private ProgressBar progressBar;
+    private ProgressBar printProgressIcon;
 
+    //Helper Classes
     private TransactionManager transactionManager;
     private Navigator navigator;
-
-
 
     //DATA to pass to enter pin to set this class as its return class (Class to redirect to when entering correct pin.)
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
@@ -47,13 +44,14 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
         mAmount = findViewById(R.id.amountConfirm);
         mDate = findViewById(R.id.actSendSuccessDate);
         mRefNum = findViewById(R.id.actSendSuccesRefNum);
-        progressBar = findViewById(R.id.progressBar);
+        printProgressIcon = findViewById(R.id.progressBar);
 
-
+        //Initialize helper objects
         transactionManager = new TransactionManager();
         navigator = new Navigator(this);
         navigator.setGoingToAnotherActivity(true);
 
+        //Display successful transaction
         displayDataOnUi();
 
         //Clickable Buttons
@@ -74,12 +72,6 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
     }
 
     //Overwrite Lifecycle Methods
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-    }
-
     @Override
     protected void onResume(){
         super.onResume();
@@ -114,9 +106,9 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (generatePdf.isAlive()) {
-                                progressBar.setVisibility(View.VISIBLE);
+                                printProgressIcon.setVisibility(View.VISIBLE);
                             } else {
-                                progressBar.setVisibility(View.INVISIBLE);
+                                printProgressIcon.setVisibility(View.INVISIBLE);
                             }
                         }
                     });

@@ -13,14 +13,8 @@ import android.widget.Button;
 
 
 public class FragmentConfirmExit extends Fragment {
-
     private Button cancel, confirm;
     private View view;
-
-
-    public interface FragmentConfirmExitListener{
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

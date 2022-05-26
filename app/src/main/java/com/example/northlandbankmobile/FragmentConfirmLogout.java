@@ -17,8 +17,6 @@ public class FragmentConfirmLogout extends Fragment {
     //View
     private View view;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
