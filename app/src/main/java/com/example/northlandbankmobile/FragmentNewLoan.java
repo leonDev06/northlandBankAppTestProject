@@ -42,7 +42,6 @@ public class FragmentNewLoan extends Fragment {
         transactionManager = new TransactionManager();
         navigator = new Navigator(getActivity());
         navigator.setGoingToAnotherActivity(false);
-
         user = new User();
 
         //Clickable Buttons
@@ -55,7 +54,7 @@ public class FragmentNewLoan extends Fragment {
                 boolean noUserInput = amountLoan.getText().toString().isEmpty();
                 /* Makes sure that:
                     -the amount text box is not empty
-                    -amount is not less than 500PHP
+                    -amount is not less than 100PHP
                     -amount is not over 10,000PHP
                    Gives detail about transaction. Pass or Fail.
                  */

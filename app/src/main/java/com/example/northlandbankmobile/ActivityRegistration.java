@@ -14,7 +14,6 @@ public class ActivityRegistration extends AppCompatActivity{
 
     //Helper CLasses
     private LoginManager loginManager;
-    private Navigator navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +23,16 @@ public class ActivityRegistration extends AppCompatActivity{
         //Construct and Initialize Helper Objects
         loginManager = new LoginManager(this);
         loginManager.initializeWidgets();
-        navigator = new Navigator(this);
 
         //Clickable Buttons
-        mBtnGoToLogin = findViewById(R.id.button_goToLogin);
+        mBtnGoToLogin = findViewById(R.id.actRegBtnGoToLogin);
         mBtnGoToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        mBtnRegister = findViewById(R.id.BUTTON_REGISTER);
+        mBtnRegister = findViewById(R.id.actRegBtnRegister);
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -59,7 +59,7 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigator.redirectTo(ActivityHome.class, true);
+                finish();
             }
         });
         btnPdf = findViewById(R.id.actSendSuccessBtnPdf);
@@ -94,9 +94,11 @@ public class ActivitySendMoneySuccess extends AppCompatActivity {
     //Generate PDF receipt
     //2 Threads. 1 thread is for generating the PDF file, the other is for showing the loading icon
     private void generatePdfReceipt(){
+        //Generate the PDF
         ThreadGeneratePdfSendMoney generatePdf = new ThreadGeneratePdfSendMoney();
         generatePdf.start();
 
+        //Display loading icon
         new Thread(new Runnable() {
             @Override
             public void run() {

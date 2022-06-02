@@ -43,7 +43,6 @@ public class ActivitySendMoney extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_money);
 
-
         //Link Widgets
         mUsername = findViewById(R.id.sendToUserName);
         mAmount = findViewById(R.id.sendAmount);
@@ -54,7 +53,6 @@ public class ActivitySendMoney extends AppCompatActivity {
         navigator = new Navigator(this);
         transactionManager = new TransactionManager();
         user = new User();
-
 
         //Clickable buttons
         mBtnSend = findViewById(R.id.BUTTON_SEND);

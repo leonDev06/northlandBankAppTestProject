@@ -67,6 +67,7 @@ public class ActivityTransacRecords extends AppCompatActivity {
     }
 
     private void setUpTransactionReceipts(){
+        //Prepares the ArrayList for the details required in the receipt
         ArrayList<String> rRefNum = new ArrayList<>();
         ArrayList<String> rSender = new ArrayList<>();
         ArrayList<String> rReceiver = new ArrayList<>();
@@ -74,6 +75,7 @@ public class ActivityTransacRecords extends AppCompatActivity {
         ArrayList<String> rTransactType = new ArrayList<>();
         ArrayList<String> rTransactDate = new ArrayList<>();
 
+        //Populate the ArrayLists with data from the database
         String scannedLine;
         String [] transactionData;
         try {
@@ -81,6 +83,7 @@ public class ActivityTransacRecords extends AppCompatActivity {
             while (getTransactions.hasNextLine()){
                 scannedLine = getTransactions.nextLine();
                 transactionData = scannedLine.split(",");
+
                 rRefNum.add(transactionData[0]);
                 rSender.add(transactionData[1]);
                 rReceiver.add(transactionData[2]);
@@ -93,8 +96,10 @@ public class ActivityTransacRecords extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //Create receipt/userTransactionObjects and store the objects in the userTransactions ArrayList
         for (int i=0; i<rRefNum.size(); i++){
-            userTransactions.add(new UserTransactions(rRefNum.get(i),
+            userTransactions.add(new UserTransactions(
+                    rRefNum.get(i),
                     rSender.get(i),
                     rReceiver.get(i),
                     rAmount.get(i),

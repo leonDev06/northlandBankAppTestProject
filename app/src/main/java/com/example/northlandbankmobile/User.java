@@ -1,7 +1,5 @@
 package com.example.northlandbankmobile;
 
-import android.util.Log;
-
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 

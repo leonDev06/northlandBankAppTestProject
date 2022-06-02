@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/global_button"
+    android:background="@drawable/edittext_rounded"
     android:padding="5dp"
     tools:context=".FragmentAutoPayLoanNotice">
 
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="@string/amount"
         app:layout_constraintStart_toStartOf="@+id/fragmentNoticePayLoanAmount"
@@ -88,8 +88,8 @@
         android:id="@+id/divider3"
         android:layout_width="300dp"
         android:layout_height="1dp"
-        android:layout_marginTop="24dp"
         android:background="?android:attr/listDivider"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"

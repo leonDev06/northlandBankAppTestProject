@@ -40,7 +40,8 @@ public class FragmentAutoPayLoanNotice extends Fragment {
 
         //Display data for this fragment
         displayData();
-        deductAmountFromUser();
+        //Deduct Amount
+        attemptTransaction();
 
         //Clickable Buttons
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +50,7 @@ public class FragmentAutoPayLoanNotice extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-
-
+        
         return view;
     }
 
@@ -65,7 +65,17 @@ public class FragmentAutoPayLoanNotice extends Fragment {
             mMessage.setText(getString(R.string.fragAutoPayLoanNoticeNotEnoughBalance));
         }
     }
-    private void deductAmountFromUser(){
-        new TransactionManager().payUnpaidLoan();
+
+    //Attempt to deduct loan amount from user if user has enough balance to pay loan.
+    //If the user doesn't have enough balance, this is a violation of TERMS AND CONDITIONS
+    private void attemptTransaction(){
+        if(testData1 > testData2){
+            new TransactionManager().payUnpaidLoan();
+            mRefNum.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
+            mAmountPaid.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
+        }else{
+            mRefNum.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+            mAmountPaid.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+        }
     }
 }

@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +32,7 @@ public class ActivityLogin extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Initialize Database
+        //Initialize Database. Connecting the Application Context
         Database.onDatabaseFirstCreate(getApplicationContext());
 
         //Initialize Login Manager and other helper classes
@@ -41,7 +40,7 @@ public class ActivityLogin extends AppCompatActivity{
         loginManager.initializeWidgets();
         navigator = new Navigator(this);
 
-        //Initialize password EditText
+        //Initialize password EditText (Pulled out of LoginManager to manage show/hide password)
         mPassword = loginManager.getPasswordLogin();
 
         //Redirect to Enter Pin if there's currently a logged-in user
@@ -70,7 +69,7 @@ public class ActivityLogin extends AppCompatActivity{
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginManager.isValidLogin();
+                loginManager.attemptLogin();
                 if(loginManager.isLoginSuccess()){
                     navigator.redirectTo(ActivityHome.class, true);
                 }
@@ -83,6 +82,11 @@ public class ActivityLogin extends AppCompatActivity{
                 navigator.redirectTo(ActivityRegistration.class);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        finishAffinity();
     }
 
     //Makes sure that fonts are non-scalable

@@ -49,7 +49,6 @@ public class TransactionManager {
             //Retrieves the username of the sender
             sender = user.getUserName();
 
-
             boolean enoughBalance = Double.parseDouble(user.getAccountBalance()) >= amount_;
 
             /*Sends money to the recipient and deducts the amount from the sender

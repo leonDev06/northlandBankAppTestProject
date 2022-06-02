@@ -19,14 +19,14 @@ public class FragmentPayLoan extends Fragment {
 
     //Widgets
     private TextView mAmount, mDateDue, mRefNum, mErrMsg;
-    private Button payButton;
+    private Button mBtnPayLoan;
 
     //Helper Classes
     private TransactionManager transactionManager;
     private User user;
 
     //Member Variables
-    private String amount, dateDue, refNum, userBalance;
+    private String amount, dateDue, refNum;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,8 +47,8 @@ public class FragmentPayLoan extends Fragment {
         displayCurrentLoan();
 
         //Clickable buttons
-        payButton = view.findViewById(R.id.payLoanFragPayButton);
-        payButton.setOnClickListener(new View.OnClickListener() {
+        mBtnPayLoan = view.findViewById(R.id.payLoanFragPayButton);
+        mBtnPayLoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean enoughBalance = Double.parseDouble(new User().getAccountBalance()) >= Double.parseDouble(amount);

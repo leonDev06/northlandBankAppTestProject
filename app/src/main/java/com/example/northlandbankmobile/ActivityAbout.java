@@ -25,11 +25,6 @@ public class ActivityAbout extends AppCompatActivity {
 
     //Overwrite Lifecycle Methods
     @Override
-    protected void onPause(){
-        super.onPause();
-    }
-
-    @Override
     protected void onResume(){
         super.onResume();
 

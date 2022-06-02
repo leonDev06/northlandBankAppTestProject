@@ -19,7 +19,7 @@ public class FragmentSendMoneyConfirm extends Fragment {
     private View view;
     
     //Widgets
-    private Button SEND, BACK;
+    private Button mBtnSend;
     private TextView sendToUserName, fullName, amount, message;
     private TransactionManager transactionManager;
     private Navigator navigator;
@@ -45,8 +45,9 @@ public class FragmentSendMoneyConfirm extends Fragment {
 
         //Retrieve passed bundle arguments
         sendToUserName.setText(getArguments().getString(ActivitySendMoney.KEY_SEND_TO));
-        fullName.setText(getFullName());
         amount.setText(getArguments().getString(ActivitySendMoney.KEY_AMOUNT));
+
+        fullName.setText(getFullName());
 
         //Check if the recipient is a user or not of the app
         verifyRecipient();
@@ -57,8 +58,8 @@ public class FragmentSendMoneyConfirm extends Fragment {
         navigator.setGoingToAnotherActivity(true);
 
         //Clickable buttons
-        SEND = view.findViewById(R.id.fragSendMoneyBtnSend);
-        SEND.setOnClickListener(new View.OnClickListener() {
+        mBtnSend = view.findViewById(R.id.fragSendMoneyBtnSend);
+        mBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Performs sendMoney transaction on user confirmation

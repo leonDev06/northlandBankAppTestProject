@@ -13,19 +13,20 @@ import java.util.ArrayList;
 
 public class ReceiptViewAdapter extends RecyclerView.Adapter<ReceiptViewAdapter.MyViewHolder>  {
     //The data that will be used to display in each recycler view. (Contains each transaction detail.)
-    private ArrayList<UserTransactions> receipts= new ArrayList<UserTransactions>();
+    private ArrayList<UserTransactions> userTransactions = new ArrayList<UserTransactions>();
 
-    //Parameters for Constructor
+    //Linking to the Context
     private Context context;
 
     //Constructor
-    public ReceiptViewAdapter(Context context, ArrayList<UserTransactions> receipts){
-        this.context = context; this.receipts = receipts;
+    public ReceiptViewAdapter(Context context, ArrayList<UserTransactions> userTransactions){
+        this.context = context; this.userTransactions = userTransactions;
     }
 
     @NonNull
     @Override
     public ReceiptViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //Responsible for creating the ViewHolder (Defined as the LayoutReceiptsView)
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.layout_receipts_view, parent, false);
         return new ReceiptViewAdapter.MyViewHolder(view);
@@ -34,22 +35,21 @@ public class ReceiptViewAdapter extends RecyclerView.Adapter<ReceiptViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull ReceiptViewAdapter.MyViewHolder holder, int position) {
         //Responsible for displaying respective data in each item
-        holder.refNum.setText(receipts.get(receipts.size() -position-1).getRefNum());
-        holder.sender.setText(receipts.get(receipts.size() -position-1).getSender());
-        holder.receiver.setText(receipts.get(receipts.size() -position-1).getReceiver());
-        holder.amount.setText(receipts.get(receipts.size() -position-1).getAmount());
-        holder.transactDate.setText(receipts.get(receipts.size() -position-1).getTransactDate());
-        holder.transactType.setText(receipts.get(receipts.size() -position-1).getTransactType());
+        holder.refNum.setText(userTransactions.get(userTransactions.size() -position-1).getRefNum());
+        holder.sender.setText(userTransactions.get(userTransactions.size() -position-1).getSender());
+        holder.receiver.setText(userTransactions.get(userTransactions.size() -position-1).getReceiver());
+        holder.amount.setText(userTransactions.get(userTransactions.size() -position-1).getAmount());
+        holder.transactDate.setText(userTransactions.get(userTransactions.size() -position-1).getTransactDate());
+        holder.transactType.setText(userTransactions.get(userTransactions.size() -position-1).getTransactType());
     }
 
     @Override
     public int getItemCount() {
-        return receipts.size();
+        return userTransactions.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView refNum, sender, receiver, amount, transactDate, transactType;
-
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

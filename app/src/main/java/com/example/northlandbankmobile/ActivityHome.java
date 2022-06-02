@@ -27,11 +27,9 @@ public class ActivityHome extends AppCompatActivity {
     private FragmentManager fragmentManager;
 
     //Helper Classes
-    private LoginManager loginManager;
     private Navigator navigator;
     private User user;
 
-    //Keys for passing data
     //Guides which class the ActivityEnterPin returns back to.
     private static final String KEY_FOR_ENTER_PIN = "EnterPinReturnClass";
     private static final String CLASS_NAME = "com.example.northlandbankmobile.ActivityHome";
@@ -55,7 +53,6 @@ public class ActivityHome extends AppCompatActivity {
         navigator = new Navigator(this);
         fragmentManager = getSupportFragmentManager();
         user = new User();
-        loginManager = new LoginManager(this);
 
         //Display data for the Home UI
         displayUserData();

@@ -5,7 +5,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -69,9 +68,9 @@ public class LoginManager {
     //Verify the attempted registration of the user.
     public void attemptRegistration(){
         //Initialize the conditions that the registration attempt needs to pass
-        boolean passwordsMatch= isValidPassword();
+        boolean passwordsMatch = isValidPassword();
         boolean pinsMatch = isValidPin();
-        boolean validEmail= iValidEmail();
+        boolean validEmail = isValidEmail();
         boolean noNullFields=noNullFields();
         boolean uniqueAccount=makeAccountUnique();
         boolean noInvalidCharacters=noInvalidCharacters();
@@ -87,10 +86,9 @@ public class LoginManager {
     }
 
     //Verify the attempted login
-    public void isValidLogin(){
+    public void attemptLogin(){
         boolean userFound=false;
         boolean loginVerified=false;
-
 
         //Start searching for the entered username in the database
         String line;
@@ -135,7 +133,6 @@ public class LoginManager {
 
     
     //PRIVATE FUNCTIONS
-
     //Called if the attempted registration is valid. Used to Register new account to database.
     private void registerToDatabase(){
         //As this is a mock app, users start with 5,000Php in their pcokets.
@@ -232,7 +229,7 @@ public class LoginManager {
         return true;
     }
     //Own Regex. Emails must contain these characters
-    private boolean iValidEmail(){
+    private boolean isValidEmail(){
         if(emailRegister.getText().toString().contains("edu.ph")){
             return true;
         }

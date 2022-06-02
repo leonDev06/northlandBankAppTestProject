@@ -69,9 +69,8 @@ public class ActivityEnterPin extends AppCompatActivity {
         //Display the current user on the screen
         mCurrentUser.setText(new User().getUserName());
 
-        //Create the Pin Check Thread
+        //Create the Pin Check (Looping) Thread
         runPinCheckThread();
-
 
         //Clickable Buttons
         btnOne.setOnClickListener(new View.OnClickListener() {
